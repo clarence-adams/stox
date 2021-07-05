@@ -1,4 +1,4 @@
-# Stocks
+# StoX
 
 This project was inspired by the final project for CS50x web development track. Instead of filling in the blanks for the Flask backend provided by the class I will be completing the project from scratch using SQLite for the user database, Node.js for the backend, React.js for the frontend and the IEX cloud API stock data.
 
