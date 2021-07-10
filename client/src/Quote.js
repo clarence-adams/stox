@@ -18,7 +18,7 @@ function Quote() {
     fetch('/dashboard/quote', requestOptions)
     .then(res => res.json())
     .then(res => {
-      setCurrentQuote(res.quote)
+      setCurrentQuote('$' + res.quote.toFixed(2))
     })
     .catch(() => {
       setCurrentQuote('error')

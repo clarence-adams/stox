@@ -2,11 +2,34 @@ const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const got = require('got')
+const mongoose = require('mongoose')
+const {Schema} = mongoose
+
+// configure the use of .env file and and initializes global variables
 
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3001
 const API_KEY = process.env.API_KEY
+const MONGO_URI = process.env.MONGO_URI
+
+// connects to MongoDB and logs an error if there is an error
+
+mongoose.connect(
+  MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }
+)
+.then(() => {
+  console.log('MongoDB Connected')
+})
+.catch(err => console.log(err))
+
+const userSchema = new Schema ({
+  name: String,
+  age: Number,
+  favoriteFoods: [String]
+})
+
+const User = mongoose.model('User', userSchema);
 
 const app = express()
 
