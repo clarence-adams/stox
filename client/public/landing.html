@@ -2,13 +2,43 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel='stylesheet' type='text/css' href='/static/landing.css' media='screen'>
     <title>StoX</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div>
-      <h1>Landing Page</h1>
+    <header>
+      <h1>StoX</h1>
+      <p>Trade fake stocks with fake money. It's fun!</p>
+    </header>    
+    <div id='registration-form-wrapper'>
+      <div id='registration-form'>
+        <form id='registration-form-group' action='/register' method='post'>
+          <h2>Register</h2>
+          <div class='registration-form-element'>
+            <div class='registration-form-label-wrapper'>
+              <label for='username'>Username</label>
+            </div>
+            <input name='username' class='registration-input' type='text'/>
+          </div>
+          <div class='registration-form-element'>
+            <div class='registration-form-label-wrapper'>
+              <label for='password'>Password</label>
+            </div>
+            <input name='password' class='registration-input' type='text'/>
+          </div>
+          <div class='registration-form-element'>
+            <div class='registration-form-label-wrapper'>
+              <label for='password-confirmation'>Confirm Password</label>
+            </div>
+            <input name='password-confirmation' class='registration-input' type='text'/>
+          </div>
+          <div class='registration-form-element'>
+            <button id='registration-form-button' type='submit'>Start Trading!</button>
+          </div>
+        </form>
+      </div>
     </div>
+    <p style='color: red; width: 33%; margin: auto;'>Do not enter any important passwords that you already use for your email or bank. There is very little security in this application!</p>
   </body>
 </html>
