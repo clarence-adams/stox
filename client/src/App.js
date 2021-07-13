@@ -7,35 +7,29 @@ function App() {
 
   useEffect(() => {
     const requestOptions = {
-      method: "GET",
-      headers: {"Content-Type": "application/json"}
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'}
     }
 
     fetch('/dashboard/user', requestOptions)
     .then(res => res.json())
-    .then(res => {
-      setUser(res)
-    })
-    .catch(() => {
-      setUser('error')
-    })
+    .then(res => setUser(res))
+    .catch(() => setUser('error'))
   }, [])
 
   const logout = () => {
-     const requestOptions = {
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
+    const requestOptions = {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
       redirect: 'follow'
     }
 
     fetch('/dashboard/logout', requestOptions)
-    .catch(() => {
-      console.log('logout error')
-    })
+    .catch(() => console.log('logout error'))
   }
 
   return (
-    <div className="App">
+    <div className='App'>
       <div id='navbar'>
         <button id='logout-button' onClick={logout}>Logout</button>
       </div>

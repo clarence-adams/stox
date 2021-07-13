@@ -153,9 +153,13 @@ app.get('/dashboard/user', (req, res) => {
 
 // logout endpoint
 app.get('/dashboard/logout', (req, res) => {
-  req.session = null
-  console.log('session destroyed')
-  res.redirect(301, '/authentication')
+  try { 
+    req.session = null
+    console.log('session destroyed')
+    res.redirect(301, '/authentication')
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 // stock quote
