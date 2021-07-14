@@ -95,13 +95,13 @@ app.get('/authentication', (req, res) => {
 app.use('/authenticate', bodyParser.urlencoded({extended: false}))
 app.post('/authenticate', (req, res) => {
   User.find({username: req.body.username}, (err, user) => {
-    const username = user[0].username
-    const userPassword = user[0].password
-    const enteredPassword = hashFunction.SHA256(req.body.password)
-
     if (err) {
       return console.log(err)
     } else {
+      const username = user[0].username
+      const userPassword = user[0].password
+      const enteredPassword = hashFunction.SHA256(req.body.password)
+
       if (userPassword === enteredPassword) {
         req.session.authenticated = true
         req.session.username = username
@@ -131,13 +131,13 @@ app.get('/dashboard', (req, res) => {
 app.get('/dashboard/user', (req, res) => {
   if (req.session.authenticated === true) {
     User.find({username: req.session.username}, (err, user) => {
-      const authenticated = req.session.authenticated
-      const username = user[0].username
-      const cash = user[0].cash
-      const positions = user[0].positions
       if (err) {
         return console.log(err)
       } else {
+        const authenticated = req.session.authenticated
+        const username = user[0].username
+        const cash = user[0].cash
+        const positions = user[0].positions
         res.json({
           authenticated: authenticated,
           username: username,
@@ -175,6 +175,30 @@ app.post('/dashboard/quote', (req, res) => {
       console.log(error.response.body)
     }
   })()
+})
+
+// stock buy
+app.use('/dashboard/buy', bodyParser.urlencoded({extended: false}))
+app.post('/dashboard/buy', (req, res) => {
+  User.find({username: req.session.username}, (err, user) => {
+    if (err) {
+      return console.log(err)
+    } else {
+      const symbol = req.body.symbol
+
+      //
+      // TODO
+      //
+
+      user.positions.push({symbol: symbol, shares: 0, shareValue: 0, date: new Date()})
+      res.json({
+        authenticated: authenticated,
+        username: username,
+        cash: cash,
+        positions: positions
+      })
+    }
+  })
 })
 
 app.listen(PORT, () => {
