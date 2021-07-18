@@ -68,6 +68,8 @@ app.post('/register', (req, res) => {
       username: req.body.username,
       password: hashFunction.SHA256(req.body.password),
       cash: 10000,
+      purchases: [],
+      sales: [],
       positions: []
     })
 
@@ -138,11 +140,12 @@ app.get('/dashboard/user', (req, res) => {
       if (err) {
         console.log(err)
       } else {
-        console.log('user data sent')
         res.json({
           authenticated: req.session.authenticated,
           username: user.username,
           cash: user.cash,
+          purchases: user.purchases,
+          sales: user.sales,
           positions: user.positions
         })
       }
@@ -217,16 +220,17 @@ app.post('/dashboard/buy', (req, res) => {
               averageShareValue: shareValue
             })
           // if user does already have a position in the stock calculates a new average and adds shares to portfolio
-          } else { 
+          } else {
             const position = user.positions.find((element) => isSymbol(element.symbol))
             const positionIndex = user.positions.findIndex((element) => isSymbol(element.symbol))
+            const requestedShares = parseFloat(req.body.shares)
             const newAverageShareValue = ((position.shares * position.averageShareValue) 
-            + (req.body.shares * shareValue))
-            / (position.shares + req.body.shares)
+            + (requestedShares * shareValue)) 
+            / (position.shares + requestedShares)
 
             user.positions[positionIndex] = {
               symbol: req.body.symbol,
-              shares: position.shares + req.body.shares,
+              shares: position.shares + requestedShares,
               averageShareValue: newAverageShareValue
             }
           }
@@ -235,7 +239,6 @@ app.post('/dashboard/buy', (req, res) => {
               console.log(err)
               res.json({error: 'failed to save user changes'})
             } else {
-              console.log('saved')
               res.json({transaction: 'successful'})
             }
           })
@@ -278,7 +281,7 @@ app.post('/dashboard/sell', (req, res) => {
           })
           const currentPositionIndex = user.positions.findIndex((element) => isSymbol(element.symbol))
           // if user is selling all of their available shares the position is removed from their portfolio
-          if (currentPosition.shares === req.body.shares) {
+          if (currentPosition.shares == req.body.shares) {
             user.positions.splice(currentPositionIndex, 1)
           // if user is not selling all of their available shares updates the current position
           } else {
@@ -289,7 +292,6 @@ app.post('/dashboard/sell', (req, res) => {
               console.log(err)
               res.json({error: 'failed to save user changes'})
             } else {
-              console.log('saved')
               res.json({transaction: 'successful'})
             }
           })

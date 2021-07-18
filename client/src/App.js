@@ -1,11 +1,13 @@
-import './App.css';
+import './App.css'
 import {useState, useEffect} from 'react'
 import Quote from './Quote.js'
 import Buy from './Buy.js'
 import Sell from './Sell.js'
+import Positions from './Positions.js'
 
 function App() {
   const [user, setUser] = useState({})
+  const [cash, setCash] = useState()
 
   const updateUserData = async () => {
     const userData = await fetchUserData()
@@ -15,6 +17,12 @@ function App() {
   useEffect(async () => {
     updateUserData()
   }, [])
+
+  useEffect(() => {
+    if (user.cash !== undefined) {
+      setCash('$' + user.cash.toFixed(2))
+    }
+  }, [user])
 
   const logout = () => {
     const requestOptions = {
@@ -28,15 +36,23 @@ function App() {
   }
 
   return (
-    <div className='App'>
-      <div id='navbar'>
-        <button id='logout-button' onClick={logout}>Logout</button>
+    <div id='App'>
+      <header>
+        <h1>StoX</h1>
+        <div id='navbar'>
+          <button id='logout-button' onClick={logout}>Logout</button>
+        </div>
+      </header>
+      <div id='content'>
+        <h2>Hello, {user.username}</h2>
+        <h3>Cash on hand: {cash}</h3>
+        <Quote/>
+        <div id='buy-sell-forms'>
+          <Buy parentCallback={updateUserData}/>
+          <Sell parentCallback={updateUserData}/>
+        </div>
+        <Positions positions={user.positions}/>
       </div>
-      <h1>Hello, {user.username}</h1>
-      <h2>Cash on hand: {user.cash}</h2>
-      <Quote/>
-      <Buy parentCallback={updateUserData}/>
-      <Sell parentCallback={updateUserData}/>
     </div>
   )
 }
@@ -71,4 +87,4 @@ const fetchStockQuote = (symbol) => {
   return quote
 }
 
-export default App;
+export default App
