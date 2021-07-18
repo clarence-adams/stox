@@ -9,20 +9,16 @@ function Quote() {
 
   const data = {symbol}
   const requestOptions = {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)
   }
 
   const clickHandler = () => {
     fetch('/dashboard/quote', requestOptions)
     .then(res => res.json())
-    .then(res => {
-      setCurrentQuote(res.quote)
-    })
-    .catch(() => {
-      setCurrentQuote('error')
-    })
+    .then(res => setCurrentQuote('$' + res.quote.toFixed(2)))
+    .catch(() => setCurrentQuote('error'))
   }
 
   return (
