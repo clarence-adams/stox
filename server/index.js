@@ -1,5 +1,6 @@
 const path = require('path')
 const express = require('express')
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieSession = require('cookie-session')
 const got = require('got')
@@ -38,6 +39,7 @@ const userSchema = new Schema ({
 const User = mongoose.model('User', userSchema);
 
 const app = express()
+app.use(cors())
 
 // starts middleware for body parsing, static file hosting, and sessions
 
@@ -60,14 +62,12 @@ app.get('/', (req, res) => {
 app.use('/register', bodyParser.urlencoded({extended: false}))
 app.post('/register', (req, res) => {
   
-  const newUser = new User(
-    {
+  const newUser = new User({
       username: req.body.username,
       password: hashFunction.SHA256(req.body.password),
       cash: 10000,
       positions: []
-    }
-  )
+    })
 
   newUser.save((err, data) => {
     if (err) {
@@ -129,25 +129,22 @@ app.get('/dashboard', (req, res) => {
 
 // user info
 app.get('/dashboard/user', (req, res) => {
-  if (req.session.authenticated === true) {
+  if (!req.session.authenticated) {
+    res.json({error: 'you must log in first!'})
+  } else {
     User.find({username: req.session.username}, (err, user) => {
       if (err) {
-        return console.log(err)
+        console.log(err)
       } else {
-        const authenticated = req.session.authenticated
-        const username = user[0].username
-        const cash = user[0].cash
-        const positions = user[0].positions
+        console.log('user data sent')
         res.json({
-          authenticated: authenticated,
-          username: username,
-          cash: cash,
-          positions: positions
+          authenticated: req.session.authenticated,
+          username: user[0].username,
+          cash: user[0].cash,
+          positions: user[0].positions
         })
       }
     })
-  } else {
-    res.json({error: 'you must log in first!'})
   }
 })
 
@@ -168,11 +165,15 @@ app.post('/dashboard/quote', (req, res) => {
   (async () => {
     try {
       const response = await got(
-        'https://cloud.iexapis.com/stable/stock/' + req.body.symbol + '/intraday-prices?token=' + API_KEY + '&chartLast=1'
+        'https://cloud.iexapis.com/stable/stock/' 
+        + req.body.symbol 
+        + '/intraday-prices?token=' 
+        + API_KEY 
+        + '&chartLast=1'
       ).json()
       res.json({quote: response[0].average})
     } catch (error) {
-      console.log(error.response.body)
+      console.error(error.response.body)
     }
   })()
 })
@@ -182,21 +183,74 @@ app.use('/dashboard/buy', bodyParser.urlencoded({extended: false}))
 app.post('/dashboard/buy', (req, res) => {
   User.find({username: req.session.username}, (err, user) => {
     if (err) {
-      return console.log(err)
+      return console.error(err)
     } else {
-      const symbol = req.body.symbol
+      (async () => {
+        const quote = await fetchQuote(req.body.symbol)
+        const shareValue = quote[0].average
+        const orderTotal = shareValue * req.body.shares
 
-      //
-      // TODO
-      //
+        if (user[0].cash < orderTotal) {
+          res.json({error: 'User needs more cash'})
+        } else {
+          console.log(user[0].positions)
+          user[0].positions.push({
+            symbol: req.body.symbol, 
+            shares: req.body.shares, 
+            shareValue: shareValue, 
+            date: new Date()
+          })
+          user[0].cash = user[0].cash - orderTotal
+          user[0].save((err, data) => {
+            if (err) {
+              console.log(err)
+              res.json({error: 'failed to save user changes'})
+            } else {
+              console.log('saved')
+              res.json({transaction: 'successful'})
+            }
+          })
+        }
+      })()
+    }
+  })
+})
 
-      user.positions.push({symbol: symbol, shares: 0, shareValue: 0, date: new Date()})
-      res.json({
-        authenticated: authenticated,
-        username: username,
-        cash: cash,
-        positions: positions
-      })
+// stock sell
+app.use('/dashboard/sell', bodyParser.urlencoded({extended: false}))
+app.post('/dashboard/sell', (req, res) => {
+  User.find({username: req.session.username}, (err, user) => {
+    if (err) {
+      return console.error(err)
+    } else {
+      (async () => {
+        const quote = await fetchQuote(req.body.symbol)
+        const shareValue = quote[0].average
+        const orderTotal = shareValue * req.body.shares
+
+        // TODO implement sale error checking
+        // if (user[0].cash < orderTotal) {
+        //   res.json({error: 'User needs more cash'})
+        // } else {
+          console.log(user[0].positions)
+          user[0].positions.push({
+            symbol: req.body.symbol, 
+            shares: req.body.shares, 
+            shareValue: shareValue, 
+            date: new Date()
+          })
+          user[0].cash = user[0].cash + orderTotal
+          user[0].save((err, data) => {
+            if (err) {
+              console.log(err)
+              res.json({error: 'failed to save user changes'})
+            } else {
+              console.log('saved')
+              res.json({transaction: 'successful'})
+            }
+          })
+        // }
+      })()
     }
   })
 })
@@ -204,3 +258,16 @@ app.post('/dashboard/buy', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`)
 })
+
+const fetchQuote = (symbol) => {
+  const quote = got(
+    'https://cloud.iexapis.com/stable/stock/' 
+    + symbol 
+    + '/intraday-prices?token=' 
+    + API_KEY 
+    + '&chartLast=1'
+  ).json()
+  .catch((error) => console.error(error))
+
+  return quote
+}

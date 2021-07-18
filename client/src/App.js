@@ -1,31 +1,20 @@
 import './App.css';
 import {useState, useEffect} from 'react'
 import Quote from './Quote.js'
+import Buy from './Buy.js'
+import Sell from './Sell.js'
 
 function App() {
   const [user, setUser] = useState({})
 
-  useEffect(() => {
-    setUser(fetchUserData())
+  const updateUserData = async () => {
+    const userData = await fetchUserData()
+    setUser(userData)
+  }
+
+  useEffect(async () => {
+    updateUserData()
   }, [])
-
-  //
-  // TODO
-  //
-
-  const buy = (symbol) => {
-    const quote = fetchStockQuote(symbol)
-
-
-  }
-
-  //
-  //  TODO
-  //
-
-  const sell = (symbol) => {
-    const quote = fetchStockQuote(symbol)
-  }
 
   const logout = () => {
     const requestOptions = {
@@ -35,7 +24,7 @@ function App() {
     }
 
     fetch('/dashboard/logout', requestOptions)
-    .catch(() => console.log('logout error'))
+    .catch((err) => console.log('logout error: ' + err))
   }
 
   return (
@@ -46,27 +35,27 @@ function App() {
       <h1>Hello, {user.username}</h1>
       <h2>Cash on hand: {user.cash}</h2>
       <Quote/>
+      <Buy parentCallback={updateUserData}/>
+      <Sell parentCallback={updateUserData}/>
     </div>
-  );
+  )
 }
 
 const fetchUserData = () => {
-  const userData
   const requestOptions = {
     method: 'GET',
-    headers: {'Content-Type': 'application/json'}
+    headers: {'Content-Type': 'application/json'},
   }
 
-  fetch('/dashboard/user', requestOptions)
+  const userData = fetch('/dashboard/user', requestOptions)
   .then(res => res.json())
-  .then(res => userData = res)
-  .catch(console.log('error fetching user data'))
+  .then (res => res)
+  .catch(err => console.error(err))
 
   return userData
 }
 
 const fetchStockQuote = (symbol) => {
-  const quote
   const data = {symbol}
   const requestOptions = {
     method: 'POST',
@@ -74,10 +63,10 @@ const fetchStockQuote = (symbol) => {
     body: JSON.stringify(data)
   }
 
-  fetch('/dashboard/quote', requestOptions)
+  const quote = fetch('/dashboard/quote', requestOptions)
   .then(res => res.json())
   .then(res => quote = (res.quote.toFixed(2)))
-  .catch(() => console.log('error fetching stock quote'))
+  .catch((err) => console.error('error fetching stock quote: ' + err))
 
   return quote
 }
