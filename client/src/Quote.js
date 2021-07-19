@@ -1,4 +1,4 @@
-import './Quote.css';
+import './Quote.css'
 import {useState} from 'react'
 
 function Quote() {
@@ -31,4 +31,4 @@ function Quote() {
   )
 }
 
-export default Quote;
+export default Quote
