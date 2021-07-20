@@ -3,8 +3,9 @@ header {
   display: flex;
   margin: 0;
   width: 100vw;
-  height: 4rem;
-  background-color: lightgrey;
+  height: 4rem; 
+  background: rgb(0,212,255);
+  background: linear-gradient(45deg, rgba(142,208,129,1) 0%, rgba(0,212,255,1) 100%);
 }
 h1 {
   display: flex;

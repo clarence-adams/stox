@@ -87,8 +87,8 @@ app.post('/register', (req, res) => {
 //
 
 app.get('/authentication', (req, res) => {
-  if (req.session.authenticated === true) {
-    console.log('redirected')
+  if (req.session.authenticated) {
+    console.log('redirected from authentication')
     res.redirect(301, '/dashboard')
   } else {
     res.sendFile(path.resolve(PUBLIC_FOLDER, 'authentication.html'))
@@ -124,7 +124,7 @@ app.post('/authenticate', (req, res) => {
 app.use(express.static(REACT_BUILD))
 
 app.get('/dashboard', (req, res) => {
-  if (req.session.authenticated === true) {
+  if (req.session.authenticated) {
     res.sendFile(path.resolve(REACT_BUILD, 'index.html'))
   } else {
     res.redirect(301, '/authentication')
@@ -153,15 +153,19 @@ app.get('/dashboard/user', (req, res) => {
   }
 })
 
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store')
+  next()
+})
 // logout endpoint
 app.get('/dashboard/logout', (req, res) => {
-  try { 
+  try {
     req.session = null
-    console.log('session destroyed')
-    res.redirect(301, '/authentication')
   } catch (err) {
     console.log(err)
   }
+
+  res.redirect(301, '/authentication')
 })
 
 // stock quote
@@ -177,8 +181,8 @@ app.post('/dashboard/quote', (req, res) => {
         + '&chartLast=1'
       ).json()
       res.json({quote: response[0].average})
-    } catch (error) {
-      console.error(error.response.body)
+    } catch (err) {
+      console.error(err.response.body)
     }
   })()
 })
