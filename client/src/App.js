@@ -24,17 +24,6 @@ function App() {
     }
   }, [user])
 
-  const logout = () => {
-    const requestOptions = {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-      redirect: 'follow'
-    }
-
-    fetch('/dashboard/logout', requestOptions)
-    .catch((err) => console.log('logout error: ' + err))
-  }
-
   return (
     <div id='App'>
       <header>
