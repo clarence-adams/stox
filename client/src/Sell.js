@@ -1,4 +1,4 @@
-import './Sell.css';
+import './Sell.css'
 import {useState} from 'react'
 
 function Sell(props) {
@@ -23,13 +23,15 @@ function Sell(props) {
 
   return (
     <div id='sell-wrapper'>
-      <label htmlFor='Symbol'>Symbol</label>
-      <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
-      <label htmlFor='Shares'>Shares</label>
-      <input type='text' id='shares' onChange={sharesChangeHandler} value={shares}/>
+      <form id='sell-form'>
+        <label htmlFor='Symbol'>Symbol</label>
+        <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
+        <label htmlFor='Shares'>Shares</label>
+        <input type='text' id='shares' onChange={sharesChangeHandler} value={shares}/>
+      </form>
       <button type='submit' onClick={clickHandler}>Sell</button>
     </div>
   )
 }
 
-export default Sell;
+export default Sell
