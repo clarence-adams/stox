@@ -77,7 +77,25 @@ app.post('/register', (req, res) => {
     if (err) {
       return console.log(err)
     } else {
-      res.redirect(301, '/authentication')
+      req.session.authenticated = true
+      req.session.username = req.body.username
+      res.redirect(301, '/dashboard')
+    }
+  })
+})
+
+// username validation endpoint
+app.use('/register/username', bodyParser.urlencoded({extended: false}))
+app.post('/register/username', (req, res) => {
+  User.findOne({username: req.body.username}, (err, user) => {
+    if (err) {
+      console.error(err)
+    } else {
+      if (user === null) {
+        res.json({available: true})
+      } else {
+        res.json({available: false})
+      }
     }
   })
 })
@@ -100,7 +118,7 @@ app.use('/authenticate', bodyParser.urlencoded({extended: false}))
 app.post('/authenticate', (req, res) => {
   User.findOne({username: req.body.username}, (err, user) => {
     if (err) {
-      return console.log(err)
+      return console.error(err)
     } else {
       const username = user.username
       const userPassword = user.password

@@ -22,9 +22,11 @@ function Quote() {
   }
 
   return (
-    <div id='quote-wrapper'>
-      <label htmlFor='quote'/>
-      <input type='text' id='symbol' onChange={changeHandler} value={symbol}/>
+    <div class='form-wrapper'>
+      <form>
+        <label htmlFor='quote'/>
+        <input type='text' id='symbol' onChange={changeHandler} value={symbol}/>
+      </form>
       <button type='submit' onClick={clickHandler}>Get Quote</button>
       <p>{currentQuote}</p>
     </div>

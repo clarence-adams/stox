@@ -12,28 +12,33 @@
       <h1>StoX</h1>
       <p>Trade fake stocks with fake money. It's fun!</p>
     </header>    
-    <div id='authentication-form-wrapper'>
-      <div id='authentication-form'>
-        <form id='authentication-form-group' action='/authenticate' method='post'>
+    <div class='form-wrapper'>
+      <form action='/authenticate' method='post'>
+        <div class='form-group'>
           <h2>Log In</h2>
-          <div class='authentication-form-element'>
-            <div class='authentication-form-label-wrapper'>
+          <div class='first-form-element'>
+            <div class='form-label-wrapper'>
               <label for='username'>Username</label>
             </div>
-            <input name='username' class='authentication-input' type='text'/>
+            <input name='username' type='text' required=true/>
           </div>
-          <div class='authentication-form-element'>
-            <div class='authentication-form-label-wrapper'>
+          <div class='form-element'>
+            <div class='form-label-wrapper'>
               <label for='password'>Password</label>
             </div>
-            <input name='password' class='authentication-input' type='text'/>
+            <input name='password' id='authentication-password' type='password' required=true/>
           </div>
-          <div class='authentication-form-element'>
+          <div id='show-password-wrapper'>
+            <input type='checkbox' onclick='showPassword()'/> Show Password
+          </div>
+          <p id='password-alert'></p>
+          <div class='form-element'>
             <button id='authentication-form-button' type='submit'>Log In</button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
     <p style='color: red; width: 33%; margin: auto;'>Do not enter any important passwords that you already use for your email or bank. There is very little security in this application!</p>
+    <script src='/static/authentication.js'></script>
   </body>
 </html>

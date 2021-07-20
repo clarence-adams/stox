@@ -1,76 +1,29 @@
+@import url('/static/theme.css');
+
 /* Media query for most mobile device screens */
 @media screen and (max-width: 900px) {
-  #registration-form {
+  form {
     width: 66.66% !important;
   }
 }
+
 body{
-  margin: 0;
-  height: 100vh;
   background: rgb(0,212,255);
   background: linear-gradient(45deg, rgba(0,212,255,1) 0%, rgba(142,208,129,1) 100%); 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 header {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-button {
-  padding: 5px;
-  border: solid darkgreen 2px;
-  border-radius: .25rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  background-color: green;
-}
-.registration-form-element {
-  padding: 0 0 1rem 0;
-  width: 100%;
-  text-align: left;
-}
-.registration-form-label-wrapper {
+#navbar {
   display: flex;
+  justify-content: flex-end;
+  width: 100vw;
 }
-.red-asterisk {
-  color: red;
-}
-.registration-input {
-  /* width minus border width and padding */
-  width: calc(100% - 12px);
-  padding: 5px 5px 5px 5px;
-  margin: 0 0 0 0;
-  border: 1px black solid;
-  border-radius: .15rem;
-}
-.validation-message {
-  padding: 0px;
-  margin: 0px;
-  height: 1rem;
-}
-#registration-form-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 25px;
-}
-#registration-form {
-  display: flex;
-  justify-content: center;
-  padding: 25px;
-  width: 33.33%;
-  /*border: solid green 5px;
-  background-color: #FFF;*/
-  border-radius: 1em;
-}
-#registration-form-group {
+#welcome-message {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
+  align-items: center;
 }

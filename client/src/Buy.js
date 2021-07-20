@@ -24,7 +24,7 @@ function Buy(props) {
   }
 
   return (
-    <div id='buy-wrapper'>
+    <div class='form-wrapper'>
       <form id='buy-form'>
         <label htmlFor='Symbol'>Symbol</label>
         <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>

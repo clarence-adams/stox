@@ -22,7 +22,7 @@ function Sell(props) {
   }
 
   return (
-    <div id='sell-wrapper'>
+    <div class='form-wrapper'>
       <form id='sell-form'>
         <label htmlFor='Symbol'>Symbol</label>
         <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
