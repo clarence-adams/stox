@@ -27,7 +27,7 @@ function Sell(props) {
         <label htmlFor='Symbol'>Symbol</label>
         <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
         <label htmlFor='Shares'>Shares</label>
-        <input type='text' id='shares' onChange={sharesChangeHandler} value={shares}/>
+        <input type='number' id='shares' onChange={sharesChangeHandler} value={shares}/>
       </form>
       <button type='submit' onClick={clickHandler}>Sell</button>
     </div>

@@ -27,7 +27,7 @@ mongoose.connect(
 .then(() => {
   console.log('MongoDB Connected')
 })
-.catch(err => console.log(err))
+.catch(err => console.error(err))
 
 const userSchema = new Schema ({
   id: Number,
@@ -75,7 +75,7 @@ app.post('/register', (req, res) => {
 
   newUser.save((err, data) => {
     if (err) {
-      return console.log(err)
+      return console.error(err)
     } else {
       req.session.authenticated = true
       req.session.username = req.body.username
@@ -106,7 +106,6 @@ app.post('/register/username', (req, res) => {
 
 app.get('/authentication', (req, res) => {
   if (req.session.authenticated) {
-    console.log('redirected from authentication')
     res.redirect(301, '/dashboard')
   } else {
     res.sendFile(path.resolve(PUBLIC_FOLDER, 'authentication.html'))
@@ -156,7 +155,7 @@ app.get('/dashboard/user', (req, res) => {
   } else {
     User.findOne({username: req.session.username}, (err, user) => {
       if (err) {
-        console.log(err)
+        console.error(err)
       } else {
         res.json({
           authenticated: req.session.authenticated,
@@ -258,7 +257,7 @@ app.post('/dashboard/buy', (req, res) => {
           }
           user.save((err) => {
             if (err) {
-              console.log(err)
+              console.error(err)
               res.json({error: 'failed to save user changes'})
             } else {
               res.json({transaction: 'successful'})
@@ -311,7 +310,7 @@ app.post('/dashboard/sell', (req, res) => {
           }
           user.save((err) => {
             if (err) {
-              console.log(err)
+              console.error(err)
               res.json({error: 'failed to save user changes'})
             } else {
               res.json({transaction: 'successful'})

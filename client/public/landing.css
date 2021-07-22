@@ -20,7 +20,7 @@ header {
 #navbar {
   display: flex;
   justify-content: flex-end;
-  width: 100vw;
+  width: 100%;
 }
 #welcome-message {
   display: flex;

@@ -27,8 +27,8 @@ function Quote() {
         <label htmlFor='quote'/>
         <input type='text' id='symbol' onChange={changeHandler} value={symbol}/>
       </form>
+      <p id='quote'>{currentQuote}</p>
       <button type='submit' onClick={clickHandler}>Get Quote</button>
-      <p>{currentQuote}</p>
     </div>
   )
 }

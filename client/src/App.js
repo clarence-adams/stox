@@ -33,14 +33,16 @@ function App() {
         </div>
       </header>
       <div id='content'>
-        <h2>Hello, {user.username}</h2>
-        <h3>Cash on hand: {cash}</h3>
-        <Quote/>
+        <div id='dashboard'>
+          <h2 id='welcome-text'>Hello, {user.username}</h2>
+          <h3 id='cash'>{cash}</h3>
+          <Positions positions={user.positions}/>
+        </div>
         <div id='buy-sell-forms'>
+          <Quote/>
           <Buy parentCallback={updateUserData}/>
           <Sell parentCallback={updateUserData}/>
         </div>
-        <Positions positions={user.positions}/>
       </div>
     </div>
   )
