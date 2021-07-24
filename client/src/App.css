@@ -9,8 +9,6 @@
     width: calc(100vw - 16px) !important;
     min-height: 0px !important;
     padding: 15px 0 15px 10px !important;
-    border-bottom: 5px solid black;
-    border-right: none !important;
   }
   #buy-sell-forms {
     flex-direction: column;
