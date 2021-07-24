@@ -39,6 +39,14 @@ button {
 button:disabled {
   background-color: red;
 }
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  width: calc(100vw - 16px);
+}
+.navbar-button {
+  margin: 16px 16px 0 0;
+}
 .form-wrapper {
   display: flex;
   flex-direction: column;
@@ -76,5 +84,9 @@ button:disabled {
   color: red;
 }
 .show-password-wrapper {
-  display:block;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  height: 3rem;
 }

@@ -18,7 +18,6 @@
     padding: 32px 0 32px 0!important;
   }
 }
-
 header {
   position: fixed;
   display: flex;
@@ -31,8 +30,8 @@ header {
 h1 {
   display: flex;
   align-items: center;
-  margin: 0;
-  padding: 0 0 0 5px;
+  margin: 0 0 0 16px;
+  padding: 0;
   z-index: 1;
 }
 form {
@@ -50,6 +49,9 @@ form {
   border-bottom: black solid 5px;
   position: fixed;
 }
+.navbar-button {
+  margin: 0 16px 0 0;
+}
 #content {
   display: flex;
   justify-content: space-evenly;
@@ -65,14 +67,13 @@ form {
 #dashboard {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - (4rem + 5px));
-  width: 33%;
-  padding: 0 0 0 16px;
+  min-height: calc(100vh - (4rem + 5px) - 16px);
+  padding: 16px 16px 0 16px;
   background-color: #ddd;
-  border-right: solid black 5px;
 }
 #welcome-text {
   margin: 0;
+  text-decoration: underline;
 }
 #cash {
   color: green;

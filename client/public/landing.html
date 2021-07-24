@@ -9,8 +9,8 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <header>
-      <div id='navbar'>
-        <button><a href='/authentication'>Log In</a></button>
+      <div class='navbar'>
+        <button class='navbar-button'><a href='/authentication'>Log In</a></button>
       </div>
     </header>
     <div id='welcome-message'>
@@ -41,7 +41,8 @@
             <input name='password-confirmation' id='registration-password-confirmation' type='password' required=true oninput='validateForm()'/>
           </div>
           <div class='show-password-wrapper'>
-            <input class='checkbox' type='checkbox' onclick='showPassword()'/> Show Password
+            <label for='show password'>Show Password</label>
+            <input class='checkbox' type='checkbox' onclick='showPassword()'/>
           </div>
           <p id='password-alert' class='validation-message'></p>
           <div class='form-element'>
