@@ -24,7 +24,7 @@ function Quote() {
   return (
     <div class='form-wrapper'>
       <form>
-        <label htmlFor='quote'/>
+        <label htmlFor='quote'>Symbol</label>
         <input type='text' id='symbol' onChange={changeHandler} value={symbol}/>
       </form>
       <p id='quote'>{currentQuote}</p>
