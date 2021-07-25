@@ -4,6 +4,7 @@ import {useState} from 'react'
 function Sell(props) {
   const [symbol, setSymbol] = useState('')
   const [shares, setShares] = useState(0)
+  const [alert, setAlert] = useState('')
 
   const symbolChangeHandler = (event) => setSymbol(event.target.value.toUpperCase())
   const sharesChangeHandler = (event) => setShares(event.target.value)
@@ -17,12 +18,26 @@ function Sell(props) {
     }
 
     fetch('/dashboard/sell', requestOptions)
-    .then(() => props.parentCallback())
+    .then(res => res.json())
+    .then(res => {
+      if (res.error === 'invalid symbol') {
+        setAlert('Invalid symbol')
+      } else if (res.error === '0 shares') {
+        setAlert('You need to sell at least 1 share')
+      } else if (res.error === 'position does not exist') {
+        setAlert('You do not have a position in this stock')
+      } else if (res.error === 'user needs more shares') {
+        setAlert('You need more shares')
+      } else if (res.transaction === 'successful') {
+        setAlert('Sale successful!')
+        props.parentCallback()
+      }
+    })
     .catch((err) => console.error('error completing sale: ' + err))
   }
 
   return (
-    <div class='form-wrapper'>
+    <div className='form-wrapper'>
       <form>
         <label htmlFor='Symbol'>Symbol</label>
         <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
@@ -30,6 +45,7 @@ function Sell(props) {
         <input type='number' id='shares' onChange={sharesChangeHandler} value={shares}/>
       </form>
       <button type='submit' onClick={clickHandler}>Sell</button>
+      <p className='form-alert'>{alert}</p>
     </div>
   )
 }

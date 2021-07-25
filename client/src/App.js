@@ -29,7 +29,7 @@ function App() {
       <header>
         <h1>StoX</h1>
         <div id='navbar'>
-          <button class='navbar-button'><a id='logout-button' href='/dashboard/logout'>Logout</a></button>
+          <a id='logout-button' className='anchor-button navbar-button'href='/dashboard/logout'>Logout</a>
         </div>
       </header>
       <div id='content'>

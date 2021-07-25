@@ -7,10 +7,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-a {
-  color: #fff;
-  text-decoration: none;
-}
 form {
   display: flex;
   justify-content: center;
@@ -28,13 +24,15 @@ input {
   border: 1px black solid;
   border-radius: .15rem;
 }
-button {
-  padding: 5px;
+button, .anchor-button {
+  padding: 8px;
   border: solid darkgreen 2px;
   border-radius: .25rem;
   font-weight: 600;
   color: #FFFFFF;
   background-color: green;
+  cursor: pointer;
+  text-decoration: none;
 }
 button:disabled {
   background-color: red;
@@ -89,4 +87,10 @@ button:disabled {
   align-items: center;
   justify-content: flex-end;
   height: 3rem;
+}
+#form-button-wrapper {
+  display: flex;
+}
+#form-alert {
+  height: 1rem;
 }

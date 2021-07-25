@@ -7,7 +7,6 @@ function Positions(props) {
   useEffect(() => {
     if (props.positions !== undefined){
       setPositions(props.positions)
-      console.log(props.positions)
     }
   }, [props.positions])
 

@@ -1,8 +1,8 @@
 const path = require('path')
 const express = require('express')
-const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieSession = require('cookie-session')
+const cors = require('cors')
 const got = require('got')
 const mongoose = require('mongoose')
 const {Schema} = mongoose
@@ -19,7 +19,7 @@ const MONGO_URI = process.env.MONGO_URI
 const PUBLIC_FOLDER = path.resolve(__dirname, '../client/public')
 const REACT_BUILD = path.resolve(__dirname, '../client/build')
 
-// connects to MongoDB and logs an error if there is an error
+// connects to MongoDB and sets the User schema
 
 mongoose.connect(
   MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }
@@ -40,16 +40,16 @@ const userSchema = new Schema ({
 })
 const User = mongoose.model('User', userSchema);
 
+// starts middleware for body parsing, static file hosting, cors and sessions
+
 const app = express()
 app.use(cors())
-
-// starts middleware for body parsing, static file hosting, and sessions
-
 app.use(bodyParser.json())
 app.use('/static', express.static(PUBLIC_FOLDER))
 app.use(cookieSession({
   name: 'session',
-  secret: 'super duper secret'
+  secret: 'super duper secret',
+  sameSite: true
 }))
 
 //
@@ -79,7 +79,7 @@ app.post('/register', (req, res) => {
     } else {
       req.session.authenticated = true
       req.session.username = req.body.username
-      res.redirect(301, '/dashboard')
+      res.status(301).redirect('/dashboard')
     }
   })
 })
@@ -106,7 +106,7 @@ app.post('/register/username', (req, res) => {
 
 app.get('/authentication', (req, res) => {
   if (req.session.authenticated) {
-    res.redirect(301, '/dashboard')
+    res.status(301).redirect('/dashboard')
   } else {
     res.sendFile(path.resolve(PUBLIC_FOLDER, 'authentication.html'))
   }
@@ -117,7 +117,9 @@ app.use('/authenticate', bodyParser.urlencoded({extended: false}))
 app.post('/authenticate', (req, res) => {
   User.findOne({username: req.body.username}, (err, user) => {
     if (err) {
-      return console.error(err)
+      console.error(err)
+    } else if (user === null) {
+      res.json({error: 'username does not exist'})
     } else {
       const username = user.username
       const userPassword = user.password
@@ -126,7 +128,7 @@ app.post('/authenticate', (req, res) => {
       if (userPassword === enteredPassword) {
         req.session.authenticated = true
         req.session.username = username
-        res.redirect(301, '/dashboard')
+        res.status(301).json({authenticated: true, redirectUrl: '/dashboard'})
       } else {
         res.json({error: 'incorrect password'})
       }
@@ -139,7 +141,6 @@ app.post('/authenticate', (req, res) => {
 //
 
 app.use(express.static(REACT_BUILD))
-
 app.get('/dashboard', (req, res) => {
   if (req.session.authenticated) {
     res.sendFile(path.resolve(REACT_BUILD, 'index.html'))
@@ -151,7 +152,7 @@ app.get('/dashboard', (req, res) => {
 // user info
 app.get('/dashboard/user', (req, res) => {
   if (!req.session.authenticated) {
-    res.json({error: 'you must log in first!'})
+    res.status(401).json({error: 'you must log in first!'})
   } else {
     User.findOne({username: req.session.username}, (err, user) => {
       if (err) {
@@ -170,6 +171,8 @@ app.get('/dashboard/user', (req, res) => {
   }
 })
 
+// disabled caching for the logout endpoint
+
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-store')
   next()
@@ -181,151 +184,163 @@ app.get('/dashboard/logout', (req, res) => {
   } catch (err) {
     console.log(err)
   }
-
-  res.redirect(301, '/authentication')
+  res.status(301).redirect('/authentication')
 })
 
 // stock quote
 app.use('/dashboard/quote', bodyParser.urlencoded({extended: false}))
 app.post('/dashboard/quote', (req, res) => {
-  (async () => {
-    try {
-      const response = await got(
-        'https://cloud.iexapis.com/stable/stock/' 
-        + req.body.symbol 
-        + '/intraday-prices?token=' 
-        + API_KEY 
-        + '&chartLast=1'
-      ).json()
-      res.json({quote: response[0].average})
-    } catch (err) {
-      console.error(err.response.body)
-    }
-  })()
+  if (!req.session.authenticated) {
+    res.status(401).json({error: 'you must log in first!'})
+  } else {
+    (async () => {
+        const quote = await fetchQuote(req.body.symbol)
+
+        if (quote[0] === undefined) {
+          res.json({error: 'invalid symbol'})
+        } else {
+          res.json({quote: quote[0].average})
+        }
+    })()
+  }
 })
 
 // stock buy
 app.use('/dashboard/buy', bodyParser.urlencoded({extended: false}))
 app.post('/dashboard/buy', (req, res) => {
-  User.findOne({username: req.session.username}, (err, user) => {
-    if (err) {
-      console.error(err)
-    } else {
-      (async () => {
-        const quote = await fetchQuote(req.body.symbol)
-        const shareValue = quote[0].average
-        const orderTotal = shareValue * req.body.shares
+  if (!req.session.authenticated) {
+    res.status(401).json({error: 'you must log in first!'})
+  } else {
+    User.findOne({username: req.session.username}, (err, user) => {
+      if (err) {
+        console.error(err)
+      } else {
+        (async () => {
+          const quote = await fetchQuote(req.body.symbol)
 
-        // ensures user has enough cash to complete transaction
-        if (user.cash < orderTotal) {
-          res.json({error: 'User needs more cash'})
-        } else {
-          const isSymbol = (string) => {
-            if (string === req.body.symbol) {
-              return true
-            }
-          }
-          // records new transaction in user purchases
-          user.cash = user.cash - orderTotal
-          user.purchases.push({
-            symbol: req.body.symbol, 
-            shares: req.body.shares, 
-            shareValue: shareValue, 
-            date: new Date()
-          })
-          // if user does not already have a position in the stock a new position is created
-          if (!user.positions.find((element) => isSymbol(element.symbol))) {
-            user.positions.push({
-              symbol: req.body.symbol,
-              shares: req.body.shares,
-              averageShareValue: shareValue
-            })
-          // if user does already have a position in the stock calculates a new average and adds shares to portfolio
+          if (quote[0] === undefined) {
+            res.json({error: 'invalid symbol'})
+          } else if (req.body.shares == 0) {
+            res.json({error: '0 shares'})
           } else {
-            const position = user.positions.find((element) => isSymbol(element.symbol))
-            const positionIndex = user.positions.findIndex((element) => isSymbol(element.symbol))
-            const requestedShares = parseFloat(req.body.shares)
-            const newAverageShareValue = ((position.shares * position.averageShareValue) 
-            + (requestedShares * shareValue)) 
-            / (position.shares + requestedShares)
+            const shareValue = quote[0].average
+            const orderTotal = shareValue * req.body.shares
 
-            user.positions[positionIndex] = {
-              symbol: req.body.symbol,
-              shares: position.shares + requestedShares,
-              averageShareValue: newAverageShareValue
+            if (user.cash < orderTotal) {
+              res.json({error: 'user needs more cash'})
+            } else {
+              // records new transaction in user purchases
+              user.cash = user.cash - orderTotal
+              user.purchases.push({
+                symbol: req.body.symbol, 
+                shares: req.body.shares, 
+                shareValue: shareValue, 
+                date: new Date()
+              })
+              // if user does not already have a position in the stock a new position is created
+              if (!user.positions.find((element) => isSymbol(element.symbol, req.body.symbol))) {
+                user.positions.push({
+                  symbol: req.body.symbol,
+                  shares: req.body.shares,
+                  averageShareValue: shareValue
+                })
+              // if user does already have a position in the stock calculates a new average and adds shares to portfolio
+              } else {
+                const position = user.positions.find((element) => isSymbol(element.symbol))
+                const positionIndex = user.positions.findIndex((element) => isSymbol(element.symbol))
+                const requestedShares = parseFloat(req.body.shares)
+                const newAverageShareValue = 
+                ((position.shares * position.averageShareValue) 
+                + (requestedShares * shareValue)) 
+                / (position.shares + requestedShares)
+
+                user.positions[positionIndex] = {
+                  symbol: req.body.symbol,
+                  shares: position.shares + requestedShares,
+                  averageShareValue: newAverageShareValue
+                }
+              }
+              user.save((err) => {
+                if (err) {
+                  console.error(err)
+                  res.json({error: 'failed to save user changes'})
+                } else {
+                  res.json({transaction: 'successful'})
+                }
+              })
             }
           }
-          user.save((err) => {
-            if (err) {
-              console.error(err)
-              res.json({error: 'failed to save user changes'})
-            } else {
-              res.json({transaction: 'successful'})
-            }
-          })
-        }
-      })()
-    }
-  })
+        })()
+      }
+    })
+  }
 })
 
 // stock sell
 app.use('/dashboard/sell', bodyParser.urlencoded({extended: false}))
 app.post('/dashboard/sell', (req, res) => {
-  User.findOne({username: req.session.username}, (err, user) => {
-    if (err) {
-      console.error(err)
-    } else {
-      (async () => {
-        const quote = await fetchQuote(req.body.symbol)
-        const shareValue = quote[0].average
-        const orderTotal = shareValue * req.body.shares
+  if (!req.session.authenticated) {
+    res.status(401).json({error: 'you must log in first!'})
+  } else {
+    User.findOne({username: req.session.username}, (err, user) => {
+      if (err) {
+        console.error(err)
+      } else {
+        (async () => {
+          const quote = await fetchQuote(req.body.symbol)
 
-        const isSymbol = (string) => {
-          if (string === req.body.symbol) {
-            return true
-          }
-        }
-
-        const currentPosition = user.positions.find((element) => isSymbol(element.symbol))
-
-        if (currentPosition.shares < req.body.shares) {
-          res.json({error: 'User needs more shares'})
-        } else {
-          // records new transaction in user sales
-          user.cash = user.cash + orderTotal
-          user.sales.push({
-            symbol: req.body.symbol, 
-            shares: req.body.shares, 
-            shareValue: shareValue, 
-            date: new Date()
-          })
-          const currentPositionIndex = user.positions.findIndex((element) => isSymbol(element.symbol))
-          // if user is selling all of their available shares the position is removed from their portfolio
-          if (currentPosition.shares == req.body.shares) {
-            user.positions.splice(currentPositionIndex, 1)
-          // if user is not selling all of their available shares updates the current position
+          if (quote[0] === undefined) {
+            res.json({error: 'invalid symbol'})
+          } else if (req.body.shares == 0) {
+            res.json({error: '0 shares'})
           } else {
-            user.positions[currentPositionIndex].shares = currentPosition.shares - req.body.shares
-          }
-          user.save((err) => {
-            if (err) {
-              console.error(err)
-              res.json({error: 'failed to save user changes'})
+            const shareValue = quote[0].average
+            const orderTotal = shareValue * req.body.shares
+
+            const currentPosition = user.positions.find((element) => isSymbol(element.symbol, req.body.symbol))
+
+            if (currentPosition === undefined) {
+              res.json({error: 'position does not exist'})
+            } else if (currentPosition.shares < req.body.shares) {
+              res.json({error: 'user needs more shares'})
             } else {
-              res.json({transaction: 'successful'})
+              // records new transaction in user sales
+              user.cash = user.cash + orderTotal
+              user.sales.push({
+                symbol: req.body.symbol, 
+                shares: req.body.shares, 
+                shareValue: shareValue, 
+                date: new Date()
+              })
+              const currentPositionIndex = user.positions.findIndex((element) => isSymbol(element.symbol, req.body.symbol))
+              // if user is selling all of their available shares the position is removed from their portfolio
+              if (currentPosition.shares == req.body.shares) {
+                user.positions.splice(currentPositionIndex, 1)
+              // if user is not selling all of their available shares updates the current position
+              } else {
+                user.positions[currentPositionIndex].shares = currentPosition.shares - req.body.shares
+              }
+              user.save((err) => {
+                if (err) {
+                  console.error(err)
+                  res.json({error: 'failed to save user changes'})
+                } else {
+                  res.json({transaction: 'successful'})
+                }
+              })
             }
-          })
-        }
-      })()
-    }
-  })
+          }
+        })()
+      }
+    })
+  }
 })
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`)
 })
 
+// helper function for getting stock info
 const fetchQuote = (symbol) => {
   const quote = got(
     'https://cloud.iexapis.com/stable/stock/' 
@@ -334,7 +349,14 @@ const fetchQuote = (symbol) => {
     + API_KEY 
     + '&chartLast=1'
   ).json()
-  .catch((error) => console.error(error))
+  .catch(error => {
+    return error
+  })
 
   return quote
+}
+const isSymbol = (string, symbol) => {
+  if (string === symbol) {
+    return true
+  }
 }

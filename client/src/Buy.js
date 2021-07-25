@@ -4,6 +4,7 @@ import {useState} from 'react'
 function Buy(props) {
   const [symbol, setSymbol] = useState('')
   const [shares, setShares] = useState(0)
+  const [alert, setAlert] = useState('')
 
   const symbolChangeHandler = (event) => setSymbol(event.target.value.toUpperCase())
   const sharesChangeHandler = (event) => setShares(event.target.value)
@@ -16,15 +17,25 @@ function Buy(props) {
       body: JSON.stringify(data)
     }
 
-    console.log(data)
-
     fetch('/dashboard/buy', requestOptions)
-    .then(() => props.parentCallback())
+    .then(res => res.json())
+    .then(res => {
+      if (res.error === 'user needs more cash') {
+        setAlert('You need more cash!')
+      } else if (res.error === '0 shares') {
+        setAlert('You need to purcase at least 1 share')
+      } else if (res.error === 'invalid symbol') {
+        setAlert('Invalid symbol')
+      } else if (res.transaction === 'successful') {
+        setAlert('Purchase successful!')
+        props.parentCallback()
+      }
+    })
     .catch((err) => console.error('error completing purchase: ' + err))
   }
 
   return (
-    <div class='form-wrapper'>
+    <div className='form-wrapper'>
       <form>
         <label htmlFor='Symbol'>Symbol</label>
         <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
@@ -32,6 +43,7 @@ function Buy(props) {
         <input type='number' id='shares' onChange={sharesChangeHandler} value={shares}/>
       </form>
       <button type='submit' onClick={clickHandler}>Buy</button>
+      <p className='form-alert'>{alert}</p>
     </div>
   )
 }
