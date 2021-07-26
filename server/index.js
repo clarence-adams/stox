@@ -246,8 +246,8 @@ app.post('/dashboard/buy', (req, res) => {
                 })
               // if user does already have a position in the stock calculates a new average and adds shares to portfolio
               } else {
-                const position = user.positions.find((element) => isSymbol(element.symbol))
-                const positionIndex = user.positions.findIndex((element) => isSymbol(element.symbol))
+                const position = user.positions.find((element) => isSymbol(element.symbol, req.body.symbol))
+                const positionIndex = user.positions.findIndex((element) => isSymbol(element.symbol, req.body.symbol))
                 const requestedShares = parseFloat(req.body.shares)
                 const newAverageShareValue = 
                 ((position.shares * position.averageShareValue) 

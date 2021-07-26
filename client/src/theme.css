@@ -28,12 +28,20 @@ input {
 }
 button, .anchor-button {
   padding: 8px;
-  border: solid darkgreen 2px;
-  border-radius: .25rem;
+  border-radius: .50rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #fff;
   background-color: green;
+  border: none;
+  cursor: pointer;
   text-decoration: none;
+}
+button:hover, .anchor-button:hover {
+  background-color: darkgreen;
+}
+button:active, .anchor-button:active {
+  transform:scale(.95)
 }
 button:disabled {
   background-color: red;

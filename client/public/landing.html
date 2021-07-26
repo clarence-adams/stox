@@ -40,9 +40,9 @@
             </div>
             <input name='password-confirmation' id='registration-password-confirmation' type='password' required=true oninput='validateForm()'/>
           </div>
-          <div class='show-password-wrapper'>
+          <div class='secondary-form-actions'>
+            <input class='show-password-checkbox' type='checkbox' onclick='showPassword()'/>
             <label for='show password'>Show Password</label>
-            <input class='checkbox' type='checkbox' onclick='showPassword()'/>
           </div>
           <p id='password-alert' class='validation-message'></p>
           <div class='form-element'>

@@ -7,13 +7,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+h1 {
+  font-size: 4rem;
+}
 form {
   display: flex;
   justify-content: center;
   padding: 25px;
   width: 33.33%;
-  /*border: solid green 5px;
-  background-color: #FFF;*/
+  background-color: rgb(255, 255, 255, .33);
   border-radius: 1em;
 }
 input {
@@ -26,18 +28,36 @@ input {
 }
 button, .anchor-button {
   padding: 8px;
-  border: solid darkgreen 2px;
-  border-radius: .25rem;
+  border-radius: .50rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: #FFFFFF;
-  background-color: green;
+  color: #fff;
+  background-color: #DE57DA;
+  border: none;
   cursor: pointer;
   text-decoration: none;
+}
+button:hover, .anchor-button:hover {
+  background-color: #C44DC0;
+}
+button:active, .anchor-button:active {
+  transform:scale(.95)
 }
 button:disabled {
   background-color: red;
 }
+.tertiary-button {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #DE57DA;
+  text-decoration: underline;
+}
+.tertiary-button:hover {
+  outline: none;
+  cursor: pointer;
+}
 .navbar {
+  position: absolute;
   display: flex;
   justify-content: flex-end;
   width: calc(100vw - 16px);
@@ -81,16 +101,27 @@ button:disabled {
 .red-asterisk {
   color: red;
 }
-.show-password-wrapper {
+.secondary-form-actions {
   display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  justify-content: flex-end;
-  height: 3rem;
+  flex-direction: row;
+  flex-grow: 0;
+  align-items: baseline;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 16px 0 0 0;
+}
+.show-password-checkbox {
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  margin: 0 8px 0 0;
 }
 #form-button-wrapper {
-  display: flex;
+  height: 3rem;
 }
 #form-alert {
   height: 1rem;
+}
+#forgot-password-link {
+  
 }

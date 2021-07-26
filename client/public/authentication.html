@@ -33,9 +33,10 @@
           </div>
           <input name='password' id='authentication-password' type='password' required=true/>
         </div>
-        <div class='show-password-wrapper'>
+        <div class='secondary-form-actions'>
+          <input class='show-password-checkbox' type='checkbox' onclick='showPassword()'/>
           <label for='show password'>Show Password</label>
-          <input type='checkbox' onclick='showPassword()'/>
+          <a id='forgot-password-link' class='tertiary-button' onclick='resetPassword()'>Forgot Password?</a>
         </div>
         <p id='password-alert'></p>
         <div id='form-button-wrapper' class='form-element'>
