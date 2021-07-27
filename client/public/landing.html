@@ -9,14 +9,11 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <header>
-      <div class='navbar'>
-        <a class='anchor-button navbar-button' href='/authentication'>Log In</a>
+      <div id='welcome-message'>
+        <h1>StoX</h1>
+        <p>Trade fake stocks with fake money. It's fun!</p>
       </div>
     </header>
-    <div id='welcome-message'>
-      <h1>StoX</h1>
-      <p>Trade fake stocks with fake money. It's fun!</p>
-    </div>
     <div class='form-wrapper'>
       <form action='/register' method='post'>
         <div class='form-group'>
@@ -24,6 +21,7 @@
           <div class='first-form-element'>
             <div class='form-label-wrapper'>
               <label for='username'>Username</label>
+              <div class='red-asterisk'>*</div>
             </div>
             <input name='username' id='registration-username' class='registration-input' type='text' required=true oninput='checkUsernameAvailability()'/>
           </div>
@@ -31,27 +29,32 @@
           <div class='form-element'>
             <div class='form-label-wrapper'>
               <label for='password'>Password</label>
+              <div class='red-asterisk'>*</div>
             </div>
             <input name='password' id='registration-password' type='password' required=true/>
           </div>
           <div class='form-element'>
             <div class='form-label-wrapper'>
               <label for='password-confirmation'>Confirm Password</label>
+              <div class='red-asterisk'>*</div>
             </div>
             <input name='password-confirmation' id='registration-password-confirmation' type='password' required=true oninput='validateForm()'/>
           </div>
           <div class='secondary-form-actions'>
-            <input class='show-password-checkbox' type='checkbox' onclick='showPassword()'/>
-            <label for='show password'>Show Password</label>
+            <div class='show-password-wrapper'>
+              <input class='show-password-checkbox' type='checkbox' onclick='showPassword()'/>
+              <label for='show password'>Show Password</label>
+            </div>
           </div>
-          <p id='password-alert' class='validation-message'></p>
-          <div class='form-element'>
+          <p id='form-alert' class='validation-message'></p>
+          <div class='primary-form-actions'>
             <button id='registration-form-button' type='submit'>Start Trading!</button>
+            <a class='secondary-button' href='/authentication'>Log In</a>
           </div>
         </div>
       </form>
     </div>
-    <p style='color: red; width: 33%; margin: auto;'>Do not enter any important passwords that you already use for your email or bank. There is very little security in this application!</p>
+    <p style='color: red; width: 33%; margin: auto; font-weight: 600;'>Do not enter any important passwords that you already use for your email or bank. There is very little security in this application!</p>
     <script src='/static/landing.js'></script>
   </body>
 </html>

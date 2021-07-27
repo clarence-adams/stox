@@ -10,6 +10,9 @@ body {
 h1 {
   font-size: 4rem;
 }
+h2 {
+  margin-top: 0;
+}
 form {
   display: flex;
   justify-content: center;
@@ -23,33 +26,47 @@ input {
   width: calc(100% - 12px);
   padding: 5px 5px 5px 5px;
   margin: 0 0 0 0;
-  border: 1px black solid;
-  border-radius: .15rem;
+  border: 3px #d15ccd solid;
+  border-radius: .5rem;
+  background-color: rgb(255, 255, 255, .66);
 }
 button, .anchor-button {
   padding: 8px;
-  border-radius: .50rem;
+  border-radius: .5rem;
   font-size: 1rem;
   font-weight: 600;
   color: #fff;
-  background-color: #DE57DA;
+  background-color: #d15ccd;
   border: none;
   cursor: pointer;
   text-decoration: none;
 }
 button:hover, .anchor-button:hover {
-  background-color: #C44DC0;
+  background-color: #b851b4;
 }
-button:active, .anchor-button:active {
+button:active, .anchor-button:active, .secondary-button:active {
   transform:scale(.95)
 }
 button:disabled {
   background-color: red;
 }
+.secondary-button {
+  padding: 8px;
+  border-radius: .50rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d15ccd;
+  border: solid #d15ccd 2px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.secondary-button:hover {
+  background-color: rgb(0, 0, 0, .05)
+}
 .tertiary-button {
   font-size: 1rem;
   font-weight: 600;
-  color: #DE57DA;
+  color: #d15ccd;
   text-decoration: underline;
 }
 .tertiary-button:hover {
@@ -76,7 +93,6 @@ button:disabled {
 .form-group {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   padding: 25px;
   width: 100%;
 }
@@ -86,6 +102,9 @@ button:disabled {
 }
 .form-element {
   padding: 1rem 0 0 0;
+}
+.form-label-wrapper {
+  display: flex;
 }
 .first-form-element {
   padding: 0;
@@ -101,12 +120,17 @@ button:disabled {
 .red-asterisk {
   color: red;
 }
+.primary-form-actions {
+  display: flex;
+  flex-grow: 0;
+  justify-content: space-between;
+  width: 100%;
+}
 .secondary-form-actions {
   display: flex;
-  flex-direction: row;
   flex-grow: 0;
   align-items: baseline;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%;
   margin: 16px 0 0 0;
 }
@@ -120,8 +144,5 @@ button:disabled {
   height: 3rem;
 }
 #form-alert {
-  height: 1rem;
-}
-#forgot-password-link {
-  
+  height: 1.5rem;
 }

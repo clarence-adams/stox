@@ -9,14 +9,11 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <header>
-    <div class='navbar'>
-      <a class='anchor-button navbar-button' href='/'>Register</a>
+    <div id='welcome-message'>
+      <h1>StoX</h1>
+      <p>Trade fake stocks with fake money. It's fun!</p>
     </div>
   </header>
-  <div id='welcome-message'>
-    <h1>StoX</h1>
-    <p>Trade fake stocks with fake money. It's fun!</p>
-  </div>
   <div class='form-wrapper'>
     <form id='login-form' action='/authenticate' method='POST' onsubmit='login(this, event)'>
       <div class='form-group'>
@@ -34,14 +31,16 @@
           <input name='password' id='authentication-password' type='password' required=true/>
         </div>
         <div class='secondary-form-actions'>
-          <input class='show-password-checkbox' type='checkbox' onclick='showPassword()'/>
-          <label for='show password'>Show Password</label>
+          <div class='show-password-wrapper'>
+            <input class='show-password-checkbox' type='checkbox' onclick='showPassword()'/>
+            <label for='show password'>Show Password</label>
+          </div>
           <a id='forgot-password-link' class='tertiary-button' onclick='resetPassword()'>Forgot Password?</a>
         </div>
-        <p id='password-alert'></p>
-        <div id='form-button-wrapper' class='form-element'>
+        <p id='form-alert'></p>
+        <div class='primary-form-actions'>
           <button id='authentication-form-button' type='submit'>Log In</button>
-          <p id='form-alert' style='color: red;'></p>
+          <a href='/' class='secondary-button'>Register</a>
         </div>
       </div>
     </form>

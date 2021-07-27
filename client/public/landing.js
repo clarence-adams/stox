@@ -35,7 +35,7 @@ showPassword = () => {
 validateForm = () => {
   let input = document.getElementById('registration-password')
   let inputConfirmation = document.getElementById('registration-password-confirmation')
-  let alert = document.getElementById('password-alert')
+  let alert = document.getElementById('form-alert')
   let button = document.getElementById('registration-form-button')
 
   if (input.value !== inputConfirmation.value) {
