@@ -19,16 +19,12 @@
       <div class='form-group'>
         <h2>Log In</h2>
         <div class='first-form-element'>
-          <div class='form-label-wrapper'>
-            <label for='username'>Username</label>
-          </div>
-          <input name='username' type='text' required=true/>
+          <label for='username'>Username</label>
+          <input name='username' type='text' required='true'/>
         </div>
         <div class='form-element'>
-          <div class='form-label-wrapper'>
-            <label for='password'>Password</label>
-          </div>
-          <input name='password' id='authentication-password' type='password' required=true/>
+          <label for='password'>Password</label>
+          <input name='password' id='authentication-password' type='password' required='true'/>
         </div>
         <div class='secondary-form-actions'>
           <div class='show-password-wrapper'>
@@ -45,7 +41,7 @@
       </div>
     </form>
   </div>
-  <p style='color: red; width: 33%; margin: auto;'>Do not enter any important passwords that you already use for your email or bank. There is very little security in this application!</p>
+  <p class='warning-text'>Do not enter any important passwords that you already use for your email or bank. There is very little security in this application!</p>
   <script src='/static/authentication.js'></script>
 </body>
 </html>

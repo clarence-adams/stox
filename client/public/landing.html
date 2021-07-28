@@ -1,60 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel='stylesheet' type='text/css' href='/static/landing.css' media='screen'>
-    <title>StoX</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <header>
-      <div id='welcome-message'>
-        <h1>StoX</h1>
-        <p>Trade fake stocks with fake money. It's fun!</p>
-      </div>
-    </header>
-    <div class='form-wrapper'>
-      <form action='/register' method='post'>
-        <div class='form-group'>
-          <h2>Register</h2>
-          <div class='first-form-element'>
-            <div class='form-label-wrapper'>
-              <label for='username'>Username</label>
-              <div class='red-asterisk'>*</div>
-            </div>
-            <input name='username' id='registration-username' class='registration-input' type='text' required=true oninput='checkUsernameAvailability()'/>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel='stylesheet' type='text/css' href='/static/landing.css' media='screen'>
+  <title>StoX</title>
+</head>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <header>
+    <div id='welcome-message'>
+      <h1>StoX</h1>
+      <p>Trade fake stocks with fake money. It's fun!</p>
+    </div>
+  </header>
+  <div class='form-wrapper'>
+    <form id='registration-form' action='/register' method='post'>
+      <div class='form-group'>
+        <h2>Register</h2>
+        <div class='first-form-element'>
+          <div class='form-label-wrapper'>
+          <label for='username'>Username<span class='red-asterisk'> *</span></label>
           </div>
-          <p id='username-alert' class='validation-message'></p>
-          <div class='form-element'>
-            <div class='form-label-wrapper'>
-              <label for='password'>Password</label>
-              <div class='red-asterisk'>*</div>
+          <input name='username' id='registration-username' class='registration-input' type='text' required='true' oninput='checkUsernameAvailability()'/>
+        </div>
+        <p id='username-alert' class='validation-message'></p>
+        <div class='form-element'>
+          <label for='password'>Password<span class='red-asterisk'> *</span></label>
+          <input name='password' id='registration-password' type='password' required='true'/>
+        </div>
+        <div class='form-element'>
+          <label for='password-confirmation'>Confirm Password<span class='red-asterisk'> *</span></label>
+          <input name='password-confirmation' id='registration-password-confirmation' type='password' required='true' oninput='validateForm()'/>
+        </div>
+        <div id='security-question-wrapper' class='form-element'>
+          <div class='double-input-wrapper'>
+            <div>
+              <label for='security question'>Security Question<span class='red-asterisk'> *</span></label>
+              <select name='security-question' id='security-question' required='true'>
+                <option value='color'>What's your favorite color?</option>
+                <option value=''></option>
+              </select>
             </div>
-            <input name='password' id='registration-password' type='password' required=true/>
-          </div>
-          <div class='form-element'>
-            <div class='form-label-wrapper'>
-              <label for='password-confirmation'>Confirm Password</label>
-              <div class='red-asterisk'>*</div>
+            <div>
+              <label for='security question answer'>Answer<span class='red-asterisk'> *</span></label>
+              <input name='security-question-answer' id='security-question-answer' type='text' required='true'/>
             </div>
-            <input name='password-confirmation' id='registration-password-confirmation' type='password' required=true oninput='validateForm()'/>
-          </div>
-          <div class='secondary-form-actions'>
-            <div class='show-password-wrapper'>
-              <input class='show-password-checkbox' type='checkbox' onclick='showPassword()'/>
-              <label for='show password'>Show Password</label>
-            </div>
-          </div>
-          <p id='form-alert' class='validation-message'></p>
-          <div class='primary-form-actions'>
-            <button id='registration-form-button' type='submit'>Start Trading!</button>
-            <a class='secondary-button' href='/authentication'>Log In</a>
           </div>
         </div>
-      </form>
-    </div>
-    <p style='color: red; width: 33%; margin: auto; font-weight: 600;'>Do not enter any important passwords that you already use for your email or bank. There is very little security in this application!</p>
-    <script src='/static/landing.js'></script>
-  </body>
+        <div class='secondary-form-actions'>
+          <div class='show-password-wrapper'>
+            <input class='show-password-checkbox' type='checkbox' onclick='showPassword()'/>
+            <label for='show password'>Show Password</label>
+          </div>
+        </div>
+        <p id='form-alert' class='validation-message'></p>
+        <div class='primary-form-actions'>
+          <button id='registration-form-button' type='submit'>Start Trading!</button>
+          <a class='secondary-button' href='/authentication'>Log In</a>
+        </div>
+      </div>
+    </form>
+  </div>
+  <p class='warning-text'>Do not enter any important passwords that you already use for your email or bank. There is very little security in this application!</p>
+  <script src='/static/landing.js'></script>
+</body>
 </html>
