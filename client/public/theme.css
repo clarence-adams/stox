@@ -27,7 +27,7 @@ input, select {
   width: calc(100% - 12px);
   padding: 5px 5px 5px 5px;
   margin: 0 0 0 0;
-  border: 3px #d15ccd solid;
+  border: 2px #d15ccd solid;
   border-radius: .5rem;
   background-color: rgb(255, 255, 255, .5);
 }
@@ -57,7 +57,7 @@ button:disabled {
   font-size: 1rem;
   font-weight: 600;
   color: #d15ccd;
-  border: solid #d15ccd 3px;
+  border: solid #d15ccd 2px;
   cursor: pointer;
   text-decoration: none;
 }

@@ -33,6 +33,7 @@ const userSchema = new Schema ({
   id: Number,
   username: String,
   password: String,
+  resetPassword: {question: String, answer: String},
   cash: Number,
   purchases: [{symbol: String, shares: Number, shareValue: Number, date: Date}],
   sales: [{symbol: String, shares: Number, shareValue: Number, date: Date}],
@@ -67,6 +68,10 @@ app.post('/register', (req, res) => {
   const newUser = new User({
       username: req.body.username,
       password: hashFunction.SHA256(req.body.password),
+      resetPassword: {
+        question: req.body['security-question'], 
+        answer: req.body['security-question-answer']
+      },
       cash: 10000,
       purchases: [],
       sales: [],
@@ -135,6 +140,16 @@ app.post('/authenticate', (req, res) => {
     }
   })
 })
+
+//
+// password reset
+//
+
+app.get('/reset-password', (req, res) => {
+  res.sendFile(path.resolve(PUBLIC_FOLDER, 'reset-password.html'))
+})
+
+app.use('/reset-password', bodyParser.urlencoded({extended: false}))
 
 //
 // dashboard

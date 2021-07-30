@@ -31,7 +31,7 @@
         </div>
         <div class='form-element'>
           <label for='password-confirmation'>Confirm Password<span class='red-asterisk'> *</span></label>
-          <input name='password-confirmation' id='registration-password-confirmation' type='password' required='true' oninput='validateForm()'/>
+          <input name='password-confirmation' id='registration-password-confirmation' type='password' required='true' onblur='validateForm()'/>
         </div>
         <div id='security-question-wrapper' class='form-element'>
           <div class='double-input-wrapper'>
@@ -39,7 +39,8 @@
               <label for='security question'>Security Question<span class='red-asterisk'> *</span></label>
               <select name='security-question' id='security-question' required='true'>
                 <option value='color'>What's your favorite color?</option>
-                <option value=''></option>
+                <option value='food'>What's your favorite food?</option>
+                <option value='animal'>What's your favorite animal?</option>
               </select>
             </div>
             <div>
