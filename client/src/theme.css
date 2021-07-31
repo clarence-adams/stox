@@ -28,19 +28,19 @@ input {
 }
 button, .anchor-button {
   padding: 8px;
-  border-radius: .50rem;
+  border-radius: .5rem;
   font-size: 1rem;
   font-weight: 600;
   color: #fff;
-  background-color: green;
+  background-color: #d15ccd;
   border: none;
   cursor: pointer;
   text-decoration: none;
 }
 button:hover, .anchor-button:hover {
-  background-color: darkgreen;
+  background-color: #b851b4;
 }
-button:active, .anchor-button:active {
+button:active, .anchor-button:active, .secondary-button:active {
   transform:scale(.95)
 }
 button:disabled {

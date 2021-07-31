@@ -88,7 +88,7 @@ form {
   height: 100%;
   width: 100%;
   padding: 0 0 16px 0;
-  border-top: solid green 16px;
+  border-top: solid rgb(71,210,192) 16px;
   border-radius: .5rem;
   border-top-left-radius: .5rem;
   border-top-right-radius: .5rem;
