@@ -20,7 +20,7 @@ form {
   padding: 25px;
   width: 33.33%;
   background-color: rgb(255, 255, 255, .33);
-  border-radius: 1em;
+  border-radius: 1rem;
 }
 input, select {
   /* width minus border width and padding */

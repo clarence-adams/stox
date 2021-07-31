@@ -50,11 +50,11 @@ function App() {
 
 const fetchUserData = () => {
   const requestOptions = {
-    method: 'GET',
-    headers: {'Content-Type': 'application/json'},
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'}
   }
 
-  const userData = fetch('/dashboard/user', requestOptions)
+  const userData = fetch('/user', requestOptions)
   .then(res => res.json())
   .then (res => res)
   .catch(err => console.error(err))

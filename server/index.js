@@ -47,9 +47,16 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json())
 app.use('/static', express.static(PUBLIC_FOLDER))
+
+let sessionSecret = Math.random().toString(16).substr(2, 8)
+
+setInterval(() => {
+  sessionSecret = Math.random().toString(16).substr(2, 8)
+}, 1800000)
+
 app.use(cookieSession({
   name: 'session',
-  secret: 'super duper secret',
+  secret: sessionSecret,
   sameSite: true
 }))
 
@@ -70,7 +77,7 @@ app.post('/register', (req, res) => {
       password: hashFunction.SHA256(req.body.password),
       resetPassword: {
         question: req.body['security-question'], 
-        answer: req.body['security-question-answer']
+        answer: hashFunction.SHA256(req.body['security-question-answer'].toLowerCase())
       },
       cash: 10000,
       purchases: [],
@@ -150,6 +157,25 @@ app.get('/reset-password', (req, res) => {
 })
 
 app.use('/reset-password', bodyParser.urlencoded({extended: false}))
+app.post('/reset-password', (req, res) => {
+  User.findOne({username: req.body.username}, (err, user) => {
+    const securityQuestionAnswer = hashFunction.SHA256(req.body.answer.toLowerCase())
+    if (err) {
+      console.error(err)
+    } else if (securityQuestionAnswer !== user.resetPassword.answer) {
+      res.json({error: 'incorrect security question answer'})
+    } else {
+      user.password = hashFunction.SHA256(req.body.password)
+      user.save((err) => {
+        if (err) {
+          console.error(err)
+        } else {
+          res.status(301).json({success: true, redirectUrl: '/authentication'})
+        }
+      })
+    }
+  })
+})
 
 //
 // dashboard
@@ -165,9 +191,19 @@ app.get('/dashboard', (req, res) => {
 })
 
 // user info
-app.get('/dashboard/user', (req, res) => {
+
+app.use('/user', bodyParser.urlencoded({extended: false}))
+app.post('/user', (req, res) => {
   if (!req.session.authenticated) {
-    res.status(401).json({error: 'you must log in first!'})
+    User.findOne({username: req.body.username}, (err, user) => {
+      if (err) {
+        console.error(err)
+      } else {
+        res.json({
+          securityQuestion: user.resetPassword.question
+        })
+      }
+    })
   } else {
     User.findOne({username: req.session.username}, (err, user) => {
       if (err) {

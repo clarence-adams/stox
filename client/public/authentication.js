@@ -6,12 +6,6 @@ showPassword = () => {
   inputConfirmation.type === 'password' ? inputConfirmation.type = 'text' : inputConfirmation.type = 'password'
 }
 
-resetPassword = () => {
-  let alert = document.getElementById('form-alert')
-
-  alert.innerHTML = 'TODO'
-}
-
 login = (that, event) => {
   const form = that
 
