@@ -29,8 +29,8 @@ function Sell(props) {
       } else if (res.error === 'user needs more shares') {
         setAlert('You need more shares')
       } else if (res.transaction === 'successful') {
-        setAlert('Sale successful!')
         props.parentCallback()
+        setAlert('Sale successful!')
       }
     })
     .catch((err) => console.error('error completing sale: ' + err))
@@ -44,7 +44,7 @@ function Sell(props) {
         <label htmlFor='Shares'>Shares</label>
         <input type='number' id='shares' onChange={sharesChangeHandler} value={shares}/>
       </form>
-      <button type='submit' onClick={clickHandler}>Sell</button>
+      <button className='primary-button' type='button' onClick={clickHandler}>Sell</button>
       <p className='form-alert'>{alert}</p>
     </div>
   )

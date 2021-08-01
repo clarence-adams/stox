@@ -8,13 +8,14 @@ import Positions from './Positions.js'
 function App() {
   const [user, setUser] = useState({})
   const [cash, setCash] = useState()
+  const [content, setContent] = useState()
 
   const updateUserData = async () => {
     const userData = await fetchUserData()
     setUser(userData)
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     updateUserData()
   }, [])
 
@@ -24,12 +25,13 @@ function App() {
     }
   }, [user])
 
+
   return (
     <div id='App'>
       <header>
         <h1>StoX</h1>
-        <div id='navbar'>
-          <a id='logout-button' className='anchor-button navbar-button'href='/dashboard/logout'>Logout</a>
+        <div id='header-navbar'>
+          <a id='logout-button' className='anchor-button header-navbar-button'href='/dashboard/logout'>Logout</a>
         </div>
       </header>
       <div id='content'>
@@ -38,10 +40,21 @@ function App() {
           <h3 id='cash'>{cash}</h3>
           <Positions positions={user.positions}/>
         </div>
+        <div id='navbar'>
+          <button className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
+          <button className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
+          <button className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
+          <button className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
+        </div>
         <div id='buy-sell-forms'>
-          <Quote/>
-          <Buy parentCallback={updateUserData}/>
-          <Sell parentCallback={updateUserData}/>
+        {(() => {
+          switch (content) {
+            case 'quote':  return <Quote/>
+            case 'buy': return <Buy parentCallback={updateUserData}/>
+            case 'sell': return <Sell parentCallback={updateUserData}/>
+            default: return null
+          }
+        })()}
         </div>
       </div>
     </div>
@@ -70,7 +83,7 @@ const fetchStockQuote = (symbol) => {
     body: JSON.stringify(data)
   }
 
-  const quote = fetch('/dashboard/quote', requestOptions)
+  let quote = fetch('/dashboard/quote', requestOptions)
   .then(res => res.json())
   .then(res => quote = (res.quote.toFixed(2)))
   .catch((err) => console.error('error fetching stock quote: ' + err))

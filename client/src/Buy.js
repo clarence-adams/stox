@@ -27,8 +27,8 @@ function Buy(props) {
       } else if (res.error === 'invalid symbol') {
         setAlert('Invalid symbol')
       } else if (res.transaction === 'successful') {
-        setAlert('Purchase successful!')
         props.parentCallback()
+        setAlert('Purchase successful!')
       }
     })
     .catch((err) => console.error('error completing purchase: ' + err))
@@ -42,7 +42,7 @@ function Buy(props) {
         <label htmlFor='Shares'>Shares</label>
         <input type='number' id='shares' onChange={sharesChangeHandler} value={shares}/>
       </form>
-      <button type='submit' onClick={clickHandler}>Buy</button>
+      <button className='primary-button' type='button' onClick={clickHandler}>Buy</button>
       <p className='form-alert'>{alert}</p>
     </div>
   )

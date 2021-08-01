@@ -26,7 +26,7 @@ input {
   border-radius: .15rem;
   text-align: center;
 }
-button, .anchor-button {
+.primary-button, .anchor-button {
   padding: 8px;
   border-radius: .5rem;
   font-size: 1rem;
@@ -37,13 +37,13 @@ button, .anchor-button {
   cursor: pointer;
   text-decoration: none;
 }
-button:hover, .anchor-button:hover {
+.primary-button:hover, .anchor-button:hover {
   background-color: #b851b4;
 }
-button:active, .anchor-button:active, .secondary-button:active {
+.primary-button:active, .anchor-button:active, .secondary-button:active {
   transform:scale(.95)
 }
-button:disabled {
+.primary-button:disabled {
   background-color: red;
 }
 .form-group {

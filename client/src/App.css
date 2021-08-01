@@ -1,9 +1,6 @@
 @import 'theme.css';
 
 @media screen and (max-width: 900px) {
-  #content {
-    flex-direction: column;
-  }
   #dashboard {
     flex-direction: row;
     width: calc(100vw - 16px) !important;
@@ -36,7 +33,36 @@ form {
   display: flex;
   flex-direction: column;
 }
+input, select {
+  /* width minus border width and padding */
+  width: calc(100% - 12px);
+  padding: 5px 5px 5px 5px;
+  margin: 0 0 0 0;
+  border: 2px #d15ccd solid;
+  border-radius: .5rem;
+  background-color: rgb(255, 255, 255, .5);
+}
 #navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: calc(100vh - 4rem);
+  background-color: rgb(0, 0, 0, .1);
+}
+.navbar-button {
+  padding: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d15ccd;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+.navbar-button:hover {
+  background-color: rgb(0, 0, 0, .15)
+}
+#header-navbar {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -46,7 +72,7 @@ form {
   z-index: 0;
   position: fixed;
 }
-.navbar-button {
+.header-navbar-button {
   margin: 0 16px 0 0;
 }
 #content {
@@ -64,7 +90,7 @@ form {
 #dashboard {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 4rem - 16px);
+  height: calc(100vh - 4rem - 16px);
   padding: 16px 16px 0 16px;
   background-color: rgb(0, 0, 0, .05);
 }
@@ -104,5 +130,5 @@ form {
   height: 100%;
 }
 #buy-sell-forms>div {
-  max-width: 50%;
+  max-width: 33%;
 }
