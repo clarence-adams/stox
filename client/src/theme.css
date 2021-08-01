@@ -8,6 +8,9 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+label {
+  text-align: center;
+}
 form {
   display: flex;
   justify-content: center;
