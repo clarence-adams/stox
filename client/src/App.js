@@ -1,5 +1,6 @@
 import './App.css'
 import {useState, useEffect} from 'react'
+import History from './History.js'
 import Quote from './Quote.js'
 import Buy from './Buy.js'
 import Sell from './Sell.js'
@@ -8,7 +9,7 @@ import Positions from './Positions.js'
 function App() {
   const [user, setUser] = useState({})
   const [cash, setCash] = useState()
-  const [content, setContent] = useState()
+  const [content, setContent] = useState('overview')
 
   const updateUserData = async () => {
     const userData = await fetchUserData()
@@ -49,6 +50,7 @@ function App() {
         <div id='buy-sell-forms'>
         {(() => {
           switch (content) {
+            case 'overview': return <History purchases={user.purchases} sales={user.sales}/>
             case 'quote':  return <Quote/>
             case 'buy': return <Buy parentCallback={updateUserData}/>
             case 'sell': return <Sell parentCallback={updateUserData}/>
