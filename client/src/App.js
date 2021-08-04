@@ -1,10 +1,10 @@
 import './App.css'
 import {useState, useEffect} from 'react'
+import Overview from './Overview.js'
 import History from './History.js'
 import Quote from './Quote.js'
 import Buy from './Buy.js'
 import Sell from './Sell.js'
-import Positions from './Positions.js'
 
 function App() {
   const [user, setUser] = useState({})
@@ -36,24 +36,42 @@ function App() {
         </div>
       </header>
       <div id='content'>
-        <div id='dashboard'>
-          <h2 id='welcome-text'>Hello, {user.username}</h2>
-          <h3 id='cash'>{cash}</h3>
-          <Positions positions={user.positions}/>
-        </div>
         <div id='navbar'>
           <button className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
           <button className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
           <button className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
           <button className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
         </div>
+        <div id='dashboard'>
+          <Overview user={user} cash={cash}/>
+        </div>
         <div id='buy-sell-forms'>
         {(() => {
           switch (content) {
-            case 'overview': return <History purchases={user.purchases} sales={user.sales}/>
-            case 'quote':  return <Quote/>
-            case 'buy': return <Buy parentCallback={updateUserData}/>
-            case 'sell': return <Sell parentCallback={updateUserData}/>
+            case 'overview': 
+              return (
+                <div>
+                  <History purchases={user.purchases} sales={user.sales}/>
+                </div>
+              )
+            case 'quote':
+              return (
+                <div>
+                  <Quote parentCallback={updateUserData}/>
+                </div>
+              )
+            case 'buy': 
+              return (
+                <div>
+                  <Buy parentCallback={updateUserData}/>
+                </div>
+              )
+            case 'sell':
+              return (
+                <div>
+                  <Sell parentCallback={updateUserData}/>
+                </div>
+              )
             default: return null
           }
         })()}

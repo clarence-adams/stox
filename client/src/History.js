@@ -15,11 +15,11 @@ function History(props) {
     if (props.sales !== undefined) {
       setSales(props.sales)
     }
-  })
+  }, [props.sales])
 
   return (
     <div id='history-tables'>
-      <p>Purchases</p>
+      <h3>Purchases</h3>
       <table id='purchases-table'>
         <thead>
           <tr>
@@ -40,7 +40,7 @@ function History(props) {
           )}
         </tbody>
       </table>
-      <p>Sales</p>
+      <h3>Sales</h3>
       <table id='sales-table'>
         <thead>
           <tr>

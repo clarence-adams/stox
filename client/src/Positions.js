@@ -12,6 +12,7 @@ function Positions(props) {
 
   return (
     <div id='positions-table'>
+      <h3>Positions</h3>
       <table>
         <thead>
           <tr>
