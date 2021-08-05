@@ -3,11 +3,22 @@ import {useState} from 'react'
 
 function Buy(props) {
   const [symbol, setSymbol] = useState('')
-  const [shares, setShares] = useState(0)
+  const [shares, setShares] = useState('')
   const [alert, setAlert] = useState('')
 
+  const digitsRegex = /^[1-9][0-9]*$/
   const symbolChangeHandler = (event) => setSymbol(event.target.value.toUpperCase())
-  const sharesChangeHandler = (event) => setShares(event.target.value)
+  const sharesChangeHandler = (event) => 
+  {
+    if (digitsRegex.test(event.target.value)) {
+      setShares(event.target.value)
+      document.getElementById('buy-button').disabled = false
+      setAlert('')
+    } else {
+      document.getElementById('buy-button').disabled = true
+      setAlert('Shares must be a number')
+    }
+  }
 
   const clickHandler = () => {
     const data = {symbol, shares}
@@ -38,11 +49,11 @@ function Buy(props) {
     <div className='form-wrapper'>
       <form>
         <label htmlFor='Symbol'>Symbol</label>
-        <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
+        <input type='text' id='symbol' onInput={symbolChangeHandler} value={symbol}/>
         <label htmlFor='Shares'>Shares</label>
-        <input type='number' id='shares' onChange={sharesChangeHandler} value={shares}/>
+        <input type='number' id='shares' onInput={sharesChangeHandler} value={shares}/>
       </form>
-      <button className='primary-button' type='button' onClick={clickHandler}>Buy</button>
+      <button className='primary-button' id='buy-button' type='button' onClick={clickHandler}>Buy</button>
       <p className='form-alert'>{alert}</p>
     </div>
   )

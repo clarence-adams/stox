@@ -6,9 +6,19 @@ function Sell(props) {
   const [shares, setShares] = useState(0)
   const [alert, setAlert] = useState('')
 
+  const digitsRegex = /^[1-9][0-9]*$/
   const symbolChangeHandler = (event) => setSymbol(event.target.value.toUpperCase())
-  const sharesChangeHandler = (event) => setShares(event.target.value)
-
+  const sharesChangeHandler = (event) => 
+  {
+    if (digitsRegex.test(event.target.value)) {
+      setShares(event.target.value)
+      document.getElementById('buy-button').disabled = false
+      setAlert('')
+    } else {
+      document.getElementById('sell-button').disabled = true
+      setAlert('Shares must be a number')
+    }
+  }
   const clickHandler = () => { 
     const data = {symbol, shares}
     const requestOptions = {
@@ -44,7 +54,7 @@ function Sell(props) {
         <label htmlFor='Shares'>Shares</label>
         <input type='number' id='shares' onChange={sharesChangeHandler} value={shares}/>
       </form>
-      <button className='primary-button' type='button' onClick={clickHandler}>Sell</button>
+      <button className='primary-button' id='sell-button' type='button' onClick={clickHandler}>Sell</button>
       <p className='form-alert'>{alert}</p>
     </div>
   )
