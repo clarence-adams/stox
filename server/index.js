@@ -246,9 +246,10 @@ app.post('/dashboard/quote', (req, res) => {
   } else {
     (async () => {
         const quote = await fetchQuote(req.body.symbol)
-
         if (quote[0] === undefined) {
           res.json({error: 'invalid symbol'})
+        } else if (quote[0].average === null) {
+          res.status(401).json({error: 'average is null'})
         } else {
           res.json({quote: quote[0].average})
         }
@@ -276,12 +277,14 @@ app.post('/dashboard/buy', (req, res) => {
             res.json({error: 'invalid symbol'})
           } else if (shares === 0) {
             res.json({error: '0 shares'})
+          } else if (quote[0].average === null) {
+            res.status(401).json({error: 'average is null'})
           } else {
             const shareValue = quote[0].average
             const orderTotal = shareValue * shares
 
             if (user.cash < orderTotal) {
-              res.json({error: 'user needs more cash'})
+              res.status(401).json({error: 'user needs more cash'})
             } else {
               // records new transaction in user purchases
               user.cash = user.cash - orderTotal
@@ -350,6 +353,8 @@ app.post('/dashboard/sell', (req, res) => {
             res.json({error: 'invalid symbol'})
           } else if (shares === 0) {
             res.json({error: '0 shares'})
+          } else if (quote[0].average === null) {
+            res.status(401).json({error: 'average is null'})
           } else {
             const shareValue = quote[0].average
             const orderTotal = shareValue * shares

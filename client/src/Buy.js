@@ -36,6 +36,7 @@ function Buy(props) {
         case '0 shares': setAlert('You need to purchase at least 1 share!'); break
         case 'blank shares': setAlert('You must enter an amount of shares!'); break
         case 'invalid symbol': setAlert('Invalid symbol'); break
+        case 'average is null': setAlert('Error completing transaction. Try again later.'); break
         case 'successful': 
           props.parentCallback()
           setAlert('Transaction Successful!')

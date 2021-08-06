@@ -3,7 +3,7 @@ import {useState} from 'react'
 
 function Sell(props) {
   const [symbol, setSymbol] = useState('')
-  const [shares, setShares] = useState(0)
+  const [shares, setShares] = useState('')
   const [alert, setAlert] = useState('')
 
   const digitsRegex = /^[1-9][0-9]*$|^$/
@@ -36,6 +36,7 @@ function Sell(props) {
         case 'blank shares': setAlert('You must enter an amount of shares!'); break
         case 'position does not exist': setAlert('You do not have a position in this stock!'); break
         case 'user needs more shares': setAlert('You need more shares!'); break
+        case 'average is null': setAlert('Error completing transaction. Try again later.'); break
         case 'successful': 
           props.parentCallback()
           setAlert('Transaction Successful!')

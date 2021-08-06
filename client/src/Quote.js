@@ -22,12 +22,17 @@ function Quote() {
       if (res.error === 'invalid symbol') {
         setAlert('Invalid symbol')
         setCurrentQuote('')
+      } else if (res.error === 'average is null') {
+        setAlert('Error fetching price, try again later')
       } else {
         setAlert('')
         setCurrentQuote('$' + res.quote.toFixed(2))
       }
     })
-    .catch(() => setCurrentQuote('error'))
+    .catch((err) => {
+      setCurrentQuote('error')
+      console.log(err)
+    })
   }
 
   return (

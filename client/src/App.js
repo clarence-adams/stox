@@ -22,7 +22,8 @@ function App() {
 
   useEffect(() => {
     if (user.cash !== undefined) {
-      setCash('$' + user.cash.toFixed(2))
+      let cash = parseFloat(user.cash.toFixed(2)).toLocaleString()
+      setCash('$' + cash)
     }
   }, [user])
 
@@ -49,29 +50,13 @@ function App() {
         {(() => {
           switch (content) {
             case 'overview': 
-              return (
-                <div>
-                  <History purchases={user.purchases} sales={user.sales}/>
-                </div>
-              )
+              return <div><History purchases={user.purchases} sales={user.sales}/></div>
             case 'quote':
-              return (
-                <div>
-                  <Quote parentCallback={updateUserData}/>
-                </div>
-              )
+              return <div><Quote parentCallback={updateUserData}/></div>
             case 'buy': 
-              return (
-                <div>
-                  <Buy parentCallback={updateUserData}/>
-                </div>
-              )
+              return <div><Buy parentCallback={updateUserData}/></div>
             case 'sell':
-              return (
-                <div>
-                  <Sell parentCallback={updateUserData}/>
-                </div>
-              )
+              return <div><Sell parentCallback={updateUserData}/></div>
             default: return null
           }
         })()}
