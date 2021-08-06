@@ -6,17 +6,17 @@ function Sell(props) {
   const [shares, setShares] = useState(0)
   const [alert, setAlert] = useState('')
 
-  const digitsRegex = /^[1-9][0-9]*$/
+  const digitsRegex = /^[1-9][0-9]*$|^$/
   const symbolChangeHandler = (event) => setSymbol(event.target.value.toUpperCase())
   const sharesChangeHandler = (event) => 
   {
     if (digitsRegex.test(event.target.value)) {
       setShares(event.target.value)
-      document.getElementById('buy-button').disabled = false
+      document.getElementById('sell-button').disabled = false
       setAlert('')
     } else {
       document.getElementById('sell-button').disabled = true
-      setAlert('Shares must be a number')
+      setAlert('Shares must be a whole number')
     }
   }
   const clickHandler = () => { 
@@ -30,17 +30,15 @@ function Sell(props) {
     fetch('/dashboard/sell', requestOptions)
     .then(res => res.json())
     .then(res => {
-      if (res.error === 'invalid symbol') {
-        setAlert('Invalid symbol')
-      } else if (res.error === '0 shares') {
-        setAlert('You need to sell at least 1 share')
-      } else if (res.error === 'position does not exist') {
-        setAlert('You do not have a position in this stock')
-      } else if (res.error === 'user needs more shares') {
-        setAlert('You need more shares')
-      } else if (res.transaction === 'successful') {
-        props.parentCallback()
-        setAlert('Sale successful!')
+      switch (res.error) {
+        case 'invalid symbol': setAlert('Invalid Symbol'); break
+        case '0 shares': setAlert('You need to sell at least 1 share!'); break
+        case 'blank shares': setAlert('You must enter an amount of shares!'); break
+        case 'position does not exist': setAlert('You do not have a position in this stock!'); break
+        case 'user needs more shares': setAlert('You need more shares!'); break
+        case 'successful': 
+          props.parentCallback()
+          setAlert('Transaction Successful!')
       }
     })
     .catch((err) => console.error('error completing sale: ' + err))
@@ -52,7 +50,7 @@ function Sell(props) {
         <label htmlFor='Symbol'>Symbol</label>
         <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
         <label htmlFor='Shares'>Shares</label>
-        <input type='number' id='shares' onChange={sharesChangeHandler} value={shares}/>
+        <input type='text' id='shares' onChange={sharesChangeHandler} value={shares}/>
       </form>
       <button className='primary-button' id='sell-button' type='button' onClick={clickHandler}>Sell</button>
       <p className='form-alert'>{alert}</p>

@@ -6,7 +6,7 @@ function Buy(props) {
   const [shares, setShares] = useState('')
   const [alert, setAlert] = useState('')
 
-  const digitsRegex = /^[1-9][0-9]*$/
+  const digitsRegex = /^[1-9][0-9]*$|^$/
   const symbolChangeHandler = (event) => setSymbol(event.target.value.toUpperCase())
   const sharesChangeHandler = (event) => 
   {
@@ -16,7 +16,7 @@ function Buy(props) {
       setAlert('')
     } else {
       document.getElementById('buy-button').disabled = true
-      setAlert('Shares must be a number')
+      setAlert('Shares must be a whole number')
     }
   }
 
@@ -31,15 +31,14 @@ function Buy(props) {
     fetch('/dashboard/buy', requestOptions)
     .then(res => res.json())
     .then(res => {
-      if (res.error === 'user needs more cash') {
-        setAlert('You need more cash!')
-      } else if (res.error === '0 shares') {
-        setAlert('You need to purcase at least 1 share')
-      } else if (res.error === 'invalid symbol') {
-        setAlert('Invalid symbol')
-      } else if (res.transaction === 'successful') {
-        props.parentCallback()
-        setAlert('Purchase successful!')
+      switch (res.error) {
+        case 'user needs more cash': setAlert('You need more cash!'); break
+        case '0 shares': setAlert('You need to purchase at least 1 share!'); break
+        case 'blank shares': setAlert('You must enter an amount of shares!'); break
+        case 'invalid symbol': setAlert('Invalid symbol'); break
+        case 'successful': 
+          props.parentCallback()
+          setAlert('Transaction Successful!')
       }
     })
     .catch((err) => console.error('error completing purchase: ' + err))
@@ -51,7 +50,7 @@ function Buy(props) {
         <label htmlFor='Symbol'>Symbol</label>
         <input type='text' id='symbol' onInput={symbolChangeHandler} value={symbol}/>
         <label htmlFor='Shares'>Shares</label>
-        <input type='number' id='shares' onInput={sharesChangeHandler} value={shares}/>
+        <input type='text' id='shares' onInput={sharesChangeHandler} value={shares}/>
       </form>
       <button className='primary-button' id='buy-button' type='button' onClick={clickHandler}>Buy</button>
       <p className='form-alert'>{alert}</p>

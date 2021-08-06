@@ -265,17 +265,20 @@ app.post('/dashboard/buy', (req, res) => {
     User.findOne({username: req.session.username}, (err, user) => {
       if (err) {
         console.error(err)
+      } else if (req.body.shares === '') {
+        res.status(401).json({error: 'blank shares'})
       } else {
         (async () => {
           const quote = await fetchQuote(req.body.symbol)
+          const shares = parseInt(req.body.shares)
 
           if (quote[0] === undefined) {
             res.json({error: 'invalid symbol'})
-          } else if (req.body.shares == 0) {
+          } else if (shares === 0) {
             res.json({error: '0 shares'})
           } else {
             const shareValue = quote[0].average
-            const orderTotal = shareValue * req.body.shares
+            const orderTotal = shareValue * shares
 
             if (user.cash < orderTotal) {
               res.json({error: 'user needs more cash'})
@@ -284,7 +287,7 @@ app.post('/dashboard/buy', (req, res) => {
               user.cash = user.cash - orderTotal
               user.purchases.push({
                 symbol: req.body.symbol, 
-                shares: req.body.shares, 
+                shares: shares, 
                 shareValue: shareValue, 
                 date: new Date()
               })
@@ -292,14 +295,14 @@ app.post('/dashboard/buy', (req, res) => {
               if (!user.positions.find((element) => isSymbol(element.symbol, req.body.symbol))) {
                 user.positions.push({
                   symbol: req.body.symbol,
-                  shares: req.body.shares,
+                  shares: shares,
                   averageShareValue: shareValue
                 })
               // if user does already have a position in the stock calculates a new average and adds shares to portfolio
               } else {
                 const position = user.positions.find((element) => isSymbol(element.symbol, req.body.symbol))
                 const positionIndex = user.positions.findIndex((element) => isSymbol(element.symbol, req.body.symbol))
-                const requestedShares = parseFloat(req.body.shares)
+                const requestedShares = shares
                 const newAverageShareValue = 
                 ((position.shares * position.averageShareValue) 
                 + (requestedShares * shareValue)) 
@@ -316,7 +319,7 @@ app.post('/dashboard/buy', (req, res) => {
                   console.error(err)
                   res.json({error: 'failed to save user changes'})
                 } else {
-                  res.json({transaction: 'successful'})
+                  res.json({error: 'successful'})
                 }
               })
             }
@@ -336,47 +339,50 @@ app.post('/dashboard/sell', (req, res) => {
     User.findOne({username: req.session.username}, (err, user) => {
       if (err) {
         console.error(err)
+      } else if (req.body.shares === '') {
+        res.status(401).json({error: 'blank shares'})
       } else {
         (async () => {
           const quote = await fetchQuote(req.body.symbol)
+          const shares = parseInt(req.body.shares)
 
           if (quote[0] === undefined) {
             res.json({error: 'invalid symbol'})
-          } else if (req.body.shares == 0) {
+          } else if (shares === 0) {
             res.json({error: '0 shares'})
           } else {
             const shareValue = quote[0].average
-            const orderTotal = shareValue * req.body.shares
+            const orderTotal = shareValue * shares
 
             const currentPosition = user.positions.find((element) => isSymbol(element.symbol, req.body.symbol))
 
             if (currentPosition === undefined) {
               res.json({error: 'position does not exist'})
-            } else if (currentPosition.shares < req.body.shares) {
+            } else if (currentPosition.shares < shares) {
               res.json({error: 'user needs more shares'})
             } else {
               // records new transaction in user sales
               user.cash = user.cash + orderTotal
               user.sales.push({
                 symbol: req.body.symbol, 
-                shares: req.body.shares, 
+                shares: shares, 
                 shareValue: shareValue, 
                 date: new Date()
               })
               const currentPositionIndex = user.positions.findIndex((element) => isSymbol(element.symbol, req.body.symbol))
               // if user is selling all of their available shares the position is removed from their portfolio
-              if (currentPosition.shares == req.body.shares) {
+              if (currentPosition.shares === shares) {
                 user.positions.splice(currentPositionIndex, 1)
               // if user is not selling all of their available shares updates the current position
               } else {
-                user.positions[currentPositionIndex].shares = currentPosition.shares - req.body.shares
+                user.positions[currentPositionIndex].shares = currentPosition.shares - shares
               }
               user.save((err) => {
                 if (err) {
                   console.error(err)
                   res.json({error: 'failed to save user changes'})
                 } else {
-                  res.json({transaction: 'successful'})
+                  res.json({error: 'successful'})
                 }
               })
             }
