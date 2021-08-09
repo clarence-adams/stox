@@ -40,6 +40,8 @@ function Sell(props) {
         case 'successful': 
           props.parentCallback()
           setAlert('Transaction Successful!')
+          break
+        default: setAlert('Something went wrong. Try again later')
       }
     })
     .catch((err) => console.error('error completing sale: ' + err))
