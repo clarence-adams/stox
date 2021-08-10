@@ -1,5 +1,3 @@
-@import 'theme.css';
-
 @media screen and (max-width: 900px) {
   #content {
     flex-direction: column !important;

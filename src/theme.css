@@ -1,36 +1,35 @@
-html, body {
+#App {
   width: 100vw;
-  height: 100vh;
-  overflow-y: hidden;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
-label {
-  text-align: center;
+.main-wrapper {
+  background: rgb(71,210,192);
+  background: linear-gradient(45deg, rgba(0,212,255,1) 0%, rgba(142,208,129,1) 100%); 
+}
+h1 {
+  font-size: 4rem;
+}
+h2 {
+  margin-top: 0;
 }
 form {
   display: flex;
   justify-content: center;
   padding: 25px;
   width: 33.33%;
-  /*border: solid green 5px;
-  background-color: #FFF;*/
-  border-radius: 1em;
+  background-color: rgb(255, 255, 255, .33);
+  border-radius: 1rem;
 }
-input {
+input, select {
   /* width minus border width and padding */
   width: calc(100% - 12px);
   padding: 5px 5px 5px 5px;
   margin: 0 0 0 0;
-  border: 1px black solid;
-  border-radius: .15rem;
-  text-align: center;
+  border: 2px #d15ccd solid;
+  border-radius: .5rem;
+  background-color: rgb(255, 255, 255, .5);
 }
-.primary-button, .anchor-button {
+button, .anchor-button {
   padding: 8px;
   border-radius: .5rem;
   font-size: 1rem;
@@ -41,19 +40,58 @@ input {
   cursor: pointer;
   text-decoration: none;
 }
-.primary-button:hover, .anchor-button:hover {
+button:hover, .anchor-button:hover {
   background-color: #b851b4;
 }
-.primary-button:active, .anchor-button:active, .secondary-button:active {
+button:active, .anchor-button:active, .secondary-button:active {
   transform:scale(.95)
 }
-.primary-button:disabled {
+button:disabled {
   background-color: red;
+}
+.secondary-button {
+  padding: 8px;
+  border-radius: .50rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d15ccd;
+  border: solid #d15ccd 2px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.secondary-button:hover {
+  background-color: rgb(0, 0, 0, .05)
+}
+.tertiary-button {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d15ccd;
+  text-decoration: underline;
+}
+.tertiary-button:hover {
+  outline: none;
+  cursor: pointer;
+}
+.navbar {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  width: calc(100vw - 16px);
+}
+.navbar-button {
+  margin: 16px 16px 0 0;
+}
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 25px;
 }
 .form-group {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   padding: 25px;
   width: 100%;
 }
@@ -70,17 +108,52 @@ input {
 .form-element-wrapper {
   display: flex;
 }
+.double-input-wrapper {
+  display: flex;
+  justify-content: space-around;
+
+}
+.double-input-wrapper > div > input, select {
+  text-align: center;
+}
 .validation-message {
   padding: 0px;
   margin: 0px;
   height: 1rem;
 }
-.form-alert {
-  height: 1rem;
-}
 .red-asterisk {
   color: red;
 }
-.show-password-wrapper {
-  display:block;
+.primary-form-actions {
+  display: flex;
+  flex-grow: 0;
+  justify-content: space-between;
+  width: 100%;
+}
+.secondary-form-actions {
+  display: flex;
+  flex-grow: 0;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  margin: 16px 0 0 0;
+}
+.show-password-checkbox {
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  margin: 0 8px 0 0;
+}
+#form-button-wrapper {
+  height: 3rem;
+}
+#form-alert {
+  height: 1.5rem;
+}
+.warning-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: red;
+  width: 100%;
+  text-align: center;
 }

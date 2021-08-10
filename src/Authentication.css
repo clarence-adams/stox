@@ -1,14 +1,8 @@
-@import url('/static/theme.css');
-
 /* Media query for most mobile device screens */
 @media screen and (max-width: 900px) {
   form {
     width: 66.66% !important;
   }
-}
-body {
-  background: rgb(71,210,192);
-  background: linear-gradient(45deg, rgba(0,212,255,1) 0%, rgba(142,208,129,1) 100%); 
 }
 header {
   display: flex;
