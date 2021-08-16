@@ -5,7 +5,12 @@ import {Link} from 'react-router-dom'
 
 function Authentication(props) {
   
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [passwordInputType, setPasswordInputType] = useState('password')
+
+  const usernameOnInput = event => setUsername(event.target.value)
+  const passwordOnInput = event => setPassword(event.target.value)
 
   const showPassword = () => {
     passwordInputType === 'password' 
@@ -13,8 +18,34 @@ function Authentication(props) {
     : setPasswordInputType('password')   
   }
 
+  const authenticateUser = () => {
+    let authenticated
+
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json; charset=utf-8'},
+      body: JSON.stringify({username: username, password: password})
+    }
+    fetch('/.netlify/functions/authenticate-user', options)
+    .then(res => res.json())
+    .then(res => {
+      res.authenticated ? authenticated = true : authenticated = false
+    })
+    .catch(err => console.error(err))
+    .finally(async () => {
+      if (authenticated) {
+        const user = await fetch('/.netlify/functions/get-user', options)
+          .then(res => res.json())
+          .then (res => res.user)
+               
+        props.setUser(user)
+        props.setAuthenticated(true)
+      }
+    })
+  }
+
   return (
-    <div id='authentication' class='main-wrapper'>
+    <div id='authentication' className='main-wrapper'>
     <header>
       <div id='welcome-message'>
         <h1>StoX</h1>
@@ -27,11 +58,11 @@ function Authentication(props) {
           <h2>Log In</h2>
           <div className='first-form-element'>
             <label htmlFor='username'>Username</label>
-            <input name='username' type='text' required={true}/>
+            <input name='username' type='text' onInput={usernameOnInput} required={true}/>
           </div>
           <div className='form-element'>
             <label htmlFor='password'>Password</label>
-            <input name='password' id='authentication-password' type={passwordInputType} required={true}/>
+            <input name='password' id='authentication-password' type={passwordInputType} onInput={passwordOnInput} required={true}/>
           </div>
           <div className='secondary-form-actions'>
             <div className='show-password-wrapper'>
@@ -42,7 +73,7 @@ function Authentication(props) {
           </div>
           <p id='form-alert'>{alert}</p>
           <div className='primary-form-actions'>
-            <button id='authentication-form-button' type='button'>Log In</button>
+            <button id='authentication-form-button' type='button' onClick={authenticateUser}>Log In</button>
             <Link to='/' className='secondary-button'>Register</Link>
           </div>
         </div>

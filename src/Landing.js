@@ -2,17 +2,83 @@ import './Landing.css'
 import {useState} from 'react'
 import {Link} from 'react-router-dom'
 
-function Landing() {
+function Landing(props) {
 
+  const [username, setUsername] = useState('')
+  const [usernameAlert, setUsernameAlert] = useState('')
   const [passwordInputType, setPasswordInputType] = useState('password')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
+  const [securityQuestion, setSecurityQuestion] = useState('What\'s your favorite color?')
+  const [securityAnswer, setSecurityAnswer] = useState('')
   const [alert, setAlert] = useState('')
   const [buttonDisabled, setButtonDisabled] = useState(false)
 
+  const usernameOnInput = (event) => setUsername(event.target.value)
   const passwordOnInput = (event) => setPassword(event.target.value)
   const passwordConfirmationOnInput = (event) => setPasswordConfirmation(event.target.value)
+  const securityQuestionOnChange = (event) => setSecurityQuestion(event.target.value)
+  const securityAnswerOnInput = (event) => setSecurityAnswer(event.target.value)
 
+  const checkUsernameAvailability = () => {
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json; charset=utf-8'},
+      body: JSON.stringify({username: username})
+    }
+
+    fetch('/.netlify/functions/check-username', options)
+    .then(res => res.json())
+    .then(res => {
+      if (!res.available) {
+        setUsernameAlert('Username is already taken')
+        if (!buttonDisabled) setButtonDisabled(true)
+      } else {
+        setUsernameAlert('Username is available!')
+        if (buttonDisabled) setButtonDisabled(false)
+      }
+    })
+    .catch((err) => {
+      setUsernameAlert('Error checking username availability')
+      setButtonDisabled(false)
+    })
+  }
+
+  const createUser = () => {
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json; charset=utf-8'},
+      body: JSON.stringify({
+        username: username, 
+        password: password, 
+        securityQuestion: securityQuestion, 
+        securityAnswer: securityAnswer})
+    }
+
+    fetch('/.netlify/functions/create-user', options)
+    .then(res => res.json())
+    .then(res => {
+      if (res.status !== 200) {
+        setAlert('Error registering. Try again later.')
+        setButtonDisabled(true)
+      }
+    })
+    .catch(err => {
+      console.error(err)
+    })
+    .finally(async () => {
+      const user = await fetch('/.netlify/functions/get-user', options)
+        .then(res => res.json())
+        .then (res => {
+          console.log(res)
+          return res.user
+        })
+      
+      props.setUser(user)
+      props.setAuthenticated(true)
+    })
+  }
+  
   const validateForm = () => {
     if (password !== passwordConfirmation) {
       setAlert('Passwords must match')
@@ -30,7 +96,7 @@ function Landing() {
   }
 
   return (
-    <div id='landing' class='main-wrapper'>
+    <div id='landing' className='main-wrapper'>
     <header>
       <div id='welcome-message'>
         <h1>StoX</h1>
@@ -45,22 +111,22 @@ function Landing() {
             <div className='form-label-wrapper'>
             <label htmlFor='username'>Username<span className='red-asterisk'> *</span></label>
             </div>
-            <input name='username' id='registration-username' className='registration-input' type='text' required={true} onInput='checkUsernameAvailability()'/>
+            <input name='username' id='registration-username' className='registration-input' type='text' value={username} onInput={usernameOnInput} onBlur={checkUsernameAvailability} required={true}/>
           </div>
-          <p id='username-alert' className='validation-message'></p>
+          <p id='username-alert' className='validation-message'>{usernameAlert}</p>
           <div className='form-element'>
             <label htmlFor='password'>Password<span className='red-asterisk'> *</span></label>
             <input name='password' id='registration-password' type={passwordInputType} value={password} onInput={passwordOnInput} required={true}/>
           </div>
           <div className='form-element'>
             <label htmlFor='password-confirmation'>Confirm Password<span className='red-asterisk'> *</span></label>
-            <input name='password-confirmation' id='registration-password-confirmation' type={passwordInputType} value={passwordConfirmation} onInput={passwordConfirmationOnInput} required={true} onBlur={validateForm}/>
+            <input name='password-confirmation' id='registration-password-confirmation' type={passwordInputType} value={passwordConfirmation} onInput={passwordConfirmationOnInput} onBlur={validateForm} required={true}/>
           </div>
           <div id='security-question-wrapper' className='form-element'>
             <div className='double-input-wrapper'>
               <div>
                 <label htmlFor='security question'>Security Question<span className='red-asterisk'> *</span></label>
-                <select name='security-question' id='security-question' required={true}>
+                <select name='security-question' id='security-question' value={securityQuestion} onChange={securityQuestionOnChange} required={true}>
                   <option value='color'>What's your favorite color?</option>
                   <option value='food'>What's your favorite food?</option>
                   <option value='animal'>What's your favorite animal?</option>
@@ -68,7 +134,7 @@ function Landing() {
               </div>
               <div>
                 <label htmlFor='security question answer'>Answer<span className='red-asterisk'> *</span></label>
-                <input name='security-question-answer' id='security-question-answer' type='text' required={true}/>
+                <input name='security-question-answer' id='security-question-answer' type='text' onInput={securityAnswerOnInput} required={true}/>
               </div>
             </div>
           </div>
@@ -80,7 +146,7 @@ function Landing() {
           </div>
           <p id='form-alert' className='validation-message'>{alert}</p>
           <div className='primary-form-actions'>
-            <button id='registration-form-button' type='button' disabled={buttonDisabled}>Start Trading!</button>
+            <button id='registration-form-button' type='button' disabled={buttonDisabled} onClick={createUser}>Start Trading!</button>
             <Link to='/authentication' className='secondary-button'>Log In</Link>
           </div>
         </div>

@@ -6,18 +6,15 @@ import Quote from './Quote.js'
 import Buy from './Buy.js'
 import Sell from './Sell.js'
 
-function Dashboard() {
+function Dashboard(props) {
   const [user, setUser] = useState({})
   const [cash, setCash] = useState()
   const [content, setContent] = useState('overview')
 
-  const updateUserData = async () => {
-    const userData = await fetchUserData()
-    setUser(userData)
-  }
-
   useEffect(() => {
-    updateUserData()
+    props.updateUserData()
+    setUser(props.user)
+  //eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -25,7 +22,10 @@ function Dashboard() {
       let cash = parseFloat(user.cash.toFixed(2)).toLocaleString()
       setCash('$' + cash)
     }
-  }, [user])
+    console.log(props.user)
+
+    setUser(props.user)
+  }, [props.user])
 
   return (
     <div id='dashboard'>
@@ -51,11 +51,11 @@ function Dashboard() {
           case 'overview': 
             return <div><History purchases={user.purchases} sales={user.sales}/></div>
           case 'quote':
-            return <div><Quote parentCallback={updateUserData}/></div>
+            return <div><Quote parentCallback={props.updateUserData}/></div>
           case 'buy': 
-            return <div><Buy parentCallback={updateUserData}/></div>
+            return <div><Buy parentCallback={props.updateUserData}/></div>
           case 'sell':
-            return <div><Sell parentCallback={updateUserData}/></div>
+            return <div><Sell parentCallback={props.updateUserData}/></div>
           default: return null
         }
       })()}
@@ -63,20 +63,6 @@ function Dashboard() {
     </div>
     </div>
   )
-}
-
-const fetchUserData = () => {
-  const requestOptions = {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'}
-  }
-
-  const userData = fetch('/user', requestOptions)
-  .then(res => res.json())
-  .then (res => res)
-  .catch(err => console.error(err))
-
-  return userData
 }
 
 // future function for fetching a stock quote so a total can be calculated before
