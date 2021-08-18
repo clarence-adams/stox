@@ -1,9 +1,23 @@
 const {createClient} = require('@astrajs/collections')
+const jwt = require('jsonwebtoken')
 
 require('dotenv').config()
 
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 const handler = async (event) => {
+  // ensure user is authenticated
+  const accessToken = event.headers.cookie.split('=')[1]
+
+  const verifiedToken = () => {
+    try {
+      let verifiedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+      return verifiedToken
+    } catch(err) {
+      return {
+        statusCode: 401
+      }
+    }
+  }
 
   // create an {astra_db} client
   const astraClient = await createClient({
@@ -16,7 +30,7 @@ const handler = async (event) => {
   // collections are created automatically
   const usersCollection = astraClient.namespace('Stox').collection('users')
 
-  const userToGet = JSON.parse(event.body).username
+  const userToGet = verifiedToken.username
 
   // find a single user
   const user = await usersCollection.findOne({username: {$eq: userToGet}})

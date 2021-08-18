@@ -7,13 +7,20 @@ import ResetPassword from './ResetPassword.js'
 import Dashboard from './Dashboard.js'
 
 function App() {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState({})
   const [authenticated, setAuthenticated] = useState(false)
 
   const updateUserData = async () => {
-    const userData = await fetchUserData(user.username)
-    setUser(userData)
+    const userData = await fetchUserData()
+
+    if (userData !== null) {
+      setUser(userData)
+    }
   }
+
+  useEffect(() => {
+    updateUserData()
+  }, [])
 
   return (
     <Router>
@@ -39,16 +46,15 @@ function App() {
   )
 }
 
-const fetchUserData = (username) => {
+const fetchUserData = () => {
   const options = {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({username: username})
+    method: 'GET',
+    headers: {'Content-Type': 'application/json'}
   }
 
   const userData = fetch('/.netlify/functions/get-user', options)
   .then(res => res.json())
-  .then (res => res)
+  .then (res => res.user)
   .catch(err => console.error(err))
 
   return userData

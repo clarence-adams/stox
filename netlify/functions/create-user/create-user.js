@@ -1,4 +1,5 @@
 const {createClient} = require('@astrajs/collections')
+const jwt = require('jsonwebtoken')
 
 require('dotenv').config()
 
@@ -36,6 +37,7 @@ const handler = async (event) => {
       sales: [],
       positions: []
     })
+      
     statusCode = 200
   } catch (err) {
     console.error('Error creating user: ' + err)

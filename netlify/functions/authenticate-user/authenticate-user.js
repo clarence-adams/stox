@@ -1,4 +1,5 @@
 const {createClient} = require('@astrajs/collections')
+const jwt = require('jsonwebtoken')
 
 require('dotenv').config()
 
@@ -22,15 +23,18 @@ const handler = async (event) => {
   // find a single user
   const user = await usersCollection.findOne({username: {$eq: username}})
 
-  if (user.password !== password || user === null) {
+  if (user === null || user.password !== password) {
     return {
       statusCode: 200,
       body: JSON.stringify({authenticated: false})
     }
   } else {
+    const accessToken = jwt.sign({username: user.username}, process.env.ACCESS_TOKEN_SECRET)
+
     return {
       statusCode: 200,
-      body: JSON.stringify({authenticated: true})
+      headers: {'Set-Cookie': ['accessToken=' + accessToken]},
+      body: JSON.stringify({authenticated: true, accessToken: accessToken})
     }
   }
 }

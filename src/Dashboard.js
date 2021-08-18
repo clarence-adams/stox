@@ -7,24 +7,16 @@ import Buy from './Buy.js'
 import Sell from './Sell.js'
 
 function Dashboard(props) {
-  const [user, setUser] = useState({})
   const [cash, setCash] = useState()
   const [content, setContent] = useState('overview')
 
   useEffect(() => {
-    props.updateUserData()
-    setUser(props.user)
-  //eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
-    if (user.cash !== undefined) {
-      let cash = parseFloat(user.cash.toFixed(2)).toLocaleString()
+    if (props.user.cash !== undefined) {
+      let cash = parseFloat(props.user.cash.toFixed(2)).toLocaleString()
       setCash('$' + cash)
+    } else {
+      setCash('$' + 0 + '.' + 0 + 0)
     }
-    console.log(props.user)
-
-    setUser(props.user)
   }, [props.user])
 
   return (
@@ -43,13 +35,13 @@ function Dashboard(props) {
         <button className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
       </div>
       <div id='dashboard'>
-        <Overview user={user} cash={cash}/>
+        <Overview user={props.user} cash={cash}/>
       </div>
       <div id='buy-sell-forms'>
       {(() => {
         switch (content) {
           case 'overview': 
-            return <div><History purchases={user.purchases} sales={user.sales}/></div>
+            return <div><History purchases={props.user.purchases} sales={props.user.sales}/></div>
           case 'quote':
             return <div><Quote parentCallback={props.updateUserData}/></div>
           case 'buy': 

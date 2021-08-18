@@ -73,9 +73,9 @@ function Landing(props) {
           console.log(res)
           return res.user
         })
-      
-      props.setUser(user)
-      props.setAuthenticated(true)
+        props.setUser(user)
+        props.setAuthenticated(true)
+        .catch(err => console.error(err))
     })
   }
   
