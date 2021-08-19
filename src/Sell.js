@@ -27,7 +27,7 @@ function Sell(props) {
       body: JSON.stringify(data)
     }
 
-    fetch('/dashboard/sell', requestOptions)
+    fetch('.netlify/functions/sell-stock', requestOptions)
     .then(res => res.json())
     .then(res => {
       switch (res.error) {

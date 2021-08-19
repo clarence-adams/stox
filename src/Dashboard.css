@@ -1,90 +1,158 @@
-/*html {
-  width: 100vw;
-  height: 100vh;
-  overflow-y: hidden;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
-label {
-  text-align: center;
+@import 'theme.css';
+
+@media screen and (max-width: 900px) {
+  #content {
+    flex-direction: column !important;
+  }
+  #dashboard {
+    flex-direction: row;
+    width: calc(100vw - 16px) !important;
+    height: auto !important;
+    min-height: 0px !important;
+    padding: 15px 0 15px 10px !important;
+  }
+  #navbar {
+    flex-direction: row !important;
+    justify-content: center !important;
+    min-height: 0px !important;
+    width: 100vw;
+  }
+  #buy-sell-forms {
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 0 32px 0!important;
+    height: 100% !important;
+  }
+  #buy-sell-forms>div {
+    width: 100% !important;
+  }
+  .form-wrapper {
+    width: 66% !important;
+  }
 }
-/*
+header {
+  display: flex;
+  margin: 0;
+  width: 100vw;
+  height: 4rem; 
+  background: rgb(0,212,255);
+  background: linear-gradient(45deg, rgba(142,208,129,1) 0%, rgba(0,212,255,1) 100%);
+}
+h1 {
+  display: flex;
+  align-items: center;
+  margin: 0 0 0 16px;
+  padding: 0;
+  z-index: 1;
+}
 form {
   display: flex;
-  justify-content: center;
-  padding: 25px;
-  width: 33.33%;
-  border: solid green 5px;
-  background-color: #FFF;
-  border-radius: 1em;
+  flex-direction: column;
 }
-
-input {
+input, select {
   /* width minus border width and padding */
-  /*
   width: calc(100% - 12px);
   padding: 5px 5px 5px 5px;
   margin: 0 0 0 0;
-  border: 1px black solid;
-  border-radius: .15rem;
+  border: 2px #d15ccd solid;
+  border-radius: .5rem;
+  background-color: rgb(255, 255, 255, .5);
+}
+#header-navbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100vw;
+  height: 4rem;
+  margin: 0;
+  z-index: 0;
+}
+.header-navbar-button {
+  margin: 0 16px 0 0;
+}
+#content {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+  max-height: calc(100vh - 4rem);
+  overflow-y: hidden;
+  background: linear-gradient(45deg, #f0f8ff 0%, #fff 100%);
+}
+
+/* dashboard */
+
+#overview {
+  padding: 16px 16px 0 16px;
   text-align: center;
 }
-*/
-.primary-button, .anchor-button {
-  padding: 8px;
-  border-radius: .5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  background-color: #d15ccd;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
+#overview>div {
+  margin: auto;
 }
-.primary-button:hover, .anchor-button:hover {
-  background-color: #b851b4;
+#welcome-text {
+  margin: 0;
+  text-decoration: underline;
 }
-.primary-button:active, .anchor-button:active, .secondary-button:active {
-  transform:scale(.95)
+#cash {
+  color: green;
+  margin-top: 0;
 }
-.primary-button:disabled {
-  background-color: red;
-}
-.form-group {
+#navbar {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 25px;
-  width: 100%;
+  justify-content: flex-start;
+  min-height: calc(100vh - 4rem);
+  background-color: rgb(0, 0, 0, .1);
 }
-.first-form-element, .form-element {
-  width: 100%;
+.navbar-button {
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d15ccd;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
   text-align: left;
 }
-.form-element {
-  padding: 1rem 0 0 0;
+.navbar-button:hover {
+  background-color: rgb(0, 0, 0, .15)
 }
-.first-form-element {
-  padding: 0;
+#dashboard {
+  height: calc(100vh - 4rem);
+  background-color: rgb(0, 0, 0, .05);
 }
-.form-element-wrapper {
+
+/* components */
+
+.form-wrapper {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+  height: 33%;
+  padding: 0 0 16px 0;
+  margin: auto;
+  margin-top: 64px;
+  border-top: solid rgb(71,210,192) 16px;
+  background-color: rgb(0, 0, 0, .0250);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
 }
-.validation-message {
-  padding: 0px;
-  margin: 0px;
-  height: 1rem;
+#buy-sell-forms {
+  width: 100%;
+  height: calc(100vh - 4rem);
+  overflow-y: auto;
 }
-.form-alert {
-  height: 1rem;
+#positions-table {
+  text-align: center;
 }
-.red-asterisk {
-  color: red;
+#positions-table>table {
+  margin: auto;
 }
-.show-password-wrapper {
-  display:block;
+#history-tables {
+  text-align: center;
+}
+#history-tables>table {
+  margin: auto;
 }

@@ -16,7 +16,7 @@ function Quote() {
   }
 
   const clickHandler = () => {
-    fetch('/dashboard/quote', requestOptions)
+    fetch('.netlify/functions/get-quote', requestOptions)
     .then(res => res.json())
     .then(res => {
       if (res.error === 'invalid symbol') {

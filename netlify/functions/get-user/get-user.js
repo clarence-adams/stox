@@ -5,18 +5,14 @@ require('dotenv').config()
 
 // Docs on event and context https://www.netlify.com/docs/functions/#the-handler-method
 const handler = async (event) => {
-  // ensure user is authenticated
-  const accessToken = event.headers.cookie.split('=')[1]
+  let verifiedToken
 
-  const verifiedToken = () => {
-    try {
-      let verifiedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
-      return verifiedToken
-    } catch(err) {
-      return {
-        statusCode: 401
-      }
-    }
+  // ensure user is authenticated
+  try {
+    const accessToken = event.headers.cookie.split('=')[1]
+    verifiedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+  } catch(err) {
+    return {statusCode: 401}
   }
 
   // create an {astra_db} client

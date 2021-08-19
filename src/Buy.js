@@ -28,9 +28,10 @@ function Buy(props) {
       body: JSON.stringify(data)
     }
 
-    fetch('/dashboard/buy', requestOptions)
+    fetch('.netlify/functions/buy-stock', requestOptions)
     .then(res => res.json())
     .then(res => {
+      console.log(res)
       switch (res.error) {
         case 'user needs more cash': setAlert('You need more cash!'); break
         case '0 shares': setAlert('You need to purchase at least 1 share!'); break

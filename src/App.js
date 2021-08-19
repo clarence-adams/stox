@@ -57,6 +57,7 @@ const fetchUserData = () => {
   .then (res => res.user)
   .catch(err => console.error(err))
 
+  console.log(userData)
   return userData
 }
 
