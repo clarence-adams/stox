@@ -1,7 +1,7 @@
 @import 'theme.css';
 
 @media screen and (max-width: 900px) {
-  #content {
+  #dasboard-content {
     flex-direction: column !important;
   }
   #dashboard {
@@ -30,7 +30,7 @@
     width: 66% !important;
   }
 }
-header {
+#dashboard-header {
   display: flex;
   margin: 0;
   width: 100vw;
@@ -38,25 +38,17 @@ header {
   background: rgb(0,212,255);
   background: linear-gradient(45deg, rgba(142,208,129,1) 0%, rgba(0,212,255,1) 100%);
 }
-h1 {
+#dashboard-h1 {
+  font-size: 3rem;
   display: flex;
   align-items: center;
   margin: 0 0 0 16px;
   padding: 0;
   z-index: 1;
 }
-form {
+.component-form {
   display: flex;
   flex-direction: column;
-}
-input, select {
-  /* width minus border width and padding */
-  width: calc(100% - 12px);
-  padding: 5px 5px 5px 5px;
-  margin: 0 0 0 0;
-  border: 2px #d15ccd solid;
-  border-radius: .5rem;
-  background-color: rgb(255, 255, 255, .5);
 }
 #header-navbar {
   display: flex;
@@ -70,7 +62,7 @@ input, select {
 .header-navbar-button {
   margin: 0 16px 0 0;
 }
-#content {
+#dashboard-content {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -89,7 +81,7 @@ input, select {
 #overview>div {
   margin: auto;
 }
-#welcome-text {
+#overview-welcome-text {
   margin: 0;
   text-decoration: underline;
 }
@@ -124,7 +116,7 @@ input, select {
 
 /* components */
 
-.form-wrapper {
+.dashboard-form-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;

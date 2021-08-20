@@ -4,15 +4,10 @@
     width: 66.66% !important;
   }
 }
-header {
+#landing-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-#navbar {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
 }
 #welcome-message {
   display: flex;

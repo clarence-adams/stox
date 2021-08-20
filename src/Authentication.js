@@ -46,7 +46,7 @@ function Authentication(props) {
 
   return (
     <div id='authentication' className='main-wrapper'>
-    <header>
+    <header id='authentication-header'>
       <div id='welcome-message'>
         <h1>StoX</h1>
         <p>Trade fake stocks with fake money. It's fun!</p>

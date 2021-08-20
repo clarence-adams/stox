@@ -48,8 +48,8 @@ function Sell(props) {
   }
 
   return (
-    <div className='form-wrapper'>
-      <form>
+    <div className='dashboard-form-wrapper'>
+      <form className='component-form'>
         <label htmlFor='Symbol'>Symbol</label>
         <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
         <label htmlFor='Shares'>Shares</label>

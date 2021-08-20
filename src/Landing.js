@@ -97,7 +97,7 @@ function Landing(props) {
 
   return (
     <div id='landing' className='main-wrapper'>
-    <header>
+    <header id='landing-header'>
       <div id='welcome-message'>
         <h1>StoX</h1>
         <p>Trade fake stocks with fake money. It's fun!</p>

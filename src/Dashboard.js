@@ -21,13 +21,13 @@ function Dashboard(props) {
 
   return (
     <div id='dashboard'>
-    <header>
-      <h1>StoX</h1>
+    <header id='dashboard-header'>
+      <h1 id='dashboard-h1'>StoX</h1>
       <div id='header-navbar'>
         <a id='logout-button' className='anchor-button header-navbar-button'href='/dashboard/logout'>Logout</a>
       </div>
     </header>
-    <div id='content'>
+    <div id='dashboard-content'>
       <div id='navbar'>
         <button className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
         <button className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
