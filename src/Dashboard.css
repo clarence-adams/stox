@@ -148,3 +148,6 @@
 #history-tables>table {
   margin: auto;
 }
+.component-label, .component-input {
+  text-align: center;
+}

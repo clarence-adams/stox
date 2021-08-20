@@ -1,5 +1,4 @@
 const {createClient} = require('@astrajs/collections')
-const jwt = require('jsonwebtoken')
 const {sha256} = require('crypto-hash')
 
 require('dotenv').config()
@@ -19,28 +18,30 @@ const handler = async (event) => {
   const usersCollection = astraClient.namespace('Stox').collection('users')
 
   const username = JSON.parse(event.body).username
-  const password = await sha256(JSON.parse(event.body).password)
+  const password = sha256(JSON.parse(event.body).password)
+  const securityQuestionAnswer = JSON.parse(event.body).securityQuestionAnswer
 
   // find a single user
   const user = await usersCollection.findOne({username: {$eq: username}})
 
-  if (user === null) { 
+  if (user === null || user.resetPassword.answer.toLowerCase() !== securityQuestionAnswer) {
     return {
       statusCode: 200,
-      body: JSON.stringify({error: 'username does not exist'})
-    }
-  } else if (user.password !== password) {
-    return {
-      statusCode: 200,
-      body: JSON.stringify({error: 'incorrect password'})
+      body: JSON.stringify({error: 'user not found / incorrect answer'})
     }
   } else {
-    const accessToken = jwt.sign({username: user.username}, process.env.ACCESS_TOKEN_SECRET)
+    try {
+      await usersCollection.update(username, {password: password})
+    } catch {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({error: 'error resetting password'})
+      }
+    }
 
     return {
       statusCode: 200,
-      headers: {'Set-Cookie': ['accessToken=' + accessToken]},
-      body: JSON.stringify({authenticated: true})
+      body: JSON.stringify({success: 'password reset'})
     }
   }
 }

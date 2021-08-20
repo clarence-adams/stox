@@ -7,16 +7,33 @@ import ResetPassword from './ResetPassword.js'
 import Dashboard from './Dashboard.js'
 
 function App() {
-  const [user, setUser] = useState({})
+
   const [authenticated, setAuthenticated] = useState(false)
+  const [user, setUser] = useState({})
 
   const updateUserData = async () => {
-    const userData = await fetchUserData()
+    const options = {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'}
+    }
+
+    const userData = await fetch('/.netlify/functions/get-user', options)
+    .then(res => res.json())
+    .then (res => res.user)
+    .catch(err => console.error(err))
 
     if (userData !== null) {
       setUser(userData)
     }
   }
+
+  useEffect(() => {
+    const authenticatedCookie = JSON.parse(document.cookie.split('=')[1])
+    if (authenticatedCookie !== authenticated) {
+      setAuthenticated(authenticatedCookie)
+    }
+    // eslint-disable-next-line
+  })
 
   useEffect(() => {
     updateUserData()
@@ -27,38 +44,31 @@ function App() {
     <Switch>
     <div id='App'>
       <Route path='/' exact>
-        {authenticated 
-        ? <Redirect to='/dashboard'/> 
-        : <Landing setAuthenticated={setAuthenticated} setUser={setUser}/>}
+        {
+          (authenticated === true)
+          ? <Redirect from='/' to='/dashboard'/> 
+          : <Landing setUser={setUser}/>
+        }
       </Route>
       <Route path='/authentication'>
-        {authenticated
-        ? <Redirect to='/dashboard'/>
-        : <Authentication setAuthenticated={setAuthenticated} setUser={setUser}/>}
+        {
+          (authenticated === true)
+          ? <Redirect from='/authentication' to='/dashboard'/>
+          : <Authentication setUser={setUser}/>
+        }
       </Route>
       <Route path='/reset-password' component={ResetPassword}/>
       <Route path='/dashboard'>
-        <Dashboard authenticated={authenticated} user={user} setUser={setUser} updateUserData={updateUserData}/>
+        {
+          (authenticated === false)
+          ? <Redirect from='/dashboard' to='/authentication'/>
+          : <Dashboard user={user} setUser={setUser} updateUserData={updateUserData}/>
+        }
       </Route>
     </div>
     </Switch>
     </Router>
   )
-}
-
-const fetchUserData = () => {
-  const options = {
-    method: 'GET',
-    headers: {'Content-Type': 'application/json'}
-  }
-
-  const userData = fetch('/.netlify/functions/get-user', options)
-  .then(res => res.json())
-  .then (res => res.user)
-  .catch(err => console.error(err))
-
-  console.log(userData)
-  return userData
 }
 
 export default App

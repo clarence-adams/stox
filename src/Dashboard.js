@@ -7,6 +7,7 @@ import Buy from './Buy.js'
 import Sell from './Sell.js'
 
 function Dashboard(props) {
+  
   const [cash, setCash] = useState()
   const [content, setContent] = useState('overview')
 
@@ -19,12 +20,23 @@ function Dashboard(props) {
     }
   }, [props.user])
 
+  const logout = () => {
+    const options = {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json; charset=utf-8'}
+    }
+    fetch('/.netlify/functions/logout', options)
+    .then(() => document.cookie = 'authenticated=false')
+    .catch(err => console.error(err))
+    .finally(() => props.setUser({}))
+  }
+
   return (
     <div id='dashboard'>
     <header id='dashboard-header'>
       <h1 id='dashboard-h1'>StoX</h1>
       <div id='header-navbar'>
-        <a id='logout-button' className='anchor-button header-navbar-button'href='/dashboard/logout'>Logout</a>
+        <button id='logout-button' className='anchor-button header-navbar-button' type='button' onClick={logout}>Logout</button>
       </div>
     </header>
     <div id='dashboard-content'>

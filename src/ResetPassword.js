@@ -6,6 +6,7 @@ function ResetPassword() {
 
   const [username, setUsername] = useState('')
   const [securityQuestion, setSecurityQuestion] = useState('')
+  const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState('')
   const [passwordInputType, setPasswordInputType] = useState('password')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
@@ -13,15 +14,51 @@ function ResetPassword() {
   const [buttonDisabled, setButtonDisabled] = useState(false)
 
   const usernameOnInput = (event) => setUsername(event.target.value)
+  const securityQuestionAnswerOnInput = (event) => setSecurityQuestionAnswer(event.target.value)
   const passwordOnInput = (event) => setPassword(event.target.value)
   const passwordConfirmationOnInput = (event) => setPasswordConfirmation(event.target.value)
 
+  // fetches users security question from database and displays it
   const getSecurityQuestion = () => {
-    console.log(username)
-    setSecurityQuestion('hello')
-    // TODO
-    // This function will get the username entered onBlur and
-    // will fetch the users security question from the database
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json; charset=utf-8'},
+      body: JSON.stringify({username: username})
+    }
+    fetch('.netlify/functions/get-security-question', options)
+    .then(res => res.json())
+    .then(res => {
+      if (res.securityQuestion !== null) {
+        setSecurityQuestion(res.securityQuestion)
+      } else {
+        setSecurityQuestion('Could not fetch security question')
+      }
+    })
+    .catch(err => {
+      console.error(err)
+      setSecurityQuestion('Could not fetch security question')
+    })
+  }
+
+  // ensures users security question answer is correct and then updates password
+  const resetPassword = () => {
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json; charset=utf-8'},
+      body: JSON.stringify({username: username, password: password, securityQuestionAnswer: securityQuestionAnswer})
+    }
+    fetch('.netlify/functions/reset-password', options)
+    .then(res => res.json())
+    .then(res => {
+      if (res.success === 'password reset') {
+        setAlert('password successfully reset!')
+        setButtonDisabled(true)
+      } else {
+        setAlert('error resetting password')
+        setButtonDisabled(true)
+      }
+    })
+    .catch(err => console.error(err))
   }
 
   const validateForm = () => {
@@ -61,7 +98,7 @@ function ResetPassword() {
           </div>
           <div className='form-element'>
             <label for='security-question-answer'>Answer<span className='red-asterisk'> *</span></label>
-            <input name='security-question-answer' type='text' required={true}/>
+            <input name='security-question-answer' type='text' value={securityQuestionAnswer} onInput={securityQuestionAnswerOnInput} required={true}/>
           </div>
           <div className='form-element'>
             <label for='password'>New Password<span className='red-asterisk'> *</span></label>
@@ -79,7 +116,7 @@ function ResetPassword() {
           </div>
           <p id='form-alert'>{alert}</p>
           <div className='primary-form-actions'>
-            <button id='reset-password-form-button' disabled={buttonDisabled} type='button'>Reset Password</button>
+            <button id='reset-password-form-button' disabled={buttonDisabled} type='button' onClick={resetPassword}>Reset Password</button>
             <Link to='/authentication' className='secondary-button'>Log In</Link>
           </div>
         </div>

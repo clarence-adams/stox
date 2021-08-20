@@ -51,10 +51,10 @@ function Buy(props) {
   return (
     <div className='dashboard-form-wrapper'>
       <form className='component-form'>
-        <label htmlFor='Symbol'>Symbol</label>
-        <input type='text' id='symbol' onInput={symbolChangeHandler} value={symbol}/>
-        <label htmlFor='Shares'>Shares</label>
-        <input type='text' id='shares' onInput={sharesChangeHandler} value={shares}/>
+        <label htmlFor='Symbol' className='component-label'>Symbol</label>
+        <input className='component-input' type='text' id='symbol' onInput={symbolChangeHandler} value={symbol}/>
+        <label htmlFor='Shares' className='component-label'>Shares</label>
+        <input className='component-input' type='text' id='shares' onInput={sharesChangeHandler} value={shares}/>
       </form>
       <button className='primary-button' id='buy-button' type='button' onClick={clickHandler}>Buy</button>
       <p className='form-alert'>{alert}</p>

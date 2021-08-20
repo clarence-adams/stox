@@ -10,7 +10,8 @@ const handler = async (event) => {
 
   // ensure user is authenticated
   try {
-    const accessToken = event.headers.cookie.split('=')[1]
+    let accessToken = event.headers.cookie.split('=')[1]
+    accessToken = accessToken.split(';')[0]
     verifiedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
   } catch(err) {
     return {statusCode: 401}

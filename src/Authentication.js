@@ -8,6 +8,7 @@ function Authentication(props) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [passwordInputType, setPasswordInputType] = useState('password')
+  const [alert, setAlert] = useState('')
 
   const usernameOnInput = event => setUsername(event.target.value)
   const passwordOnInput = event => setPassword(event.target.value)
@@ -19,7 +20,7 @@ function Authentication(props) {
   }
 
   const authenticateUser = () => {
-    let authenticated
+    let authenticated = false
 
     const options = {
       method: 'POST',
@@ -28,18 +29,25 @@ function Authentication(props) {
     }
     fetch('/.netlify/functions/authenticate-user', options)
     .then(res => res.json())
-    .then(res => {
-      res.authenticated ? authenticated = true : authenticated = false
+    .then(res => { 
+      if (res.authenticated) {
+        authenticated = true
+      } else if (res.error === 'username does not exist') {
+        setAlert('username does not exist')
+      } else if (res.error === 'incorrect password') {
+        setAlert('incorrect password')
+      }
     })
     .catch(err => console.error(err))
     .finally(async () => {
       if (authenticated) {
         const user = await fetch('/.netlify/functions/get-user', options)
-          .then(res => res.json())
-          .then (res => res.user)
-               
+        .then(res => res.json())
+        .then (res => {
+          return res.user
+        }) 
         props.setUser(user)
-        props.setAuthenticated(true)
+        document.cookie = 'authenticated=true'
       }
     })
   }

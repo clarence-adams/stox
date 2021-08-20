@@ -1,5 +1,6 @@
 const {createClient} = require('@astrajs/collections')
 const jwt = require('jsonwebtoken')
+const {sha256} = require('crypto-hash')
 
 require('dotenv').config()
 
@@ -19,7 +20,7 @@ const handler = async (event) => {
   const usersCollection = astraClient.namespace('Stox').collection('users')
 
   const username = JSON.parse(event.body).username
-  const password = JSON.parse(event.body).password
+  const password = await sha256(JSON.parse(event.body).password)
   const securityQuestion = JSON.parse(event.body).securityQuestion
   const securityAnswer = JSON.parse(event.body).securityAnswer
 
@@ -43,9 +44,12 @@ const handler = async (event) => {
     console.error('Error creating user: ' + err)
     statusCode = 500
   }
+  
+  const accessToken = jwt.sign({username: username}, process.env.ACCESS_TOKEN_SECRET)
 
   return {
-    statusCode: statusCode
+    statusCode: statusCode,
+    headers: {'Set-Cookie': ['accessToken=' + accessToken]}
   }
 }
 

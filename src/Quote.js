@@ -38,8 +38,8 @@ function Quote() {
   return (
     <div className='dashboard-form-wrapper'>
       <form className='component-form'>
-        <label htmlFor='quote'>Symbol</label>
-        <input type='text' id='symbol' onChange={changeHandler} value={symbol}/>
+        <label htmlFor='quote' className='component-label'>Symbol</label>
+        <input className='component-input' type='text' id='symbol' onChange={changeHandler} value={symbol}/>
       </form>
       <p id='quote'>{currentQuote}</p>
       <button className='primary-button' type='submit' onClick={clickHandler}>Get Quote</button>

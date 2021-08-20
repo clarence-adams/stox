@@ -50,10 +50,10 @@ function Sell(props) {
   return (
     <div className='dashboard-form-wrapper'>
       <form className='component-form'>
-        <label htmlFor='Symbol'>Symbol</label>
-        <input type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
-        <label htmlFor='Shares'>Shares</label>
-        <input type='text' id='shares' onChange={sharesChangeHandler} value={shares}/>
+        <label htmlFor='Symbol' className='component-label'>Symbol</label>
+        <input className='component-input' type='text' id='symbol' onChange={symbolChangeHandler} value={symbol}/>
+        <label htmlFor='Shares' className='component-label'>Shares</label>
+        <input className='component-input' type='text' id='shares' onChange={sharesChangeHandler} value={shares}/>
       </form>
       <button className='primary-button' id='sell-button' type='button' onClick={clickHandler}>Sell</button>
       <p className='form-alert'>{alert}</p>

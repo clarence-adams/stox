@@ -38,7 +38,7 @@ function Landing(props) {
         if (buttonDisabled) setButtonDisabled(false)
       }
     })
-    .catch((err) => {
+    .catch(() => {
       setUsernameAlert('Error checking username availability')
       setButtonDisabled(false)
     })
@@ -70,12 +70,11 @@ function Landing(props) {
       const user = await fetch('/.netlify/functions/get-user', options)
         .then(res => res.json())
         .then (res => {
-          console.log(res)
           return res.user
         })
-        props.setUser(user)
-        props.setAuthenticated(true)
         .catch(err => console.error(err))
+        props.setUser(user)
+        document.cookie = 'authenticated=true'
     })
   }
   
