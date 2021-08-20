@@ -27,12 +27,12 @@ function App() {
     }
   }
 
+  // eslint-disable-next-line
   useEffect(() => {
     const authenticatedCookie = JSON.parse(document.cookie.split('=')[1])
     if (authenticatedCookie !== authenticated) {
       setAuthenticated(authenticatedCookie)
     }
-    // eslint-disable-next-line
   })
 
   useEffect(() => {

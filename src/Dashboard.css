@@ -1,20 +1,13 @@
 @import 'theme.css';
 
 @media screen and (max-width: 900px) {
-  #dasboard-content {
+  #dashboard-content {
     flex-direction: column !important;
-  }
-  #dashboard {
-    flex-direction: row;
-    width: calc(100vw - 16px) !important;
-    height: auto !important;
-    min-height: 0px !important;
-    padding: 15px 0 15px 10px !important;
   }
   #navbar {
     flex-direction: row !important;
     justify-content: center !important;
-    min-height: 0px !important;
+    min-height: inherit !important;
     width: 100vw;
   }
   #buy-sell-forms {
