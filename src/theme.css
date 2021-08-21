@@ -1,3 +1,8 @@
+@media screen and (max-width: 900px) {
+  .form-wrapper {
+    width: 100% !important;
+  }
+}
 #App {
   width: 100vw;
   min-height: 100vh;
@@ -81,6 +86,11 @@ button:disabled {
 }
 .navbar-button {
   margin: 16px 16px 0 0;
+}
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .form-wrapper {
   display: flex;
