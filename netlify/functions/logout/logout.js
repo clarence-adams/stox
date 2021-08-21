@@ -2,7 +2,7 @@
 const handler = async (event) => {
   return {
     statusCode: 200,
-    headers: {'set-cookie': ['accessToken=null']},
+    headers: {'set-cookie': 'accessToken=null'},
     body: JSON.stringify({authenticated: false})
   }
 }

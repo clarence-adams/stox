@@ -49,7 +49,7 @@ const handler = async (event) => {
 
   return {
     statusCode: statusCode,
-    headers: {'Set-Cookie': ['accessToken=' + accessToken]}
+    headers: {'Set-Cookie': 'accessToken=' + accessToken}
   }
 }
 
