@@ -29,15 +29,14 @@ function App() {
 
   // eslint-disable-next-line
   useEffect(() => {
-    const authenticatedCookie = JSON.parse(document.cookie.split('=')[1])
+    let authenticatedCookie
+    try { 
+      authenticatedCookie = JSON.parse(document.cookie.split('=')[1])
+    } catch {}
     if (authenticatedCookie !== authenticated) {
       setAuthenticated(authenticatedCookie)
     }
   })
-
-  useEffect(() => {
-    updateUserData()
-  }, [])
 
   return (
     <Router>
