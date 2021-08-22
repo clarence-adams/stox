@@ -11,13 +11,14 @@ function Dashboard(props) {
   
   const [cash, setCash] = useState()
   const [content, setContent] = useState('overview')
-  const [windowWidth, setWindowWidth] = useState()
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
   useEffect(() => {
     props.updateUserData()
     window.addEventListener('resize', () => {
-      setWindowWidth(window.screen.availWidth)
+      setWindowWidth(window.innerWidth)
     })
+
   // eslint-disable-next-line
   }, [])
 
