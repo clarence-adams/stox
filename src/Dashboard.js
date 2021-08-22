@@ -1,5 +1,6 @@
 import './Dashboard.css'
 import {useState, useEffect} from 'react'
+import {slide as Menu} from 'react-burger-menu'
 import Overview from './Overview.js'
 import History from './History.js'
 import Quote from './Quote.js'
@@ -10,6 +11,15 @@ function Dashboard(props) {
   
   const [cash, setCash] = useState()
   const [content, setContent] = useState('overview')
+  const [windowWidth, setWindowWidth] = useState()
+
+  useEffect(() => {
+    props.updateUserData()
+    window.addEventListener('resize', () => {
+      setWindowWidth(window.screen.availWidth)
+    })
+  // eslint-disable-next-line
+  }, [])
 
   useEffect(() => {
     if (props.user.cash !== undefined) {
@@ -31,8 +41,53 @@ function Dashboard(props) {
     .finally(() => props.setUser({}))
   }
 
+  const MobileNavbar = () => {
+    if (windowWidth <= 900) {
+      return (
+        <>
+          <Menu>
+            <div id='menu'>
+              <div id='dashboard'>
+                <Overview user={props.user} cash={cash}/>
+              </div>
+              <div id='navbar'>
+                <button className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
+                <button className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
+                <button className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
+                <button className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
+              </div>
+            </div>
+          </Menu>
+        </>
+      )
+    } else {
+      return <></>
+    }
+  }
+
+  const Navbar = () => {
+    if (windowWidth >= 900) {
+      return (
+        <>
+          <div id='dashboard'>
+            <Overview user={props.user} cash={cash}/>
+          </div>
+          <div id='navbar'>
+            <button className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
+            <button className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
+            <button className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
+            <button className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
+          </div>
+        </>
+      )
+    } else {
+      return <></>
+    }
+  }
+
   return (
     <div id='dashboard'>
+      <MobileNavbar id='menu'/>
     <header id='dashboard-header'>
       <h1 id='dashboard-h1'>StoX</h1>
       <div id='header-navbar'>
@@ -40,29 +95,21 @@ function Dashboard(props) {
       </div>
     </header>
     <div id='dashboard-content'>
-      <div id='navbar'>
-        <button className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
-        <button className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
-        <button className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
-        <button className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
-      </div>
-      <div id='dashboard'>
-        <Overview user={props.user} cash={cash}/>
-      </div>
+      <Navbar/>
       <div id='buy-sell-forms'>
-      {(() => {
-        switch (content) {
-          case 'overview': 
-            return <div><History purchases={props.user.purchases} sales={props.user.sales}/></div>
-          case 'quote':
-            return <div><Quote parentCallback={props.updateUserData}/></div>
-          case 'buy': 
-            return <div><Buy parentCallback={props.updateUserData}/></div>
-          case 'sell':
-            return <div><Sell parentCallback={props.updateUserData}/></div>
-          default: return null
-        }
-      })()}
+        {(() => {
+          switch (content) {
+            case 'overview': 
+              return <div><History purchases={props.user.purchases} sales={props.user.sales}/></div>
+            case 'quote':
+              return <div><Quote parentCallback={props.updateUserData}/></div>
+            case 'buy': 
+              return <div><Buy parentCallback={props.updateUserData}/></div>
+            case 'sell':
+              return <div><Sell parentCallback={props.updateUserData}/></div>
+            default: return null
+          }
+        })()}
       </div>
     </div>
     </div>
