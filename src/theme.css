@@ -1,23 +1,128 @@
+/*
+
+  variables
+
+*/
+
+body {
+  --turqoise: #47d2c0;
+  --purple: #935CD1;
+  --purple-shaded: #664091;
+}
+
+/*
+
+  media queries
+
+*/
+
 @media screen and (max-width: 900px) {
   .form-wrapper {
     width: 100% !important;
   }
 }
+
 #App {
+  background-color: var(--turqoise);
   width: 100vw;
   min-height: 100vh;
   height: 100%;
 }
-html, body {
-  background: rgb(71,210,192);
-  background: linear-gradient(45deg, rgba(0,212,255,1) 0%, rgba(142,208,129,1) 100%);
+
+/*
+
+  general
+
+*/
+
+body {
 }
+
 h1 {
   font-size: 4rem;
 }
+
 h2 {
   margin-top: 0;
 }
+
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.warning-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: red;
+  width: 100%;
+  text-align: center;
+}
+
+/*
+
+  buttons
+
+*/
+
+button, .anchor-button {
+  padding: 8px;
+  border-radius: .5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--purple);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button:hover, .anchor-button:hover {
+  background-color: var(--purple-shaded);
+}
+
+button:active, .anchor-button:active, .secondary-button:active {
+  transform:scale(.95)
+}
+
+button:disabled {
+  background-color: red;
+}
+
+.secondary-button {
+  padding: 8px;
+  border-radius: .50rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--purple);
+  border: solid var(--purple) 2px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.secondary-button:hover {
+  background-color: rgb(0, 0, 0, .05)
+}
+
+.tertiary-button {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--purple);
+  text-decoration: underline;
+}
+
+.tertiary-button:hover {
+  outline: none;
+  cursor: pointer;
+}
+
+/*
+
+  forms
+
+*/
+
 form {
   display: flex;
   justify-content: center;
@@ -26,72 +131,17 @@ form {
   background-color: rgb(255, 255, 255, .33);
   border-radius: 1rem;
 }
+
 input, select {
   /* width minus border width and padding */
   width: calc(100% - 12px);
   padding: 5px 5px 5px 5px;
   margin: 0 0 0 0;
-  border: 2px #d15ccd solid;
+  border: 2px var(--purple) solid;
   border-radius: .5rem;
   background-color: rgb(255, 255, 255, .5);
 }
-button, .anchor-button {
-  padding: 8px;
-  border-radius: .5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  background-color: #d15ccd;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-}
-button:hover, .anchor-button:hover {
-  background-color: #b851b4;
-}
-button:active, .anchor-button:active, .secondary-button:active {
-  transform:scale(.95)
-}
-button:disabled {
-  background-color: red;
-}
-.secondary-button {
-  padding: 8px;
-  border-radius: .50rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #d15ccd;
-  border: solid #d15ccd 2px;
-  cursor: pointer;
-  text-decoration: none;
-}
-.secondary-button:hover {
-  background-color: rgb(0, 0, 0, .05)
-}
-.tertiary-button {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #d15ccd;
-  text-decoration: underline;
-}
-.tertiary-button:hover {
-  outline: none;
-  cursor: pointer;
-}
-.navbar {
-  position: absolute;
-  display: flex;
-  justify-content: flex-end;
-  width: calc(100vw - 16px);
-}
-.navbar-button {
-  margin: 16px 16px 0 0;
-}
-.main-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 .form-wrapper {
   display: flex;
   flex-direction: column;
@@ -100,47 +150,58 @@ button:disabled {
   width: 100%;
   margin-bottom: 25px;
 }
+
 .form-group {
   display: flex;
   flex-direction: column;
   padding: 25px;
   width: 100%;
 }
+
 .first-form-element, .form-element {
   width: 100%;
   text-align: left;
 }
+
 .form-element {
   padding: 1rem 0 0 0;
 }
+
 .first-form-element {
   padding: 0;
 }
+
 .form-element-wrapper {
   display: flex;
 }
+
 .double-input-wrapper {
   display: flex;
   justify-content: space-around;
 
 }
+
 .double-input-wrapper > div > input, select {
   text-align: center;
 }
+
 .validation-message {
   padding: 0px;
   margin: 0px;
   height: 1rem;
 }
+
 .red-asterisk {
   color: red;
 }
+
 .primary-form-actions {
   display: flex;
   flex-grow: 0;
   justify-content: space-between;
   width: 100%;
 }
+
 .secondary-form-actions {
   display: flex;
   flex-grow: 0;
@@ -149,22 +210,35 @@ button:disabled {
   width: 100%;
   margin: 16px 0 0 0;
 }
+
 .show-password-checkbox {
   width: 1rem;
   height: 1rem;
   padding: 0;
   margin: 0 8px 0 0;
 }
+
 #form-button-wrapper {
   height: 3rem;
 }
+
 #form-alert {
   height: 1.5rem;
 }
-.warning-text {
-  font-size: 1rem;
-  font-weight: 600;
-  color: red;
-  width: 100%;
-  text-align: center;
+
+/*
+
+  navbar
+
+*/
+
+.navbar {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  width: calc(100vw - 16px);
+}
+
+.navbar-button {
+  margin: 16px 16px 0 0;
 }

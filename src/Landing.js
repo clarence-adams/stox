@@ -151,7 +151,7 @@ function Landing(props) {
         </div>
       </form>
     </div>
-    <p className='warning-text'>Do not enter any important passwords that you already use for your email or bank. There is very little security in this application!</p>
+    <p className='warning-text'>Do not enter any important usernames/passwords that you already use for your email or bank. There is very little security in this application!</p>
     </div>
   )
 }
