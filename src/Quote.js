@@ -1,4 +1,3 @@
-import './Quote.css'
 import {useState} from 'react'
 
 function Quote() {
@@ -38,7 +37,7 @@ function Quote() {
   return (
     <div className='dashboard-form-wrapper'>
       <form className='component-form'>
-        <label htmlFor='quote' className='component-label'>Symbol</label>
+        <label htmlFor='symbol' className='component-label'>Symbol</label>
         <input className='component-input' type='text' id='symbol' onChange={changeHandler} value={symbol}/>
       </form>
       <p id='quote'>{currentQuote}</p>

@@ -74,8 +74,8 @@ function Authentication(props) {
           </div>
           <div className='secondary-form-actions'>
             <div className='show-password-wrapper'>
-              <input className='show-password-checkbox' type='checkbox' onClick={showPassword}/>
-              <label htmlFor='show password'>Show Password</label>
+              <input className='show-password-checkbox' id='show-password' type='checkbox' onClick={showPassword}/>
+              <label htmlFor='show-password'>Show Password</label>
             </div>
             <Link to='/reset-password' id='forgot-password-link' className='tertiary-button'>Forgot Password?</Link>
           </div>

@@ -108,13 +108,13 @@ function Landing(props) {
           <h2>Register</h2>
           <div className='first-form-element'>
             <div className='form-label-wrapper'>
-            <label htmlFor='username'>Username<span className='red-asterisk'> *</span></label>
+            <label htmlFor='registration-username'>Username<span className='red-asterisk'> *</span></label>
             </div>
             <input name='username' id='registration-username' className='registration-input' type='text' value={username} onInput={usernameOnInput} onBlur={checkUsernameAvailability} required={true}/>
           </div>
           <p id='username-alert' className='validation-message'>{usernameAlert}</p>
           <div className='form-element'>
-            <label htmlFor='password'>Password<span className='red-asterisk'> *</span></label>
+            <label htmlFor='registration-password'>Password<span className='red-asterisk'> *</span></label>
             <input name='password' id='registration-password' type={passwordInputType} value={password} onInput={passwordOnInput} required={true}/>
           </div>
           <div className='form-element'>
@@ -124,7 +124,7 @@ function Landing(props) {
           <div id='security-question-wrapper' className='form-element'>
             <div className='double-input-wrapper'>
               <div>
-                <label htmlFor='security question'>Security Question<span className='red-asterisk'> *</span></label>
+                <label htmlFor='security-question'>Security Question<span className='red-asterisk'> *</span></label>
                 <select name='security-question' id='security-question' value={securityQuestion} onChange={securityQuestionOnChange} required={true}>
                   <option value='color'>What's your favorite color?</option>
                   <option value='food'>What's your favorite food?</option>
@@ -132,15 +132,15 @@ function Landing(props) {
                 </select>
               </div>
               <div>
-                <label htmlFor='security question answer'>Answer<span className='red-asterisk'> *</span></label>
+                <label htmlFor='security-question-answer'>Answer<span className='red-asterisk'> *</span></label>
                 <input name='security-question-answer' id='security-question-answer' type='text' onInput={securityAnswerOnInput} required={true}/>
               </div>
             </div>
           </div>
           <div className='secondary-form-actions'>
             <div className='show-password-wrapper'>
-              <input className='show-password-checkbox' type='checkbox' onClick={showPassword}/>
-              <label htmlFor='show password'>Show Password</label>
+              <input className='show-password-checkbox' id='show-password' type='checkbox' onClick={showPassword}/>
+              <label htmlFor='show-password'>Show Password</label>
             </div>
           </div>
           <p id='form-alert' className='validation-message'>{alert}</p>

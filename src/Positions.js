@@ -1,4 +1,3 @@
-import './Positions.css'
 import {useEffect, useState} from 'react'
 
 function Positions(props) {
