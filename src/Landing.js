@@ -118,7 +118,7 @@ function Landing(props) {
             <input name='password' id='registration-password' type={passwordInputType} value={password} onInput={passwordOnInput} required={true}/>
           </div>
           <div className='form-element'>
-            <label htmlFor='password-confirmation'>Confirm Password<span className='red-asterisk'> *</span></label>
+            <label htmlFor='registration-password-confirmation'>Confirm Password<span className='red-asterisk'> *</span></label>
             <input name='password-confirmation' id='registration-password-confirmation' type={passwordInputType} value={passwordConfirmation} onInput={passwordConfirmationOnInput} onBlur={validateForm} required={true}/>
           </div>
           <div id='security-question-wrapper' className='form-element'>
