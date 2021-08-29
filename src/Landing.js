@@ -108,23 +108,29 @@ function Landing(props) {
           <h2>Register</h2>
           <div className='first-form-element'>
             <div className='form-label-wrapper'>
-            <label htmlFor='registration-username'>Username<span className='red-asterisk'> *</span></label>
+              <label htmlFor='registration-username'>Username<span className='red-asterisk'> *</span></label>
             </div>
             <input name='username' id='registration-username' className='registration-input' type='text' value={username} onInput={usernameOnInput} onBlur={checkUsernameAvailability} required={true}/>
           </div>
           <p id='username-alert' className='validation-message'>{usernameAlert}</p>
           <div className='form-element'>
-            <label htmlFor='registration-password'>Password<span className='red-asterisk'> *</span></label>
+            <div className='form-label-wrapper'>
+              <label htmlFor='registration-password'>Password<span className='red-asterisk'> *</span></label>
+            </div>
             <input name='password' id='registration-password' type={passwordInputType} value={password} onInput={passwordOnInput} required={true}/>
           </div>
           <div className='form-element'>
-            <label htmlFor='registration-password-confirmation'>Confirm Password<span className='red-asterisk'> *</span></label>
+            <div className='form-label-wrapper'>
+              <label htmlFor='registration-password-confirmation'>Confirm Password<span className='red-asterisk'> *</span></label>
+            </div>
             <input name='password-confirmation' id='registration-password-confirmation' type={passwordInputType} value={passwordConfirmation} onInput={passwordConfirmationOnInput} onBlur={validateForm} required={true}/>
           </div>
           <div id='security-question-wrapper' className='form-element'>
             <div className='double-input-wrapper'>
               <div>
-                <label htmlFor='security-question'>Security Question<span className='red-asterisk'> *</span></label>
+                <div className='form-label-wrapper'>
+                  <label htmlFor='security-question'>Security Question<span className='red-asterisk'> *</span></label>
+                </div>
                 <select name='security-question' id='security-question' value={securityQuestion} onChange={securityQuestionOnChange} required={true}>
                   <option value='color'>What's your favorite color?</option>
                   <option value='food'>What's your favorite food?</option>
@@ -132,7 +138,9 @@ function Landing(props) {
                 </select>
               </div>
               <div>
-                <label htmlFor='security-question-answer'>Answer<span className='red-asterisk'> *</span></label>
+                <div className='form-label-wrapper'>
+                  <label htmlFor='security-question-answer'>Answer<span className='red-asterisk'> *</span></label>
+                </div>
                 <input name='security-question-answer' id='security-question-answer' type='text' onInput={securityAnswerOnInput} required={true}/>
               </div>
             </div>

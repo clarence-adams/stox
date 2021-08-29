@@ -65,11 +65,15 @@ function Authentication(props) {
         <div className='form-group'>
           <h2>Log In</h2>
           <div className='first-form-element'>
-            <label htmlFor='username'>Username</label>
+            <div className='form-label-wrapper'>
+              <label htmlFor='username'>Username</label>
+            </div>
             <input name='username' type='text' onInput={usernameOnInput} required={true}/>
           </div>
           <div className='form-element'>
-            <label htmlFor='password'>Password</label>
+            <div className='form-element-wrapper'>
+              <label htmlFor='password'>Password</label>
+            </div>
             <input name='password' id='authentication-password' type={passwordInputType} onInput={passwordOnInput} required={true}/>
           </div>
           <div className='secondary-form-actions'>

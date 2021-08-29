@@ -17,7 +17,7 @@ function Positions(props) {
           <tr>
             <th>Stock</th>
             <th>Shares</th>
-            <th>Average Price</th>
+            <th>Average Cost</th>
           </tr>
         </thead>
         <tbody>
@@ -25,7 +25,7 @@ function Positions(props) {
             <tr key={index}>
               <td>{element.symbol}</td>
               <td>{element.shares}</td>
-              <td>{element.averageShareValue.toFixed(2)}</td>
+              <td className='dollar-td'>{'$' + element.averageShareValue.toFixed(2)}</td>
             </tr>
           )}
         </tbody>

@@ -80,12 +80,33 @@ const handler = async (event) => {
         // records new transaction in user sales
         let newUserCash = user.cash + orderTotal
         let newUserSales = [...user.sales]
+
+        // configures current date and time of transaction
+
+        const date = new Date(Date.now())
+
+        const month = parseInt(date.getMonth()) + 1
+        const day = date.getDate()
+        const year = date.getFullYear()
+        let amOrPm = ''
+        const hour = (() => {
+          let formattedHours = date.getHours()
+          if (formattedHours > 12) {
+            amOrPm = 'pm'
+            return formattedHours - 12
+          }
+          amOrPm = 'am'
+          return formattedHours
+        })()
+        const minutes = date.getMinutes()
+
+        const formattedDate = month + '/' + day + '/' + year + ' ' + hour + ':' + minutes + amOrPm
         
         newUserSales.push({
           symbol: JSON.parse(event.body).symbol, 
           shares: shares, 
           shareValue: shareValue, 
-          date: new Date()
+          date: formattedDate
         })
         const currentPositionIndex = newUserPositions.findIndex((element) => isSymbol(element.symbol, JSON.parse(event.body).symbol))
         // if user is selling all of their available shares the position is removed from their portfolio

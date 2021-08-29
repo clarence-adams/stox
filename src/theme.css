@@ -49,15 +49,25 @@ table {
 }
 
 th {
-  padding: 5px;
-  background-color: #ccc;
-  border: solid black 2px;
+  padding: 8px 16px 8px 16px;
+  background-color: rgb(0, 0, 0, 0.10);
+  border-top: solid #999 2px;
+  border-bottom: solid #999 2px;
+  font-size: 1em;
+}
+
+tr {
+  background-color: rgb(0, 0, 0, 0);
+  border-top: solid #ccc 2px;
 }
 
 td {
   text-align: center;
-  background-color: #fff;
-  border: solid black 1px;
+  padding: 8px;
+}
+
+.dollar-td {
+  text-align: right;
 }
 
 .main-wrapper {
@@ -150,7 +160,7 @@ input, select {
   /* width minus border width and padding */
   width: calc(100% - 12px);
   padding: 5px 5px 5px 5px;
-  margin: 0 0 0 0;
+  margin: 2px 0 0 0;
   border: 2px var(--purple) solid;
   border-radius: .5rem;
   background-color: rgb(255, 255, 255, .5);
@@ -174,7 +184,7 @@ input, select {
 
 .first-form-element, .form-element {
   width: 100%;
-  text-align: left;
+  text-align: center;
 }
 
 .form-element {
@@ -187,6 +197,10 @@ input, select {
 
 .form-element-wrapper {
   display: flex;
+}
+
+.form-label-wrapper {
+  text-align: left;
 }
 
 .double-input-wrapper {
