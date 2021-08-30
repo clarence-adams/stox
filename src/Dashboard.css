@@ -1,6 +1,21 @@
 @import 'theme.css';
 
 @media screen and (max-width: 900px) {
+  #dashboard-header {
+    display: initial !important;
+  }
+
+  #dashboard-h1 {
+    position: absolute;
+    justify-content: center;
+    margin: auto !important;
+    width: 100vw !important;
+  }
+
+  .bm-burger-button {
+    top: 1rem !important;
+  }
+
   #dashboard {
     height: initial !important;
   }
@@ -18,6 +33,10 @@
 
   #buy-sell-forms>div {
     width: 100% !important;
+  }
+
+  #history-tables {
+    padding: 0 !important;
   }
 
   .dashboard-form-wrapper {
@@ -79,7 +98,6 @@
 */
 
 #overview {
-  padding: 16px 16px 0 16px;
   text-align: left;
 }
 
@@ -90,11 +108,13 @@
 #overview-welcome-text {
   margin: 0;
   text-decoration: underline;
+  padding-left: 16px;
 }
 
 #cash {
   color: green;
   margin-top: 0;
+  padding-left: 16px;
 }
 
 #navbar {
@@ -164,6 +184,7 @@
 
 #history-tables {
   text-align: center;
+  padding: 0 64px 64px 64px;
 }
 
 #history-tables>table {

@@ -6,6 +6,7 @@ import History from './History.js'
 import Quote from './Quote.js'
 import Buy from './Buy.js'
 import Sell from './Sell.js'
+import { NavLink } from 'react-router-dom/cjs/react-router-dom.min'
 
 function Dashboard(props) {
   
@@ -51,12 +52,12 @@ function Dashboard(props) {
               <div id='dashboard'>
                 <Overview user={props.user} cash={cash}/>
               </div>
-              <div id='navbar'>
+              <nav id='navbar'>
                 <button className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
                 <button className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
                 <button className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
                 <button className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
-              </div>
+              </nav>
             </div>
           </Menu>
         </>
@@ -73,12 +74,12 @@ function Dashboard(props) {
           <div id='dashboard'>
             <Overview user={props.user} cash={cash}/>
           </div>
-          <div id='navbar'>
+          <nav id='navbar'>
             <button className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
             <button className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
             <button className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
             <button className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
-          </div>
+          </nav>
         </>
       )
     } else {
