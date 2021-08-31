@@ -6,7 +6,6 @@ import History from './History.js'
 import Quote from './Quote.js'
 import Buy from './Buy.js'
 import Sell from './Sell.js'
-import { NavLink } from 'react-router-dom/cjs/react-router-dom.min'
 
 function Dashboard(props) {
   
