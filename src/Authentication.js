@@ -85,7 +85,7 @@ function Authentication(props) {
           </div>
           <p id='form-alert'>{alert}</p>
           <div className='primary-form-actions'>
-            <button id='authentication-form-button' type='button' onClick={authenticateUser}>Log In</button>
+            <button className='primary-button' id='authentication-form-button' type='button' onClick={authenticateUser}>Log In</button>
             <Link to='/' className='secondary-button'>Register</Link>
           </div>
         </div>

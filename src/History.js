@@ -34,7 +34,11 @@ function History(props) {
             <tr key={index}>
               <td>{element.symbol}</td>
               <td>{element.shares}</td>
-              <td className='dollar-td'>{'$' + element.shareValue.toFixed(2)}</td>
+              <td className='dollar-td'>
+                <div className='dollar-td-wrapper'>
+                  {'$' + element.shareValue.toFixed(2)}
+                </div>
+              </td>
               <td>{element.date}</td>
             </tr>
           )}
@@ -55,7 +59,11 @@ function History(props) {
             <tr key={index}>
               <td>{element.symbol}</td>
               <td>{element.shares}</td>
-              <td className='dollar-td'>{'$' + element.shareValue.toFixed(2)}</td>
+              <td className='dollar-td'>
+                <div className='dollar-td-wrapper'>
+                  {'$' + element.shareValue.toFixed(2)}
+                </div>
+              </td>
               <td>{element.date}</td>
             </tr>
           )}

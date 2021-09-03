@@ -153,7 +153,7 @@ function Landing(props) {
           </div>
           <p id='form-alert' className='validation-message'>{alert}</p>
           <div className='primary-form-actions'>
-            <button id='registration-form-button' type='button' disabled={buttonDisabled} onClick={createUser}>Start Trading!</button>
+            <button className='primary-button' id='registration-form-button' type='button' disabled={buttonDisabled} onClick={createUser}>Start Trading!</button>
             <Link to='/authentication' className='secondary-button'>Log In</Link>
           </div>
         </div>

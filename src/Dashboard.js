@@ -8,7 +8,6 @@ import Buy from './Buy.js'
 import Sell from './Sell.js'
 
 function Dashboard(props) {
-  
   const [cash, setCash] = useState()
   const [content, setContent] = useState('overview')
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -18,7 +17,6 @@ function Dashboard(props) {
     window.addEventListener('resize', () => {
       setWindowWidth(window.innerWidth)
     })
-
   // eslint-disable-next-line
   }, [])
 
@@ -30,6 +28,10 @@ function Dashboard(props) {
       setCash('$' + 0 + '.' + 0 + 0)
     }
   }, [props.user])
+
+  useEffect(() => {
+    document.getElementById(content + '-navbar-button').classList.add('active-navbar-button')
+  }, [content])
 
   const logout = () => {
     const options = {
@@ -46,16 +48,16 @@ function Dashboard(props) {
     if (windowWidth <= 900) {
       return (
         <>
-          <Menu>
+          <Menu itemListElement='div'>
             <div id='menu'>
               <div id='dashboard'>
                 <Overview user={props.user} cash={cash}/>
               </div>
               <nav id='navbar'>
-                <button className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
-                <button className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
-                <button className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
-                <button className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
+                <button id='overview-navbar-button' className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
+                <button id='quote-navbar-button' className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
+                <button id='buy-navbar-button' className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
+                <button id='sell-navbar-button' className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
               </nav>
             </div>
           </Menu>
@@ -74,10 +76,10 @@ function Dashboard(props) {
             <Overview user={props.user} cash={cash}/>
           </div>
           <nav id='navbar'>
-            <button className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
-            <button className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
-            <button className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
-            <button className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
+            <button id='overview-navbar-button' className='navbar-button' onClick={() => setContent('overview')}>Overview</button>
+            <button id='quote-navbar-button' className='navbar-button' onClick={() => setContent('quote')}>Quote</button>
+            <button id='buy-navbar-button' className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
+            <button id='sell-navbar-button' className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
           </nav>
         </>
       )
@@ -88,10 +90,10 @@ function Dashboard(props) {
 
   return (
     <div id='dashboard'>
-      <MobileNavbar id='menu'/>
+    <MobileNavbar id='menu'/>
     <header id='dashboard-header'>
       <h1 id='dashboard-h1'>StoX</h1>
-      <div id='header-navbar'>
+      <div id='logout-button-wrapper'>
         <button id='logout-button' className='anchor-button header-navbar-button' type='button' onClick={logout}>Logout</button>
       </div>
     </header>

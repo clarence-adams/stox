@@ -5,7 +5,7 @@
 */
 
 body {
-  --turqoise: #47d2c0;
+  --turquoise: #47d2c0;
   --purple: #935CD1;
   --purple-shaded: #664091;
 }
@@ -23,7 +23,7 @@ body {
 }
 
 #App {
-  background-color: var(--turqoise);
+  background-color: var(--turquoise);
   width: 100vw;
   min-height: 100vh;
   height: 100%;
@@ -51,7 +51,7 @@ table {
 
 th {
   padding: 8px 16px 8px 16px;
-  background-color: rgb(0, 0, 0, 0.10);
+  background-color: #dae1e8;
   border-top: solid #999 2px;
   border-bottom: solid #999 2px;
   font-size: 1em;
@@ -91,7 +91,7 @@ td {
 
 */
 
-button, .anchor-button {
+.primary-button, .anchor-button {
   padding: 8px;
   border-radius: .5rem;
   font-size: 1rem;
@@ -103,15 +103,15 @@ button, .anchor-button {
   text-decoration: none;
 }
 
-button:hover, .anchor-button:hover {
+.primary-button:hover, .anchor-button:hover {
   background-color: var(--purple-shaded);
 }
 
-button:active, .anchor-button:active, .secondary-button:active {
+.primary-button:active, .anchor-button:active, .secondary-button:active {
   transform:scale(.95)
 }
 
-button:disabled {
+.primary-button:disabled {
   background-color: red;
 }
 
