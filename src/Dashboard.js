@@ -2,6 +2,7 @@ import './Dashboard.css'
 import {useState, useEffect} from 'react'
 import {slide as Menu} from 'react-burger-menu'
 import Overview from './Overview.js'
+import Positions from './Positions.js'
 import History from './History.js'
 import Quote from './Quote.js'
 import Buy from './Buy.js'
@@ -59,6 +60,7 @@ function Dashboard(props) {
                 <button id='buy-navbar-button' className='navbar-button' onClick={() => setContent('buy')}>Buy</button>
                 <button id='sell-navbar-button' className='navbar-button' onClick={() => setContent('sell')}>Sell</button>
               </nav>
+              <Positions positions={props.user.positions}/>
             </div>
           </Menu>
         </>
@@ -74,6 +76,7 @@ function Dashboard(props) {
         <>
           <div id='dashboard'>
             <Overview user={props.user} cash={cash}/>
+            <Positions positions={props.user.positions}/>
           </div>
           <nav id='navbar'>
             <button id='overview-navbar-button' className='navbar-button' onClick={() => setContent('overview')}>Overview</button>

@@ -42,8 +42,8 @@ function Quote() {
           <input className='component-input' type='text' id='symbol' onChange={changeHandler} value={symbol}/>
         </div>
       </form>
-      <p id='quote'>{currentQuote}</p>
       <button className='primary-button' type='submit' onClick={clickHandler}>Get Quote</button>
+      <p id='quote'>{currentQuote}</p>
       <p className='form-alert'>{alert}</p>
     </div>
   )

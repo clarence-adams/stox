@@ -10,9 +10,9 @@ function Positions(props) {
   }, [props.positions])
 
   return (
-    <div id='positions-table'>
+    <div id='positions'>
       <h3>Positions</h3>
-      <table>
+      <table id='positions-table'>
         <thead>
           <tr>
             <th>Stock</th>
