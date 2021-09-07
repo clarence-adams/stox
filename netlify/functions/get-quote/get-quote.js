@@ -36,7 +36,7 @@ const handler = async (event) => {
       statusCode: 200,
       body: JSON.stringify({error: 'invalid symbol'})
     }
-  } else if (quote[0].average === null) {
+  } else if (quote[0].average === null || quote[0].average === 0) {
     return {
       statusCode: 200,
       body: JSON.stringify({error: 'average is null'})

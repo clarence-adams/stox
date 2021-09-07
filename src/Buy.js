@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-function Buy(props) {
+const Buy = (props) => {
   const [symbol, setSymbol] = useState('')
   const [shares, setShares] = useState('')
   const [alert, setAlert] = useState('')

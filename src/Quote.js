@@ -1,37 +1,15 @@
 import {useState} from 'react'
+import fetchStockQuote from './helpers.js'
 
-function Quote() {
+const Quote = () => {
   const [symbol, setCurrentSymbol] = useState('')
   const [currentQuote, setCurrentQuote] = useState('')
-  const [alert, setAlert] = useState('')
 
   const changeHandler = (event) => setCurrentSymbol(event.target.value.toUpperCase())
 
-  const data = {symbol}
-  const requestOptions = {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
-  }
-
-  const clickHandler = () => {
-    fetch('.netlify/functions/get-quote', requestOptions)
-    .then(res => res.json())
-    .then(res => {
-      if (res.error === 'invalid symbol') {
-        setAlert('Invalid symbol')
-        setCurrentQuote('')
-      } else if (res.error === 'average is null') {
-        setAlert('Error fetching price, try again later')
-      } else {
-        setAlert('')
-        setCurrentQuote('$' + res.quote.toFixed(2))
-      }
-    })
-    .catch((err) => {
-      setCurrentQuote('error')
-      console.log(err)
-    })
+  const clickHandler = async () => {
+    const quote = await fetchStockQuote(symbol)
+    setCurrentQuote(quote)
   }
 
   return (
@@ -44,7 +22,6 @@ function Quote() {
       </form>
       <button className='primary-button' type='submit' onClick={clickHandler}>Get Quote</button>
       <p id='quote'>{currentQuote}</p>
-      <p className='form-alert'>{alert}</p>
     </div>
   )
 }

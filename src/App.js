@@ -6,7 +6,7 @@ import Authentication from './Authentication.js'
 import ResetPassword from './ResetPassword.js'
 import Dashboard from './Dashboard.js'
 
-function App() {
+const App = () => {
   const [authenticated, setAuthenticated] = useState(false)
   const [user, setUser] = useState({})
 

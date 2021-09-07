@@ -1,7 +1,7 @@
 import './History.css'
 import {useEffect, useState} from 'react'
 
-function History(props) {
+const History = (props) => {
   const [purchases, setPurchases] = useState([])
   const [sales, setSales] = useState([])
 

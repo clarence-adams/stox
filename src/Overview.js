@@ -1,4 +1,4 @@
-function Overview(props) {
+const Overview = (props) => {
   return (
     <div id='overview'>
       <h2 id='overview-welcome-text'>Hello, {props.user.username}</h2>

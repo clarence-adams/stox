@@ -8,7 +8,7 @@ import Quote from './Quote.js'
 import Buy from './Buy.js'
 import Sell from './Sell.js'
 
-function Dashboard(props) {
+const Dashboard = (props) => {
   const [cash, setCash] = useState()
   const [content, setContent] = useState('overview')
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -121,24 +121,5 @@ function Dashboard(props) {
     </div>
   )
 }
-
-// future function for fetching a stock quote so a total can be calculated before
-// a buy or sell transaction is made
-
-//const fetchStockQuote = (symbol) => {
-//  const data = {symbol}
-//  const requestOptions = {
-//    method: 'POST',
-//    headers: {'Content-Type': 'application/json'},
-//    body: JSON.stringify(data)
-//  }
-//
-//  let quote = fetch('/dashboard/quote', requestOptions)
-//  .then(res => res.json())
-//  .then(res => quote = (res.quote.toFixed(2)))
-//  .catch((err) => console.error('error fetching stock quote: ' + err))
-//
-//  return quote
-//}
 
 export default Dashboard

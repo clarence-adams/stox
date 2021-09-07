@@ -2,7 +2,7 @@ import './theme.css'
 import {useState} from 'react'
 import {Link} from 'react-router-dom'
 
-function ResetPassword() {
+const ResetPassword = () => {
 
   const [username, setUsername] = useState('')
   const [securityQuestion, setSecurityQuestion] = useState('')

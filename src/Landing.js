@@ -2,8 +2,7 @@ import './Landing.css'
 import {useState} from 'react'
 import {Link} from 'react-router-dom'
 
-function Landing(props) {
-
+const Landing = (props) => {
   const [username, setUsername] = useState('')
   const [usernameAlert, setUsernameAlert] = useState('')
   const [passwordInputType, setPasswordInputType] = useState('password')

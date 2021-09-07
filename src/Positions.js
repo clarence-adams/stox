@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 
-function Positions(props) {
+const Positions = (props) => {
   const [positions, setPositions] = useState([])
 
   useEffect(() => {
