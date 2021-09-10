@@ -3,9 +3,9 @@
 @media screen and (max-width: 900px) {
   #dashboard-h1 {
     position: absolute;
-    justify-content: center;
-    margin: auto !important;
-    width: 100vw !important;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin: 0 !important;
   }
 
   .bm-burger-button {
@@ -45,7 +45,7 @@
 }
 
 #dashboard-header {
-  display: flex;
+  display: relative;
   margin: 0;
   width: 100vw;
   height: 4rem; 
@@ -55,11 +55,9 @@
 
 #dashboard-h1 {
   font-size: 3rem;
-  display: flex;
-  align-items: center;
   margin: 0 0 0 16px;
   padding: 0;
-  z-index: 1;
+  height: 4rem;
 }
 
 .component-form {
@@ -68,13 +66,14 @@
 }
 
 #logout-button-wrapper {
+  position: absolute;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 100vw;
   height: 4rem;
   margin: 0;
-  z-index: 0;
+  top: 0;
+  right: 0;
 }
 
 .header-navbar-button {
