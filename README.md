@@ -1,13 +1,38 @@
-# StoX
+# create-svelte
 
-This project was inspired by the final project for CS50x web development track. Instead of filling in the blanks for the Flask backend and html frontend provided by the class I will be completing the project from scratch using MongoDB for the user database, Node.js for the backend, React.js for the frontend and the IEX cloud API for stock data.
+Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
-## Feature List:
+## Creating a project
 
-- User authentication with persistent log in
-- Guest mode for a temporary session without needing to register
-- Password reset
-- Single page portfolio manipulation (Buy, Sell, Quote)
-- Dark Mode / Light Mode
+If you're seeing this, you've probably already done this step. Congrats!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```bash
+# create a new project in the current directory
+npm init svelte
+
+# create a new project in my-app
+npm init svelte my-app
+```
+
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```bash
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
+
+## Building
+
+To create a production version of your app:
+
+```bash
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
