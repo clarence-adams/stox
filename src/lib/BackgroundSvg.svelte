@@ -14,7 +14,7 @@
 	polyline {
 		stroke-dasharray: 1000;
 		stroke-dashoffset: 1000;
-		animation: dash 8s linear forwards;
+		animation: dash 8s linear 1s forwards;
 	}
 
 	@keyframes dash {

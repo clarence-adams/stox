@@ -5,6 +5,8 @@
 
 	export let href;
 	export let target;
+	export let onClick;
+	export let type;
 	export let buttonType;
 
 	let component;
@@ -18,4 +20,4 @@
 	}
 </script>
 
-<svelte:component this={component} {href} {target}><slot /></svelte:component>
+<svelte:component this={component} {href} {target} {type} {onClick}><slot /></svelte:component>

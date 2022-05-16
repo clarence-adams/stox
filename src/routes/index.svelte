@@ -3,8 +3,20 @@
 </script>
 
 <script>
+	import { registrationForm } from '../stores';
 	import BackgroundSvg from '$lib/BackgroundSvg.svelte';
-	import SignUpForm from '$lib/SignUpForm.svelte';
+	import RegistrationForm from '$lib/RegistrationForm.svelte';
+	import LogInForm from '$lib/LogInForm.svelte';
+
+	let form = RegistrationForm;
+
+	registrationForm.subscribe((newValue) => {
+		if (newValue) {
+			form = RegistrationForm;
+		} else {
+			form = LogInForm;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -21,5 +33,5 @@
 		<div>Stox</div>
 	</h1>
 
-	<SignUpForm />
+	<svelte:component this={form} />
 </section>
