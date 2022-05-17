@@ -4,11 +4,7 @@
 	import Button from '$lib/Button.svelte';
 
 	const logInButtonHandler = () => {
-		registrationForm.update((current) => {
-			if (current) {
-				!current;
-			}
-		});
+		registrationForm.update((current) => !current);
 	};
 </script>
 
@@ -17,7 +13,11 @@
 		<a href="/" class="text-3xl font-bold">Stox</a>
 		<div class="flex gap-4">
 			<Button buttonType="secondary" href="">Guest Sign In</Button>
-			<Button buttonType="primary" onClick={logInButtonHandler}>Log In</Button>
+			{#if $registrationForm}
+				<Button buttonType="primary" onClick={logInButtonHandler}>Log In</Button>
+			{:else}
+				<Button buttonType="primary" onClick={logInButtonHandler}>Register</Button>
+			{/if}
 		</div>
 	</nav>
 </header>

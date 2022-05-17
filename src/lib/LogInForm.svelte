@@ -1,8 +1,12 @@
 <script>
+	import { fly } from 'svelte/transition';
 	import { registrationForm } from '../stores';
 	import Label from '$lib/Label.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
+
+	let flyDuration = 200;
+	let flyY = 100;
 
 	const formHandler = (e) => {
 		e.preventDefault();
@@ -18,6 +22,8 @@
 
 <form
 	on:submit={formHandler}
+	in:fly={{ duration: flyDuration, delay: flyDuration + 200, y: flyY }}
+	out:fly={{ duraiton: flyDuration, y: flyY }}
 	class="flex flex-col gap-8 w-[300px] p-8 bg-white border-2 border-emerald-300 rounded-xl shadow-lg"
 >
 	<h2 class="text-center text-3xl font-bold">Log In</h2>
