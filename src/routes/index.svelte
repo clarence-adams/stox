@@ -9,12 +9,20 @@
 	import LogInForm from '$lib/LogInForm.svelte';
 
 	let form = RegistrationForm;
+	let register = true;
+	let login = false;
 
 	registrationForm.subscribe((newValue) => {
 		if (newValue) {
-			form = RegistrationForm;
+			login = false;
+			setTimeout(() => {
+				register = true;
+			}, 400);
 		} else {
-			form = LogInForm;
+			register = false;
+			setTimeout(() => {
+				login = true;
+			}, 400);
 		}
 	});
 </script>
@@ -33,5 +41,9 @@
 		<div>Stox</div>
 	</h1>
 
-	<svelte:component this={form} />
+	{#if register}
+		<RegistrationForm />
+	{:else if login}
+		<LogInForm />
+	{/if}
 </section>

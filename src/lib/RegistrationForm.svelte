@@ -12,7 +12,7 @@
 </script>
 
 <form
-	in:fly={{ duration: flyDuration, delay: flyDuration + 200, y: flyY }}
+	in:fly={{ duration: flyDuration, y: flyY }}
 	out:fly={{ duration: flyDuration, y: flyY }}
 	class="
     flex flex-col gap-8 w-[300px] p-8 bg-white border-2 border-emerald-300 
