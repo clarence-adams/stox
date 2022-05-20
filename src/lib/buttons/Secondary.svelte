@@ -3,7 +3,7 @@
 	export let target;
 
 	let classes = `
-		px-3 py-1.5 font-semibold border-2 border-emerald-300 rounded-xl
+		px-3 py-1.5 font-semibold border-2 border-emerald-300 rounded-lg
 		hover:bg-black/[.05]
 	`;
 </script>

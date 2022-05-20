@@ -1,42 +1,30 @@
 <script>
-	export let name;
-	export let id;
-	export let type;
-	export let disabled;
-	export let required;
-	export let minLength;
-	export let maxLength;
-	export let min;
-	export let max;
-	export let pattern;
+	export let type = 'text';
+	export let disabled = false;
+	export let required = false;
+	export let value = '';
+	export let subtext;
 
-	let value;
-	let borderColor = '#D1D5DB';
+	let mb = subtext ? 'mb-0' : 'mb-4';
 
-	const inputHandler = (e) => {
-		if (e.target.value === '') {
-			borderColor = '#D1D5DB';
-		} else {
-			borderColor = '';
-		}
+	const handleInput = (e) => {
+		// allows value to be two way binding and type to be dynamic
+		value = type.match(/^(number|range)$/) ? +e.target.value : e.target.value;
 	};
 </script>
 
 <input
-	{name}
-	{id}
 	{type}
 	{disabled}
-	{required}
-	{minLength}
-	{maxLength}
-	{min}
-	{max}
-	{pattern}
-	on:input={inputHandler}
-	style={`border-color: ${borderColor}`}
-	class="
-    w-full px-1 py-px mb-4 bg-transparent border-2 border-gray-300 
-    rounded-xl last:mb-0 valid:border-emerald-300 invalid:border-rose-400
-  "
+	{...$$restProps}
+	{value}
+	on:input={handleInput}
+	style:border-color={required && value === '' ? '#D1D5DB' : ''}
+	class={`
+  	w-full ${mb} px-1 py-px bg-transparent border-2 border-gray-300 
+    rounded-lg last:mb-0 valid:border-emerald-300 invalid:border-rose-400
+  `}
 />
+{#if subtext}
+	<p class="mb-4 pl-2 text-sm text-gray-600 last:mb-0">{subtext}</p>
+{/if}

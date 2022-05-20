@@ -5,7 +5,7 @@
 
 	let classes = `
 		px-3 py-1.5 font-semibold bg-emerald-300 border-2 border-emerald-300 
-		rounded-xl hover:bg-emerald-400
+		rounded-lg hover:bg-emerald-400
 	`;
 </script>
 

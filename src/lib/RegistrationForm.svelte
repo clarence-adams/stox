@@ -9,9 +9,17 @@
 
 	let flyDuration = 200;
 	let flyY = 100;
+
+	let usernameValue;
+	let passwordValue;
+
+	const formHandler = () => {
+		console.log('Form submitted!');
+	};
 </script>
 
 <form
+	on:submit|preventDefault={formHandler}
 	in:fly={{ duration: flyDuration, y: flyY }}
 	out:fly={{ duration: flyDuration, y: flyY }}
 	class="
@@ -22,7 +30,15 @@
 	<h2 class="text-center text-3xl font-bold">Register</h2>
 	<fieldset>
 		<Label labelFor="username">Username</Label>
-		<Input id="username" name="username" required pattern={usernamePattern} maxLength="16" />
+		<Input
+			id="username"
+			name="username"
+			required
+			pattern={usernamePattern}
+			maxLength="16"
+			bind:value={usernameValue}
+			subtext="8-16 letters and/or numbers"
+		/>
 		<Label labelFor="password">Password</Label>
 		<Input
 			id="password"
@@ -31,6 +47,8 @@
 			pattern={passwordPattern}
 			type="password"
 			maxLength="64"
+			bind:value={passwordValue}
+			subtext="8-64 letters, numbers, and special characters (!, @, #, $, %, ^, &, *)"
 		/>
 	</fieldset>
 	<div>
