@@ -24,7 +24,8 @@
 	on:submit={formHandler}
 	in:fly={{ duration: flyDuration, y: flyY }}
 	out:fly={{ duraiton: flyDuration, y: flyY }}
-	class="flex flex-col gap-8 w-[300px] p-8 bg-white border-2 border-emerald-300 rounded-lg shadow-lg"
+	class="flex flex-col gap-8 w-[300px] p-8 bg-white border-2
+	border-emerald-300 rounded-lg shadow-lg sm:w-[350px]"
 >
 	<h2 class="text-center text-3xl font-bold">Log In</h2>
 	<fieldset>

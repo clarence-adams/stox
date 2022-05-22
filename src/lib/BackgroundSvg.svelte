@@ -1,6 +1,11 @@
-<svg viewBox="0 0 100 100" width="100%" class="absolute top-16 -left-0 z-0">
+<svg
+	viewBox="0 0 100 100"
+	preserveAspectRatio="xMidYMin"
+	width="100%"
+	class="absolute top-16 -left-0 z-0"
+>
 	<polyline
-		points="0,100 20,50 30,80 65,20 90,30 120,0"
+		points="0,100 20,50 30,80 65,20 90,30 100.3,0"
 		fill="none"
 		stroke-width="0.50"
 		class="stroke-emerald-300"

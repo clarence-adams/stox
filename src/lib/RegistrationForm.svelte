@@ -12,6 +12,7 @@
 
 	let usernameValue;
 	let passwordValue;
+	let passwordConfirmationValue;
 
 	const formHandler = () => {
 		console.log('Form submitted!');
@@ -24,7 +25,7 @@
 	out:fly={{ duration: flyDuration, y: flyY }}
 	class="
     flex flex-col gap-8 w-[300px] p-8 bg-white border-2 border-emerald-300 
-    rounded-xl shadow-lg
+    rounded-xl shadow-lg sm:w-[350px]
   "
 >
 	<h2 class="text-center text-3xl font-bold">Register</h2>
@@ -48,7 +49,18 @@
 			type="password"
 			maxLength="64"
 			bind:value={passwordValue}
-			subtext="8-64 letters, numbers, and special characters (!, @, #, $, %, ^, &, *)"
+			subtext="8-64 letters, numbers, and special characters 
+			(!, @, #, $, %, ^, &, *)"
+		/>
+		<Label labelFor="password-confirmation">Confrim Password</Label>
+		<Input
+			id="password-confirmation"
+			name="password-confirmation"
+			required
+			pattern={passwordPattern}
+			type="password"
+			maxLength="64"
+			bind:value={passwordConfirmationValue}
 		/>
 	</fieldset>
 	<div>
