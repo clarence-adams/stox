@@ -5,23 +5,37 @@
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
 
+	let form;
 	let flyDuration = 200;
 	let flyY = 100;
 
 	const formHandler = (e) => {
-		e.preventDefault();
+		const formData = new FormData(form);
+
+		const username = formData.get('username');
+		const password = formData.get('password');
+		const passwordConfirmation = formData.get('password-confirmation');
+
+		fetch('/api/login', {
+			method: 'POST',
+			body: formData
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+			});
+
 		console.log('form submitted!');
 	};
 
 	const tertiaryHandler = () => {
-		console.log('test');
 		registrationForm.set(true);
-		console.log($registrationForm);
 	};
 </script>
 
 <form
-	on:submit={formHandler}
+	bind:this={form}
+	on:submit|preventDefault={formHandler}
 	in:fly={{ duration: flyDuration, y: flyY }}
 	out:fly={{ duraiton: flyDuration, y: flyY }}
 	class="flex flex-col gap-8 w-[300px] p-8 bg-white border-2

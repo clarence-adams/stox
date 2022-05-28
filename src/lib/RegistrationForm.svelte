@@ -4,6 +4,8 @@
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
 
+	let form;
+
 	let usernamePattern = '([A-Za-z0-9]+){8,16}';
 	let passwordPattern = '([A-Za-z0-9!@#$%^&*]+){8,64}';
 
@@ -15,11 +17,27 @@
 	let passwordConfirmationValue;
 
 	const formHandler = () => {
+		const formData = new FormData(form);
+
+		const username = formData.get('username');
+		const password = formData.get('password');
+		const passwordConfirmation = formData.get('password-confirmation');
+
+		fetch('/api/register', {
+			method: 'POST',
+			body: formData
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+			});
+
 		console.log('Form submitted!');
 	};
 </script>
 
 <form
+	bind:this={form}
 	on:submit|preventDefault={formHandler}
 	in:fly={{ duration: flyDuration, y: flyY }}
 	out:fly={{ duration: flyDuration, y: flyY }}
