@@ -3,10 +3,10 @@
 </script>
 
 <script>
-	import { registrationForm } from '../stores';
-	import BackgroundSvg from '$lib/BackgroundSvg.svelte';
-	import RegistrationForm from '$lib/RegistrationForm.svelte';
-	import LogInForm from '$lib/LogInForm.svelte';
+	import { registrationForm } from '$lib/stores';
+	import BackgroundSvg from '$lib/landing/BackgroundSvg.svelte';
+	import RegistrationForm from '$lib/landing/RegistrationForm.svelte';
+	import LogInForm from '$lib/landing/LogInForm.svelte';
 
 	let form = RegistrationForm;
 	let register = true;
@@ -33,7 +33,7 @@
 </svelte:head>
 
 <BackgroundSvg />
-<section class="relative flex flex-col items-center gap-16 z-10">
+<section class="relative z-10 flex flex-col items-center gap-16">
 	<h1 class="flex flex-col items-center gap-4 text-5xl font-bold">
 		<div>Quote</div>
 		<div>Buy</div>

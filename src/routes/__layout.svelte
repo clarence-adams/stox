@@ -1,6 +1,6 @@
 <script>
 	import '../app.css';
-	import { registrationForm } from '../stores.js';
+	import { registrationForm } from '$lib/stores.js';
 	import Button from '$lib/Button.svelte';
 
 	const logInButtonHandler = () => {
@@ -8,8 +8,8 @@
 	};
 </script>
 
-<header class="w-full h-16 px-8 bg-gray-50 sm:px-16">
-	<nav class="flex justify-between items-center h-full">
+<header class="h-16 w-full bg-gray-50 px-8 sm:px-16">
+	<nav class="flex h-full items-center justify-between">
 		<a href="/" class="text-3xl font-bold">Stox</a>
 		<div class="flex gap-4">
 			<Button buttonType="secondary" href="">Guest Sign In</Button>
@@ -22,7 +22,7 @@
 	</nav>
 </header>
 
-<main class="p-8 bg-gray-50 sm:px-16">
+<main class="bg-gray-50 p-8 sm:px-16">
 	<slot />
 </main>
 

@@ -7,14 +7,14 @@ export const post = async ({ request }) => {
 
 	const query = 'SELECT * FROM users';
 
-	db.query(query, [], (err, res) => {
-		if (err) {
-			// TODO: Error handling
-			return console.log(err);
-		}
-		console.log(res.rows);
-		response = { status: 500 };
-	});
+	// db.query(query, [], (err, res) => {
+	// 	if (err) {
+	// 		// TODO: Error handling
+	// 		return console.log(err);
+	// 	}
+	// 	console.log(res.rows);
+	// 	response = { status: 500 };
+	// });
 
-	return { status: 200, body: { success: true } };
+	return { status: 303, headers: { Location: '/dashboard' } };
 };
