@@ -9,23 +9,20 @@ export const post = async ({ request }) => {
 	// TODO: validate body
 
 	// delete all users from users for testing
-	db.query('DELETE FROM users', [], (err, res) => {
-		if (err) {
-			return console.log(err);
-		}
-	});
+	await db.query('DELETE FROM users', []);
 
 	// execute actual query
 	const query = 'INSERT INTO users (cash, username, password) VALUES (10000, $1, $2)';
+	let response;
 
-	db.query(query, [username, password], (err, res) => {
-		if (err) {
-			console.log(err);
-			// TODO: Error handling
-			return { status: 500 };
-		}
-		console.log(res);
-	});
+	try {
+		response = await db.query(query, [username, password]);
+	} catch (err) {
+		console.log('there has been an error');
+		return { status: 500 };
+	}
+
+	console.log(response);
 
 	return { status: 303, headers: { Location: '/dashboard' }, body: { success: true } };
 };
