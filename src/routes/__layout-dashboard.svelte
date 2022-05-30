@@ -1,7 +1,3 @@
-<script>
-	import Button from '$lib/Button.svelte';
-</script>
-
 <header class="h-16 w-full bg-emerald-300 px-4">
 	<nav class="flex h-full items-center justify-between">
 		<a href="/" class="text-3xl font-bold">Stox</a>

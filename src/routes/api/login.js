@@ -16,10 +16,9 @@ export const post = async ({ request }) => {
 		({ rows } = await db.query(query, [username]));
 	} catch (err) {
 		console.log('there has been an error');
+		console.log(err);
 		return { status: 500 };
 	}
-
-	console.log(rows);
 
 	// if user is not found, return
 	if (rows[0] === undefined) {
@@ -35,9 +34,15 @@ export const post = async ({ request }) => {
 		return { status: 200, body: { success: false } };
 	}
 
-	// if user is authenticated, redirect to the users dashboard
-	console.log(user);
+	// if user is authenticated, set an authToken cookie and redirect to the
+	// users dashboard
+	const authToken = jwt.sign(user.user_id, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
 
-	// TODO give user an auth jwt
-	return { status: 303, headers: { Location: '/dashboard' } };
+	return {
+		status: 303,
+		headers: {
+			'Set-Cookie': `authToken=${authToken}; SameSite=Strict; Path=/; HttpOnly`,
+			Location: '/dashboard'
+		}
+	};
 };

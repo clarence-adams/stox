@@ -1,9 +1,9 @@
 <script>
-	let user = 'user';
+	export let user;
 </script>
 
 <!-- welcome message -->
-<h1 class="text-3xl font-bold">Welcome, {user}!</h1>
+<h1 class="text-3xl font-bold">Welcome, {user.username}!</h1>
 
 <!-- current history -->
 <table>
