@@ -1,5 +1,8 @@
 <script>
+	import { cash } from '$lib/stores.js';
 	export let user;
+
+	$cash = user.cash;
 </script>
 
 <!-- welcome message -->

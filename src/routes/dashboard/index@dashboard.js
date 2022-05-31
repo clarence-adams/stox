@@ -6,6 +6,7 @@ export const get = async ({ request }) => {
 	const cookies = cookie.parse(request.headers.get('cookie') || '');
 	const authToken = cookies['authToken'];
 
+	// if there is no authToken in cookie
 	if (authToken === undefined) {
 		return { status: 401 };
 	}
@@ -15,7 +16,7 @@ export const get = async ({ request }) => {
 		userId = jwt.verify(authToken, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
 	} catch (err) {
 		console.log(err);
-		return {};
+		return { status: 500 };
 	}
 	// query user info from database
 	const query = 'SELECT username, cash FROM users WHERE user_id = $1';

@@ -1,3 +1,9 @@
+<script>
+	import { cash } from '$lib/stores.js';
+
+	const formattedCash = `$${parseInt($cash).toLocaleString()}`;
+</script>
+
 <header class="h-16 w-full bg-emerald-300 px-4">
 	<nav class="flex h-full items-center justify-between">
 		<a href="/" class="text-3xl font-bold">Stox</a>
@@ -10,7 +16,7 @@
 <main class="flex flex-col bg-gray-50 sm:flex-row">
 	<!-- left bar -->
 	<div id="left-bar" class="border-r-2 border-gray-200 bg-white">
-		<p class="bg-emerald-200 p-4 text-3xl font-bold">$10,000</p>
+		<p class="bg-emerald-200 p-4 text-3xl font-bold">{formattedCash}</p>
 		<p class="bg-emerald-100 p-4 text-2xl font-bold">Overview</p>
 	</div>
 	<!-- content -->
