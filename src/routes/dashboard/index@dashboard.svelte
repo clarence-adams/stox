@@ -1,12 +1,10 @@
 <script>
-	import { cash } from '$lib/stores.js';
-	export let user;
-
-	$cash = user.cash;
+	import { session } from '$app/stores.js';
+	const user = $session.user;
 </script>
 
 <!-- welcome message -->
-<h1 class="text-3xl font-bold">Welcome, {user.username}!</h1>
+<h1 class="text-3xl font-bold">Welcome, {user.name}!</h1>
 
 <!-- current history -->
 <table>

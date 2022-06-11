@@ -1,8 +1,12 @@
 <script>
+	import { readable } from 'svelte/store';
+
 	export let type = 'text';
 	export let disabled = false;
 	export let required = false;
 	export let value = '';
+	export let onInput;
+	export let error = false;
 	export let subtext;
 
 	let mb = subtext ? 'mb-0' : 'mb-4';
@@ -16,10 +20,15 @@
 <input
 	{type}
 	{disabled}
-	{...$$restProps}
 	{value}
+	{...$$restProps}
 	on:input={handleInput}
-	style:border-color={required && value === '' ? '#D1D5DB' : ''}
+	on:input={onInput}
+	style:border-color={required && value === '' && error === false
+		? '#D1D5DB'
+		: error === true
+		? '#FB7185'
+		: ''}
 	class={`
   	w-full ${mb} px-1 py-px bg-transparent border-2 border-gray-300 
     rounded-lg last:mb-0 valid:border-emerald-300 invalid:border-rose-400

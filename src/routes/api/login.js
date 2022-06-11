@@ -9,20 +9,18 @@ export const post = async ({ request }) => {
 	// TODO: verify body
 
 	// query user info from database
-	const query = 'SELECT user_id, username, password FROM users WHERE username = $1';
+	const query = 'SELECT user_id, username, cash, password FROM users WHERE username = $1';
 	let rows;
 
 	try {
 		({ rows } = await db.query(query, [username]));
 	} catch (err) {
-		console.log('there has been an error');
 		console.log(err);
 		return { status: 500 };
 	}
 
 	// if user is not found, return
 	if (rows[0] === undefined) {
-		console.log('user not found');
 		return { status: 200, body: { success: false } };
 	}
 
@@ -30,13 +28,15 @@ export const post = async ({ request }) => {
 	const user = rows[0];
 
 	if (password !== user.password) {
-		console.log('incorrect password');
 		return { status: 200, body: { success: false } };
 	}
 
 	// if user is authenticated, set an authToken cookie and redirect to the
 	// users dashboard
-	const authToken = jwt.sign(user.user_id, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
+	const authToken = jwt.sign(
+		{ id: user.user_id, name: user.username, cash: user.cash },
+		import.meta.env.VITE_ACCESS_TOKEN_SECRET
+	);
 
 	return {
 		status: 303,

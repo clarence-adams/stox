@@ -1,6 +1,7 @@
 <script>
 	export let href;
 	export let target;
+	export let onClick;
 
 	let classes = `
 		px-3 py-1.5 font-semibold border-2 border-emerald-300 rounded-lg
@@ -9,7 +10,7 @@
 </script>
 
 {#if href === undefined}
-	<button class={classes}><slot /></button>
+	<button class={classes} on:click={onClick}><slot /></button>
 {:else}
 	<a {href} {target} class={'inline-block ' + classes}><slot /></a>
 {/if}
