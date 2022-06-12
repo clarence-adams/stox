@@ -1,6 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores.js';
+	import Navbar from '$lib/dashboard/Navbar.svelte';
 	import Button from '$lib/Button.svelte';
 
 	const user = $session.user;
@@ -31,7 +32,7 @@
 			</svg>
 		</div>
 		<p class="bg-emerald-200 p-4 text-3xl font-bold">{formattedCash}</p>
-		<p class="bg-emerald-100 p-4 text-2xl font-bold">Overview</p>
+		<Navbar />
 		<Button buttonType="secondary" onClick={logout}>Logout</Button>
 	</div>
 	<!-- content -->

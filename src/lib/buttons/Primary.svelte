@@ -3,6 +3,7 @@
 	export let target;
 	export let disabled;
 	export let onClick;
+	export let type;
 
 	let classes = `
 		px-3 py-1.5 font-semibold bg-emerald-300 border-2 border-emerald-300 
@@ -11,7 +12,7 @@
 </script>
 
 {#if href === undefined}
-	<button class={classes} on:click={onClick} {disabled}><slot /></button>
+	<button class={classes} on:click={onClick} {disabled} {type}><slot /></button>
 {:else}
 	<a {href} {target} class={'inline-block ' + classes}><slot /></a>
 {/if}

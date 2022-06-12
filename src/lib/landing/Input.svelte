@@ -1,6 +1,4 @@
 <script>
-	import { readable } from 'svelte/store';
-
 	export let type = 'text';
 	export let disabled = false;
 	export let required = false;
