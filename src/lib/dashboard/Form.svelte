@@ -1,11 +1,18 @@
 <script>
+	import { fly } from 'svelte/transition';
+
 	export let onSubmit;
 	export let form;
+
+	let flyDuration = 200;
+	let flyY = 100;
 </script>
 
 <form
 	on:submit|preventDefault={onSubmit}
 	bind:this={form}
+	in:fly|local={{ duration: flyDuration, y: flyY }}
+	out:fly|local={{ duration: flyDuration, y: flyY }}
 	class="
     flex w-[300px] flex-col gap-8 rounded-xl bg-white 
     p-8 shadow-lg sm:w-[350px]

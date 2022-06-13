@@ -9,9 +9,9 @@
 
 	let mb = subtext ? 'mb-0' : 'mb-4';
 
-	const handleInput = (e) => {
+	const handleInput = (event) => {
 		// allows value to be two way binding and type to be dynamic
-		value = type.match(/^(number|range)$/) ? +e.target.value : e.target.value;
+		value = type.match(/^(number|range)$/) ? +event.target.value : event.target.value;
 	};
 </script>
 
