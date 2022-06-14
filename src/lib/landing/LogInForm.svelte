@@ -54,7 +54,7 @@
 	on:submit|preventDefault={formHandler}
 	in:fly|local={{ duration: flyDuration, y: flyY }}
 	out:fly|local={{ duraiton: flyDuration, y: flyY }}
-	class="flex w-[300px] flex-col gap-8 rounded-lg bg-white p-8 shadow-lg sm:w-[350px]"
+	class="flex w-[300px] flex-col gap-8 rounded-lg bg-white p-8 shadow sm:w-[350px]"
 >
 	<h2 class="text-center text-3xl font-bold">Log In</h2>
 	<fieldset>

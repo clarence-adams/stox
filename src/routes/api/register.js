@@ -24,7 +24,7 @@ export const post = async ({ request }) => {
 
 	console.log(response);
 	// query new user info from database
-	const loginQuery = 'SELECT user_id, username, cash, password FROM users WHERE username = $1';
+	const loginQuery = 'SELECT user_id, username, password FROM users WHERE username = $1';
 	let rows;
 
 	try {
@@ -46,7 +46,7 @@ export const post = async ({ request }) => {
 	// if user is authenticated, set an authToken cookie and redirect to the
 	// users dashboard
 	const authToken = jwt.sign(
-		{ id: user.user_id, name: user.username, cash: user.cash },
+		{ id: user.user_id, name: user.username },
 		import.meta.env.VITE_ACCESS_TOKEN_SECRET
 	);
 

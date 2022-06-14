@@ -73,7 +73,7 @@
 	out:fly|local={{ duration: flyDuration, y: flyY }}
 	class="
     flex w-[300px] flex-col gap-8 rounded-xl bg-white 
-    p-8 shadow-lg sm:w-[350px]
+    p-8 shadow sm:w-[350px]
   "
 >
 	<h2 class="text-center text-3xl font-bold">Register</h2>

@@ -1,15 +1,35 @@
+<script context="module">
+	export async function load({ params, fetch, session, stuff }) {
+		// fetch user data from database and return up to date data
+		const res = await fetch('/dashboard/api/getUser');
+		return {
+			props: {
+				userData: res.ok && (await res.json())
+			}
+		};
+	}
+</script>
+
 <script>
 	import { goto } from '$app/navigation';
-	import { session } from '$app/stores.js';
+	import { user } from '$lib/stores.js';
 	import Navbar from '$lib/dashboard/Navbar.svelte';
 	import Button from '$lib/Button.svelte';
+	import getUser from '$lib/dashboard/getUser.js';
 
-	const user = $session.user;
-	const formattedCash = `$${parseInt(user.cash).toLocaleString()}`;
+	export let userData;
+	user.set(userData);
+
+	const formattedCash = `$${parseInt($user.cash).toLocaleString()}`;
 
 	const logout = () => {
 		console.log('logged out');
 		fetch('/api/logout', { method: 'GET' }).then((res) => goto(res.url));
+	};
+
+	const test = async () => {
+		let test = await getUser();
+		console.log(test);
 	};
 </script>
 
@@ -34,6 +54,7 @@
 		<p class="bg-emerald-200 p-4 text-3xl font-bold">{formattedCash}</p>
 		<Navbar />
 		<Button buttonType="secondary" onClick={logout}>Logout</Button>
+		<Button onClick={test}>Test</Button>
 	</div>
 	<!-- content -->
 	<div class="py-4 px-8">

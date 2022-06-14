@@ -4,8 +4,8 @@
 
 {#if portfolio.length < 1}
 	<div class="rounded-xl bg-white p-4 text-lg shadow">
-		<p>You don't have any positons in any stocks yet!</p>
-		<p>Go buy some stocks and come back to see your current positions.</p>
+		<p>You don't have a position in any stocks yet!</p>
+		<p>Go buy some stocks and come back to see your positions.</p>
 	</div>
 {:else}
 	<table>
@@ -17,9 +17,9 @@
 		<tbody>
 			{#each portfolio as position}
 				<tr>
-					<td>{position.symbol}</td>
+					<td>{position.symbol.toUpperCase()}</td>
 					<td>{position.shares}</td>
-					<td>{position.averageCost}</td>
+					<td>{position.average_cost}</td>
 				</tr>
 			{/each}
 		</tbody>

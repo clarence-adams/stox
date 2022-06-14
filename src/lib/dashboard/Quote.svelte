@@ -6,7 +6,7 @@
 	let form;
 	let quote = '';
 
-	const fetchQuote = () => {
+	const fetchQuote = async () => {
 		const formData = new FormData(form);
 		const symbol = formData.get('symbol');
 
@@ -14,20 +14,13 @@
 			return (quote = 'Please input a symbol first.');
 		}
 
-		fetch('/dashboard/api/quote', { method: 'POST', body: formData })
-			.then((res) => {
-				if (res.status === 200) {
-					return res.json();
-				} else {
-					throw Error('An error has occurred. Try again later.');
-				}
-			})
-			.then((res) => {
-				quote = res.quote;
-			})
-			.catch((err) => {
-				quote = err;
-			});
+		let res = await fetch('/dashboard/api/quote', { method: 'POST', body: formData });
+		if (res.status === 200) {
+			res = await res.json();
+			quote = res.quote;
+		} else {
+			quote = 'An error has occurred. Try again later.';
+		}
 	};
 </script>
 

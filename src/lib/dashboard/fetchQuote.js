@@ -1,4 +1,7 @@
 export default async (symbol) => {
+	// if there is no symbol do not waste a call to the IEX API
+	if (symbol === '' || undefined) return 'No symbol was input.';
+
 	// fetch stock info
 	let res = await fetch(
 		`https://cloud.iexapis.com/stable/stock/${symbol.toLowerCase()}/quote?token=${
