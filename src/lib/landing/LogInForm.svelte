@@ -25,23 +25,19 @@
 
 		if (errors.length > 0) return;
 
-		await fetch('/api/login', {
+		let res = await fetch('/api/login', {
 			method: 'POST',
 			body: formData
-		})
-			.then((res) => {
-				if (res.redirected) {
-					flyDuration = 0;
-					goto(res.url);
-				} else {
-					return res.json();
-				}
-			})
-			.then((res) => {
-				if (res.success === false) {
-					errors = ['Incorrect username and/or password'];
-				}
-			});
+		});
+		if (res.redirected) {
+			flyDuration = 0;
+			goto(res.url);
+		} else {
+			res = res.json();
+			if (res.success === false) {
+				errors = ['Incorrect username and/or password'];
+			}
+		}
 	};
 
 	const tertiaryHandler = () => {

@@ -1,7 +1,7 @@
 <script context="module">
-	export async function load({ params, fetch, session, stuff }) {
+	export async function load({ fetch }) {
 		// fetch user data from database and return up to date data
-		const res = await fetch('/dashboard/api/getUser');
+		const res = await fetch('/dashboard/api/get-user');
 		return {
 			props: {
 				userData: res.ok && (await res.json())
@@ -15,25 +15,17 @@
 	import { user } from '$lib/stores.js';
 	import Navbar from '$lib/dashboard/Navbar.svelte';
 	import Button from '$lib/Button.svelte';
-	import getUser from '$lib/dashboard/getUser.js';
 
 	export let userData;
 	user.set(userData);
-
-	const formattedCash = `$${parseInt($user.cash).toLocaleString()}`;
 
 	const logout = () => {
 		console.log('logged out');
 		fetch('/api/logout', { method: 'GET' }).then((res) => goto(res.url));
 	};
-
-	const test = async () => {
-		let test = await getUser();
-		console.log(test);
-	};
 </script>
 
-<main class="flex min-h-screen flex-col bg-gray-50 sm:flex-row">
+<main class="flex min-h-screen flex-col bg-gray-100 sm:flex-row">
 	<!-- left bar -->
 	<div id="left-bar" class="border-r-2 border-gray-200 bg-white">
 		<div class="flex items-center justify-between bg-emerald-300 p-4">
@@ -51,13 +43,14 @@
 				/>
 			</svg>
 		</div>
-		<p class="bg-emerald-200 p-4 text-3xl font-bold">{formattedCash}</p>
+		<p class="bg-emerald-200 p-4 text-3xl font-bold">
+			{`$${parseInt($user.cash).toLocaleString()}`}
+		</p>
 		<Navbar />
 		<Button buttonType="secondary" onClick={logout}>Logout</Button>
-		<Button onClick={test}>Test</Button>
 	</div>
 	<!-- content -->
-	<div class="py-4 px-8">
+	<div class="flex-grow py-4 px-8">
 		<slot />
 	</div>
 </main>

@@ -10,7 +10,7 @@
 
 <section class="flex flex-col gap-16">
 	<!-- welcome message -->
-	<h1 class="text-3xl font-bold">Welcome, {$user.username}!</h1>
+	<h1 class="text-3xl font-bold">Welcome, {$user.name}!</h1>
 
 	<!-- current portfolio -->
 	<Portfolio portfolio={$user.portfolio} />

@@ -9,7 +9,10 @@ export const post = async ({ request }) => {
 	// TODO: verify body
 
 	// query user info from database
-	const query = 'SELECT user_id, username, password FROM users WHERE username = $1';
+	const query = `
+		SELECT user_id, username, password 
+		FROM users WHERE username = $1
+	`;
 	let rows;
 
 	try {

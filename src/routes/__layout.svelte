@@ -8,7 +8,7 @@
 	};
 </script>
 
-<header class="h-16 w-full bg-gray-50 px-8 sm:px-16">
+<header class="h-16 w-full bg-gray-100 px-8 sm:px-16">
 	<nav class="flex h-full items-center justify-between">
 		<a href="/" class="text-3xl font-bold">Stox</a>
 		<div class="flex gap-4">
@@ -22,7 +22,7 @@
 	</nav>
 </header>
 
-<main class="bg-gray-50 p-8 sm:px-16">
+<main class="bg-gray-100 p-8 sm:px-16">
 	<slot />
 </main>
 

@@ -1,8 +1,10 @@
 <script>
+	import { user } from '$lib/stores.js';
 	import Form from '$lib/dashboard/Form.svelte';
 	import SymbolInput from '$lib/dashboard/SymbolInput.svelte';
 	import SharesInput from '$lib/dashboard/SharesInput.svelte';
 	import Button from '$lib/Button.svelte';
+	import getUser from '$lib/dashboard/getUser.js';
 
 	let form;
 	let transactionStatus = '';
@@ -21,7 +23,18 @@
 		}
 
 		let res = await fetch('/dashboard/api/buy', { method: 'POST', body: formData });
-		if (res.status === 200) {
+		if (res.ok) {
+			res = await res.json();
+			const shareOrShares = res.transactionStatus.shares > 1 ? 'shares' : 'share';
+			const resSymbol = res.transactionStatus.symbol.toUpperCase();
+			const orderTotal = res.transactionStatus.orderTotal.toLocaleString();
+			transactionStatus = `You bought ${res.transactionStatus.shares} ${shareOrShares} of ${resSymbol} for $${orderTotal}!`;
+			// update user data store
+			(async () => {
+				const userData = await getUser();
+				user.set(userData);
+			})();
+		} else if (res.status === 400) {
 			res = await res.json();
 			transactionStatus = res.transactionStatus;
 		} else {
@@ -36,5 +49,5 @@
 		<SharesInput />
 	</fieldset>
 	<Button type="submit">Buy</Button>
-	quote: {transactionStatus}
+	<p>{transactionStatus}</p>
 </Form>

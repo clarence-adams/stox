@@ -17,7 +17,7 @@
 		let res = await fetch('/dashboard/api/quote', { method: 'POST', body: formData });
 		if (res.status === 200) {
 			res = await res.json();
-			quote = res.quote;
+			quote = `$${res.quote.toLocaleString()}`;
 		} else {
 			quote = 'An error has occurred. Try again later.';
 		}
@@ -29,5 +29,7 @@
 		<SymbolInput />
 	</fieldset>
 	<Button type="submit">Quote</Button>
-	quote: {quote}
+	<p>
+		{quote}
+	</p>
 </Form>

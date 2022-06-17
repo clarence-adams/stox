@@ -12,19 +12,23 @@ export const post = async ({ request }) => {
 	await db.query('DELETE FROM users', []);
 
 	// execute registration query
-	const registrationQuery = 'INSERT INTO users (cash, username, password) VALUES (10000, $1, $2)';
-	let response;
+	const registrationQuery = `
+		INSERT INTO users (cash, username, password) 
+		VALUES (10000, $1, $2)
+	`;
 
 	try {
-		response = await db.query(registrationQuery, [username, password]);
+		await db.query(registrationQuery, [username, password]);
 	} catch (err) {
 		console.log('there has been an error');
 		return { status: 500 };
 	}
 
-	console.log(response);
 	// query new user info from database
-	const loginQuery = 'SELECT user_id, username, password FROM users WHERE username = $1';
+	const loginQuery = `
+		SELECT user_id, username, password 
+		FROM users WHERE username = $1
+	`;
 	let rows;
 
 	try {

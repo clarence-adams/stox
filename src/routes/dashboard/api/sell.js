@@ -42,6 +42,7 @@ export const post = async ({ request }) => {
 		FROM users 
 		WHERE user_id = $1
 	`;
+
 	let rows;
 	try {
 		({ rows } = await db.query(query, [user.id]));
@@ -55,29 +56,8 @@ export const post = async ({ request }) => {
 		return { status: 500 };
 	}
 
-	// converts user's cash to a number
+	// converts user's cash into a number
 	const cash = +rows[0].cash;
-
-	if (orderTotal > cash) {
-		return {
-			status: 400,
-			body: { transactionStatus: 'Not enough cash.' }
-		};
-	}
-
-	// update user's cash
-	const newCash = cash - orderTotal;
-	query = `
-			UPDATE users 
-			SET cash = $1 
-			WHERE user_id = $2
-		`;
-	try {
-		await db.query(query, [newCash, user.id]);
-	} catch (err) {
-		console.log(err);
-		return { status: 500 };
-	}
 
 	// query database to see if user already has a position in this stock
 	query = `
@@ -86,6 +66,7 @@ export const post = async ({ request }) => {
 		WHERE user_id = $1 
 		AND symbol = $2
 	`;
+
 	try {
 		({ rows } = await db.query(query, [user.id, symbol]));
 	} catch (err) {
@@ -96,41 +77,50 @@ export const post = async ({ request }) => {
 	const position = rows[0];
 
 	if (position === undefined) {
-		// insert new position into positions table
+		return {
+			status: 400,
+			body: { transactionStatus: 'You do not have a position in this stock!' }
+		};
+	}
+
+	// ensure user has enough shares to sell
+	position.shares = +position.shares;
+	if (position.shares < shares) {
+		return { status: 400, body: { transactionStatus: 'You do not own enough shares to sell!' } };
+	}
+
+	// update existing position
+	if (position.shares === shares) {
 		query = `
-			INSERT INTO positions 
-			VALUES ($1, $2, $3, $4)
+			DELETE FROM positions 
+			WHERE user_id = $1 
+			AND symbol = $2
 		`;
 		try {
-			await db.query(query, [user.id, symbol, quote, shares]);
+			await db.query(query, [user.id, symbol]);
 		} catch (err) {
 			console.log(err);
 			return { status: 500 };
 		}
 	} else {
-		// update existing position in positions table
-		position.shares = +position.shares;
-		position.average_cost = +position.average_cost;
-		const newShareCount = position.shares + shares;
-		const newAverageCost =
-			(position.shares * position.average_cost + shares * quote) / newShareCount;
+		const newShareCount = position.shares - shares;
 		query = `
 			UPDATE positions 
-			SET shares = $1, average_cost = $2 
-			WHERE user_id = $3 
-			AND symbol = $4
+			SET shares = $1 
+			WHERE user_id = $2 
+			AND symbol = $3
 		`;
 		try {
-			await db.query(query, [newShareCount, newAverageCost, user.id, symbol]);
+			await db.query(query, [newShareCount, user.id, symbol]);
 		} catch (err) {
 			console.log(err);
 			return { status: 500 };
 		}
 	}
 
-	// insert purchase into purchases table
+	// insert sale into sales table
 	query = `
-			INSERT INTO purchases 
+			INSERT INTO sales
 			VALUES ($1, $2, $3, $4, $5)
 		`;
 	try {
@@ -140,10 +130,25 @@ export const post = async ({ request }) => {
 		return { status: 500 };
 	}
 
+	// update user's cash
+	const newCash = cash + orderTotal;
+	query = `
+		UPDATE users 
+		SET cash = $1 
+		WHERE user_id = $2
+	`;
+
+	try {
+		await db.query(query, [newCash, user.id]);
+	} catch (err) {
+		console.log(err);
+		return { status: 500 };
+	}
+
 	return {
 		status: 200,
 		body: {
-			transactionStatus: { shares: shares, symbol: symbol, orderTotal: orderTotal.toLocaleString() }
+			transactionStatus: { shares: shares, symbol: symbol, orderTotal: orderTotal }
 		}
 	};
 };
