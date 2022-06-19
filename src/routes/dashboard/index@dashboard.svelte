@@ -8,20 +8,22 @@
 	import Sell from '$lib/dashboard/Sell.svelte';
 </script>
 
-<section class="flex flex-col gap-16">
+<div class="flex flex-col gap-8 sm:gap-16">
 	<!-- welcome message -->
 	<h1 class="text-3xl font-bold">Welcome, {$user.name}!</h1>
 
-	<!-- current portfolio -->
-	<Portfolio portfolio={$user.portfolio} />
+	<div class="flex flex-col gap-8 lg:flex-row">
+		<!-- current portfolio -->
+		<Portfolio portfolio={$user.portfolio} />
 
-	<svelte:component
-		this={$activeComponent === 'overview'
-			? Overview
-			: $activeComponent === 'quote'
-			? Quote
-			: $activeComponent === 'buy'
-			? Buy
-			: Sell}
-	/>
-</section>
+		<svelte:component
+			this={$activeComponent === 'overview'
+				? Overview
+				: $activeComponent === 'quote'
+				? Quote
+				: $activeComponent === 'buy'
+				? Buy
+				: Sell}
+		/>
+	</div>
+</div>

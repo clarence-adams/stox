@@ -62,6 +62,8 @@ export const get = async ({ request }) => {
 		SELECT symbol, shares, price, datetime 
 		FROM purchases
 		WHERE user_id = $1
+		ORDER BY datetime DESC
+		LIMIT 10
 	`;
 	try {
 		({ rows } = await db.query(query, [user.id]));
@@ -76,6 +78,8 @@ export const get = async ({ request }) => {
 		SELECT symbol, shares, price, datetime 
 		FROM sales
 		WHERE user_id = $1
+		ORDER BY datetime DESC
+		LIMIT 10
 	`;
 	try {
 		({ rows } = await db.query(query, [user.id]));

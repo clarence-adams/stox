@@ -9,6 +9,7 @@
 	export let type;
 	export let buttonType;
 	export let disabled;
+	export let red = false;
 
 	let component;
 
@@ -21,6 +22,6 @@
 	}
 </script>
 
-<svelte:component this={component} {href} {target} {type} {onClick} {disabled}>
+<svelte:component this={component} {href} {target} {type} {onClick} {disabled} {red}>
 	<slot />
 </svelte:component>

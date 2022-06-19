@@ -2,10 +2,10 @@
 	export let headers = [];
 </script>
 
-<table class="w-full rounded-lg bg-white shadow sm:w-96">
+<table class="text-md w-full overflow-x-auto rounded-lg bg-white shadow sm:w-96 sm:text-lg">
 	<thead>
 		{#each headers as header}
-			<th class="p-4">{header}</th>
+			<th class="py-4 px-2 sm:px-4">{header}</th>
 		{/each}
 	</thead>
 	<tbody>
