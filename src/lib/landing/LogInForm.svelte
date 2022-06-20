@@ -25,7 +25,7 @@
 
 		if (errors.length > 0) return;
 
-		let res = await fetch('/api/login', {
+		const res = await fetch('/api/login', {
 			method: 'POST',
 			body: formData
 		});
@@ -33,10 +33,7 @@
 			flyDuration = 0;
 			goto(res.url);
 		} else {
-			res = res.json();
-			if (res.success === false) {
-				errors = ['Incorrect username and/or password'];
-			}
+			errors = ['Incorrect username and/or password'];
 		}
 	};
 

@@ -34,7 +34,7 @@
 	};
 
 	let errors = [];
-	const formHandler = () => {
+	const formHandler = async () => {
 		errors = [];
 		const formData = new FormData(form);
 
@@ -53,16 +53,15 @@
 
 		if (errors.length > 0) return;
 
-		fetch('/api/register', {
+		const res = await fetch('/api/register', {
 			method: 'POST',
 			body: formData
-		}).then((res) => {
-			if (res.redirected) {
-				goto(res.url);
-			} else {
-				res.json();
-			}
 		});
+		if (res.redirected) {
+			goto(res.url);
+		} else {
+			errors.push('There has been an error, try again later.');
+		}
 	};
 </script>
 

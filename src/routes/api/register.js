@@ -1,4 +1,5 @@
 import db from '$lib/db.js';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export const post = async ({ request }) => {
@@ -11,6 +12,10 @@ export const post = async ({ request }) => {
 	// delete all users from users for testing
 	await db.query('DELETE FROM users', []);
 
+	// hash password
+	const bcryptRounds = 8;
+	const hashedPassword = await bcrypt.hash(password, bcryptRounds);
+
 	// execute registration query
 	const registrationQuery = `
 		INSERT INTO users (cash, username, password) 
@@ -18,7 +23,7 @@ export const post = async ({ request }) => {
 	`;
 
 	try {
-		await db.query(registrationQuery, [username, password]);
+		await db.query(registrationQuery, [username, hashedPassword]);
 	} catch (err) {
 		console.log('there has been an error');
 		return { status: 500 };

@@ -1,4 +1,5 @@
 import db from '$lib/db.js';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export const post = async ({ request }) => {
@@ -29,8 +30,9 @@ export const post = async ({ request }) => {
 
 	// if user is found, authenticate
 	const user = rows[0];
+	const authenticated = await bcrypt.compare(password, user.password);
 
-	if (password !== user.password) {
+	if (!authenticated) {
 		return { status: 200, body: { success: false } };
 	}
 
