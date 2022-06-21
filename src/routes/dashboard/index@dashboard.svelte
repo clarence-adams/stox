@@ -12,7 +12,7 @@
 	<!-- welcome message -->
 	<h1 class="text-3xl font-bold">Welcome, {$user.name}!</h1>
 
-	<div class="flex flex-col gap-8 lg:flex-row">
+	<div id="content-wrapper">
 		<!-- current portfolio -->
 		<Portfolio portfolio={$user.portfolio} />
 
@@ -27,3 +27,18 @@
 		/>
 	</div>
 </div>
+
+<style>
+	#content-wrapper {
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		gap: 2rem;
+	}
+
+	@media (min-width: 1024px) {
+		#content-wrapper {
+			grid-template-columns: 22rem 1fr;
+		}
+	}
+</style>

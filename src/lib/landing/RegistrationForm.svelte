@@ -1,6 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
+	import getUsernameAvailability from '$lib/landing/getUsernameAvailability.js';
 	import Label from '$lib/Label.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
@@ -18,22 +19,35 @@
 	let flyDuration = 200;
 	let flyY = 100;
 
-	let error = false;
-	const confirmPassword = (e) => {
-		if (passwordConfirmationValue === '') {
-			disabled = false;
-			error = false;
-		} else if (passwordValue !== passwordConfirmationValue) {
+	let errors = [];
+	let usernameError = false;
+	const usernameBlurHandler = async (event) => {
+		const available = await getUsernameAvailability(event.target.value);
+		if (!available) {
 			disabled = true;
-			console.log('passwords do not match');
-			error = true;
+			errors.push('Username already taken.');
+			usernameError = true;
 		} else {
 			disabled = false;
-			error = false;
+			errors = [];
+			usernameError = false;
 		}
 	};
 
-	let errors = [];
+	let passwordConfirmationError = false;
+	const confirmPassword = (e) => {
+		if (passwordConfirmationValue === '') {
+			disabled = false;
+			passwordConfirmationError = false;
+		} else if (passwordValue !== passwordConfirmationValue) {
+			disabled = true;
+			passwordConfirmationError = true;
+		} else {
+			disabled = false;
+			passwordConfirmationError = false;
+		}
+	};
+
 	const formHandler = async () => {
 		errors = [];
 		const formData = new FormData(form);
@@ -86,6 +100,7 @@
 			maxLength="16"
 			bind:value={usernameValue}
 			subtext="8-16 letters and/or numbers"
+			onBlur={usernameBlurHandler}
 		/>
 		<Label labelFor="password">Password</Label>
 		<Input
@@ -110,7 +125,7 @@
 			maxLength="64"
 			bind:value={passwordConfirmationValue}
 			onInput={confirmPassword}
-			{error}
+			error={passwordConfirmationError}
 		/>
 	</fieldset>
 	{#if errors.length > 0}

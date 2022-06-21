@@ -1,7 +1,6 @@
 import db from '$lib/db.js';
 import jwt from 'jsonwebtoken';
 import * as cookie from 'cookie';
-import { compute_rest_props } from 'svelte/internal';
 
 export const get = async ({ request }) => {
 	const cookies = cookie.parse(request.headers.get('cookie') || '');

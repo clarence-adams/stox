@@ -15,7 +15,7 @@
 	in:fly|local={{ delay: flyDelay, duration: flyDuration, y: flyY }}
 	out:fly|local={{ duration: flyDuration, y: flyY }}
 	class="
-    mt-9 flex w-[300px] flex-shrink-0 flex-col gap-8 
+    mt-9 flex w-[300px] flex-col gap-8 
     rounded-xl bg-white p-8 shadow
   "
 >

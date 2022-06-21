@@ -4,6 +4,7 @@
 	export let required = false;
 	export let value = '';
 	export let onInput;
+	export let onBlur;
 	export let error = false;
 	export let subtext;
 
@@ -22,6 +23,7 @@
 	{...$$restProps}
 	on:input={handleInput}
 	on:input={onInput}
+	on:blur={onBlur}
 	style:border-color={required && value === '' && error === false
 		? '#D1D5DB'
 		: error === true
