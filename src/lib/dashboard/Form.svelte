@@ -16,7 +16,7 @@
 	out:fly|local={{ duration: flyDuration, y: flyY }}
 	class="
     mt-9 flex w-[300px] flex-col gap-8 
-    rounded-xl bg-white p-8 shadow
+    rounded-lg bg-white p-8 shadow
   "
 >
 	<slot />

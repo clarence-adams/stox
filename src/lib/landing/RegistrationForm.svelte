@@ -58,11 +58,11 @@
 
 		// error handling
 		if (username === '' || password === '' || passwordConfirmation === '') {
-			errors.push('Please fill out all forms');
+			errors.push('Please fill out all forms.');
 		}
 
 		if (password !== passwordConfirmation) {
-			errors.push('Passwords must match!');
+			errors.push('Passwords must match.');
 		}
 
 		if (errors.length > 0) return;

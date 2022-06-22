@@ -12,7 +12,7 @@
 	let flyY = 100;
 </script>
 
-<section class="flex flex-col gap-8 xl:flex-row">
+<section class="grid grid-cols-1 grid-rows-2 gap-8 xl:grid-cols-2 xl:grid-rows-1">
 	<!-- purchases -->
 	<div
 		in:fly|local={{ delay: flyDelay, duration: flyDuration, y: flyY }}

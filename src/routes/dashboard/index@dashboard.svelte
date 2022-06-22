@@ -31,14 +31,14 @@
 <style>
 	#content-wrapper {
 		display: grid;
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
 		grid-template-rows: 1fr;
 		gap: 2rem;
 	}
 
 	@media (min-width: 1024px) {
 		#content-wrapper {
-			grid-template-columns: 22rem 1fr;
+			grid-template-columns: 22rem minmax(0, 1fr);
 		}
 	}
 </style>
