@@ -1,5 +1,4 @@
 <script>
-	import Label from '$lib/Label.svelte';
 	import Input from '$lib/Input.svelte';
 
 	const symbolInputRegex = /^[a-zA-Z]*$/;
@@ -18,10 +17,10 @@
 	};
 </script>
 
-<Label labelFor="symbol">Symbol</Label>
 <Input
 	id="symbol"
 	name="symbol"
+	label="Symbol"
 	bind:value={symbolInputValue}
 	onInput={symbolInputHandler}
 	required

@@ -1,5 +1,4 @@
 <script>
-	import Label from '$lib/Label.svelte';
 	import Input from '$lib/Input.svelte';
 
 	const sharesInputRegex = /^[1-9][0-9]*$|^$/;
@@ -16,10 +15,10 @@
 	};
 </script>
 
-<Label labelFor="shares">Shares</Label>
 <Input
 	id="shares"
 	name="shares"
+	label="Shares"
 	type="number"
 	bind:value={sharesInputValue}
 	onInput={sharesInputHandler}

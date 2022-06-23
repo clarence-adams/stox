@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 	import getUsernameAvailability from '$lib/landing/getUsernameAvailability.js';
-	import Label from '$lib/Label.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
 
@@ -10,9 +9,13 @@
 	let usernameValue;
 	let passwordValue;
 	let passwordConfirmationValue;
+	let securityQuestionValue;
+	let securityAnswerValue;
 
 	let usernamePattern = '([A-Za-z0-9]+){8,16}';
 	let passwordPattern = '([A-Za-z0-9!@#$%^&*]+){8,64}';
+	let securityQuestionPattern = '\\w+{8,64}';
+	let securityAnswerPattern = '\\w+{8,64}';
 
 	let disabled = false;
 
@@ -52,13 +55,15 @@
 		errors = [];
 		const formData = new FormData(form);
 
-		const username = formData.get('username');
 		const password = formData.get('password');
 		const passwordConfirmation = formData.get('password-confirmation');
 
 		// error handling
-		if (username === '' || password === '' || passwordConfirmation === '') {
-			errors.push('Please fill out all forms.');
+		for (const value of formData.values()) {
+			if (value === '') {
+				errors.push('Please fill out all forms.');
+				break;
+			}
 		}
 
 		if (password !== passwordConfirmation) {
@@ -91,10 +96,10 @@
 >
 	<h2 class="text-center text-3xl font-bold">Register</h2>
 	<fieldset>
-		<Label labelFor="username">Username</Label>
 		<Input
 			id="username"
 			name="username"
+			label="Username"
 			required
 			pattern={usernamePattern}
 			maxLength="16"
@@ -102,10 +107,10 @@
 			subtext="8-16 letters and/or numbers"
 			onBlur={usernameBlurHandler}
 		/>
-		<Label labelFor="password">Password</Label>
 		<Input
 			id="password"
 			name="password"
+			label="Password"
 			required
 			pattern={passwordPattern}
 			type="password"
@@ -115,10 +120,10 @@
 			subtext="8-64 letters, numbers, and special characters 
 			(!, @, #, $, %, ^, &, *)"
 		/>
-		<Label labelFor="password-confirmation">Confrim Password</Label>
 		<Input
 			id="password-confirmation"
 			name="password-confirmation"
+			label="Password Confirmation"
 			required
 			pattern={passwordPattern}
 			type="password"
@@ -126,6 +131,26 @@
 			bind:value={passwordConfirmationValue}
 			onInput={confirmPassword}
 			error={passwordConfirmationError}
+		/>
+		<Input
+			id="security-question"
+			name="security-question"
+			label="Security Question"
+			required
+			pattern={securityQuestionPattern}
+			maxLength="64"
+			bind:value={securityQuestionValue}
+			subtext="8-64 characters"
+		/>
+		<Input
+			id="security-answer"
+			name="security-answer"
+			label="Security Answer"
+			required
+			pattern={securityAnswerPattern}
+			maxLength="64"
+			bind:value={securityAnswerValue}
+			subtext="8-64 characters"
 		/>
 	</fieldset>
 	{#if errors.length > 0}

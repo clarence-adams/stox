@@ -4,26 +4,40 @@ import jwt from 'jsonwebtoken';
 
 export const post = async ({ request }) => {
 	const body = await request.formData();
+
+	// verify all forms are filled out
+	for (const value of body.values()) {
+		if (value === '' || value === undefined) {
+			return { status: 500 };
+		}
+	}
+
 	const username = body.get('username');
 	const password = body.get('password');
-
-	// TODO: validate body
+	const securityQuestion = body.get('security-question');
+	const securityAnswer = body.get('security-answer');
 
 	// delete all users from users for testing
 	await db.query('DELETE FROM users', []);
 
-	// hash password
+	// hash password and security answer
 	const bcryptRounds = 8;
 	const hashedPassword = await bcrypt.hash(password, bcryptRounds);
+	const hashedSecurityAnswer = await bcrypt.hash(securityAnswer, bcryptRounds);
 
 	// execute registration query
 	const registrationQuery = `
-		INSERT INTO users (cash, username, password) 
-		VALUES (10000, $1, $2)
+		INSERT INTO users (cash, username, password, security_question, security_answer) 
+		VALUES (10000, $1, $2, $3, $4)
 	`;
 
 	try {
-		await db.query(registrationQuery, [username, hashedPassword]);
+		await db.query(registrationQuery, [
+			username,
+			hashedPassword,
+			securityQuestion,
+			hashedSecurityAnswer
+		]);
 	} catch (err) {
 		console.log('there has been an error');
 		return { status: 500 };

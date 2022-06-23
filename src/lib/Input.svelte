@@ -1,5 +1,9 @@
 <script>
+	import Label from '$lib/Label.svelte';
+
 	export let type = 'text';
+	export let name;
+	export let label = 'Label';
 	export let disabled = false;
 	export let required = false;
 	export let value = '';
@@ -16,10 +20,12 @@
 	};
 </script>
 
+<Label labelFor={name}>{label}</Label>
 <input
 	{type}
 	{disabled}
 	{value}
+	{name}
 	{...$$restProps}
 	on:input={handleInput}
 	on:input={onInput}

@@ -2,14 +2,21 @@
 	import H2 from '$lib/dashboard/H2.svelte';
 	import Table from '$lib/dashboard/Table.svelte';
 	import TablePlaceholder from '$lib/dashboard/TablePlaceholder.svelte';
+	import { fly } from 'svelte/transition';
 
 	export let portfolio;
 
 	const headers = ['Symbol', 'Shares', 'Average Cost'];
+	let flyDelay = 400;
+	let flyDuration = 200;
+	let flyY = 100;
 </script>
 
-<section>
-	<H2>Stox Portfolio</H2>
+<section
+	in:fly|local={{ delay: flyDelay, duration: flyDuration, y: flyY }}
+	out:fly|local={{ duration: flyDuration, y: flyY }}
+>
+	<H2>Portfolio</H2>
 	{#if portfolio === undefined || portfolio.length < 1}
 		<TablePlaceholder>
 			<p>You don't have a position in any stocks yet!</p>

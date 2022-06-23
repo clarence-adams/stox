@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 	import { registrationForm } from '$lib/stores.js';
-	import Label from '$lib/Label.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
 
@@ -51,10 +50,8 @@
 >
 	<h2 class="text-center text-3xl font-bold">Log In</h2>
 	<fieldset>
-		<Label labelFor="username">Username</Label>
-		<Input id="username" name="username" required />
-		<Label labelFor="password">Password</Label>
-		<Input id="password" name="password" type="password" required />
+		<Input id="username" name="username" label="Username" required />
+		<Input id="password" name="password" label="Password" type="password" required />
 	</fieldset>
 	{#if errors.length > 0}
 		<p class="border-2 border-rose-300 bg-rose-200 p-4">
