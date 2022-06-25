@@ -1,5 +1,5 @@
 import db from '$lib/db.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export const patch = async ({ request }) => {

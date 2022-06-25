@@ -1,5 +1,5 @@
 import db from '$lib/db.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export const get = async ({ request }) => {
 	const params = new URL(request.url).searchParams;
