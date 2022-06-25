@@ -16,7 +16,7 @@
 	<nav class="flex h-full items-center justify-between">
 		<a href="/" class="text-3xl font-bold">Stox</a>
 		<div class="flex gap-4">
-			<Button buttonType="secondary" href="">Guest Sign In</Button>
+			<!-- <Button buttonType="secondary" href="">Guest Sign In</Button> -->
 			{#if $landingForm === 'registration'}
 				<Button buttonType="primary" onClick={logInButtonHandler}>Log In</Button>
 			{:else if $landingForm === 'login' || $landingForm === 'forgotPassword'}
