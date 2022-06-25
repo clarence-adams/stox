@@ -18250,7 +18250,7 @@ var manifest = {
   assets: /* @__PURE__ */ new Set(["favicon.png", "fonts/public-sans-italics.ttf", "fonts/public-sans.ttf", "robots.txt"]),
   mimeTypes: { ".png": "image/png", ".ttf": "font/ttf", ".txt": "text/plain" },
   _: {
-    entry: { "file": "start-64085292.js", "js": ["start-64085292.js", "chunks/index-afd08e74.js", "chunks/index-9f318f14.js", "chunks/singletons-d1fb5791.js"], "css": [] },
+    entry: { "file": "start-a0192d46.js", "js": ["start-a0192d46.js", "chunks/index-afd08e74.js", "chunks/index-9f318f14.js", "chunks/singletons-d1fb5791.js"], "css": [] },
     nodes: [
       () => Promise.resolve().then(() => (init__(), __exports)),
       () => Promise.resolve().then(() => (init__2(), __exports2))
