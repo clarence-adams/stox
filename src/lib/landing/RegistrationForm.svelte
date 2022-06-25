@@ -15,10 +15,11 @@
 	let usernamePattern = '([A-Za-z0-9]+){8,16}';
 	let passwordPattern = '([A-Za-z0-9!@#$%^&*]+){8,64}';
 	let securityQuestionPattern = '\\w+{8,64}';
-	let securityAnswerPattern = '\\w+{8,64}';
+	let securityAnswerPattern = '\\w+{1,64}';
 
 	let disabled = false;
 
+	let flyDelay = 400;
 	let flyDuration = 200;
 	let flyY = 100;
 
@@ -87,7 +88,7 @@
 <form
 	bind:this={form}
 	on:submit|preventDefault={formHandler}
-	in:fly|local={{ duration: flyDuration, y: flyY }}
+	in:fly|local={{ delay: flyDelay, duration: flyDuration, y: flyY }}
 	out:fly|local={{ duration: flyDuration, y: flyY }}
 	class="
     flex w-[300px] flex-col gap-8 rounded-xl bg-white 
@@ -150,7 +151,7 @@
 			pattern={securityAnswerPattern}
 			maxLength="64"
 			bind:value={securityAnswerValue}
-			subtext="8-64 characters"
+			subtext="1-64 characters"
 		/>
 	</fieldset>
 	{#if errors.length > 0}

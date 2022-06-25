@@ -15,7 +15,7 @@ export const post = async ({ request }) => {
 	const username = body.get('username');
 	const password = body.get('password');
 	const securityQuestion = body.get('security-question');
-	const securityAnswer = body.get('security-answer');
+	const securityAnswer = body.get('security-answer').toLowerCase();
 
 	// delete all users from users for testing
 	await db.query('DELETE FROM users', []);

@@ -9,7 +9,7 @@
 	let form;
 	let transactionStatus = '';
 
-	const fetchQuote = async () => {
+	const sellStock = async () => {
 		const formData = new FormData(form);
 		const symbol = formData.get('symbol');
 		const shares = formData.get('shares');
@@ -22,7 +22,7 @@
 				'Please input an amount of shares you would like to purchase first.');
 		}
 
-		let res = await fetch('/dashboard/api/sell', { method: 'POST', body: formData });
+		let res = await fetch('/dashboard/api/sell', { method: 'PATCH', body: formData });
 		if (res.ok) {
 			res = await res.json();
 			const shareOrShares = res.transactionStatus.shares > 1 ? 'shares' : 'share';
@@ -43,7 +43,7 @@
 	};
 </script>
 
-<Form onSubmit={fetchQuote} bind:form>
+<Form header="Sell" onSubmit={sellStock} bind:form>
 	<fieldset>
 		<SymbolInput />
 		<SharesInput />

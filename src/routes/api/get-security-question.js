@@ -6,12 +6,11 @@ export const get = async ({ request }) => {
 
 	// query user info and portfolio from database
 	let query = `
-		SELECT username
+		SELECT security_question
 		FROM users
 		WHERE username = $1
 	`;
 	let rows;
-
 	try {
 		({ rows } = await db.query(query, [username]));
 	} catch (err) {
@@ -20,9 +19,11 @@ export const get = async ({ request }) => {
 	}
 
 	// if user is not found, return
-	if (rows[0] !== undefined) {
-		return { status: 200, body: { available: false } };
+	if (rows[0] === undefined) {
+		return { status: 400 };
 	}
 
-	return { status: 200, body: { available: true } };
+	const securityQuestion = rows[0].security_question;
+
+	return { status: 200, body: { securityQuestion: securityQuestion } };
 };

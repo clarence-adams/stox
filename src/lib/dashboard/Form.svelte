@@ -3,21 +3,28 @@
 
 	export let onSubmit;
 	export let form;
+	export let header;
 
 	let flyDelay = 400;
 	let flyDuration = 200;
 	let flyY = 100;
 </script>
 
-<form
-	on:submit|preventDefault={onSubmit}
-	bind:this={form}
+<div
 	in:fly|local={{ delay: flyDelay, duration: flyDuration, y: flyY }}
 	out:fly|local={{ duration: flyDuration, y: flyY }}
-	class="
-    mt-9 flex w-[300px] flex-col gap-8 
+>
+	{#if header !== undefined}
+		<h2 class="mb-2 text-lg font-bold">{header}</h2>
+	{/if}
+	<form
+		on:submit|preventDefault={onSubmit}
+		bind:this={form}
+		class="
+    flex w-[300px] flex-col gap-8 
     rounded-lg bg-white p-8 shadow
   "
->
-	<slot />
-</form>
+	>
+		<slot />
+	</form>
+</div>

@@ -14,7 +14,7 @@
 			return (quote = 'Please input a symbol first.');
 		}
 
-		let res = await fetch('/dashboard/api/quote', { method: 'POST', body: formData });
+		let res = await fetch(`/dashboard/api/quote?symbol=${symbol}`);
 		if (res.status === 200) {
 			res = await res.json();
 			quote = `$${res.quote.toLocaleString()}`;
@@ -24,7 +24,7 @@
 	};
 </script>
 
-<Form onSubmit={fetchQuote} bind:form>
+<Form header="Quote" onSubmit={fetchQuote} bind:form>
 	<fieldset>
 		<SymbolInput />
 	</fieldset>

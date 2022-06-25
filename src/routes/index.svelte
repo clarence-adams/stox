@@ -3,28 +3,11 @@
 </script>
 
 <script>
-	import { registrationForm } from '$lib/stores';
+	import { landingForm } from '$lib/stores';
 	import BackgroundSvg from '$lib/landing/BackgroundSvg.svelte';
 	import RegistrationForm from '$lib/landing/RegistrationForm.svelte';
+	import ForgotPasswordForm from '$lib/landing/ForgotPasswordForm.svelte';
 	import LogInForm from '$lib/landing/LogInForm.svelte';
-
-	let form = RegistrationForm;
-	let register = true;
-	let login = false;
-
-	registrationForm.subscribe((newValue) => {
-		if (newValue) {
-			login = false;
-			setTimeout(() => {
-				register = true;
-			}, 400);
-		} else {
-			register = false;
-			setTimeout(() => {
-				login = true;
-			}, 400);
-		}
-	});
 </script>
 
 <svelte:head>
@@ -41,9 +24,13 @@
 		<div>Stox</div>
 	</h1>
 
-	{#if register}
-		<RegistrationForm />
-	{:else if login}
-		<LogInForm />
-	{/if}
+	<div class="grid grid-cols-1 grid-rows-1">
+		{#if $landingForm === 'registration'}
+			<RegistrationForm />
+		{:else if $landingForm === 'login'}
+			<LogInForm />
+		{:else if $landingForm === 'forgotPassword'}
+			<ForgotPasswordForm />
+		{/if}
+	</div>
 </section>

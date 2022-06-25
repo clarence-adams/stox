@@ -26,8 +26,8 @@
 
 <div class="flex flex-col gap-8 sm:gap-16">
 	<!-- welcome message / settings button -->
-	<div class="flex items-center gap-4">
-		<h1 class="text-3xl font-bold">
+	<div class="flex items-center gap-4 rounded-lg bg-white py-8 px-4 shadow sm:px-8">
+		<h1 class="text-2xl font-bold sm:text-3xl">
 			Welcome, {$user.name}!
 		</h1>
 		<button

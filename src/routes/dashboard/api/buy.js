@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import fetchQuote from '$lib/dashboard/fetchQuote.js';
 import db from '$lib/db.js';
 
-export const post = async ({ request }) => {
+export const patch = async ({ request }) => {
 	const body = await request.formData();
 	const symbol = body.get('symbol').toLowerCase();
 	const shares = +body.get('shares');

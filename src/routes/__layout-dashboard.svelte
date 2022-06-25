@@ -27,19 +27,21 @@
 
 <main class="flex min-h-screen flex-col bg-gray-100 sm:flex-row">
 	<!-- nav / controls -->
-	<div class="fixed z-50 w-full border-r-2 border-gray-200 bg-white sm:h-full sm:w-52">
-		<div class="flex items-center justify-between bg-emerald-300 p-4">
+	<div
+		class="fixed z-50 flex h-28 w-full flex-col border-r-2 border-gray-200 bg-white sm:block sm:h-full sm:w-52"
+	>
+		<div class="flex flex-grow items-center justify-between bg-emerald-300 px-4 py-2 sm:p-4">
 			<a href="/" class="mr-4 text-3xl font-bold">Stox</a>
 			<Button onClick={logout} red>Logout</Button>
 		</div>
-		<p class="bg-emerald-200 p-4 text-3xl font-bold">
+		<p class="flex-grow bg-emerald-200 py-2 px-4 text-3xl font-bold sm:p-4">
 			{`$${parseInt($user.cash).toLocaleString()}`}
 		</p>
 		<Navbar />
 	</div>
 	<!-- content -->
 	<div
-		class="relative mt-40 min-h-screen w-full px-4 pt-4 pb-20 sm:fixed sm:left-52 sm:top-0 sm:mt-0 sm:max-w-[calc(100%-theme(spacing.52))] sm:py-4 sm:px-8"
+		class="relative mt-28 min-h-screen w-full px-4 pt-8 pb-20 sm:fixed sm:left-52 sm:top-0 sm:mt-0 sm:max-w-[calc(100%-theme(spacing.52))] sm:py-8 sm:px-8"
 	>
 		<slot />
 	</div>

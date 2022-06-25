@@ -1,10 +1,14 @@
 <script>
 	import '../app.css';
-	import { registrationForm } from '$lib/stores.js';
+	import { landingForm } from '$lib/stores.js';
 	import Button from '$lib/Button.svelte';
 
 	const logInButtonHandler = () => {
-		registrationForm.update((current) => !current);
+		landingForm.set('login');
+	};
+
+	const registerButtonHandler = () => {
+		landingForm.set('registration');
 	};
 </script>
 
@@ -13,10 +17,10 @@
 		<a href="/" class="text-3xl font-bold">Stox</a>
 		<div class="flex gap-4">
 			<Button buttonType="secondary" href="">Guest Sign In</Button>
-			{#if $registrationForm}
+			{#if $landingForm === 'registration'}
 				<Button buttonType="primary" onClick={logInButtonHandler}>Log In</Button>
-			{:else}
-				<Button buttonType="primary" onClick={logInButtonHandler}>Register</Button>
+			{:else if $landingForm === 'login' || $landingForm === 'forgotPassword'}
+				<Button buttonType="primary" onClick={registerButtonHandler}>Register</Button>
 			{/if}
 		</div>
 	</nav>
