@@ -1,9 +1,11 @@
-import { Pool } from 'pg';
+import pg from 'pg';
+const { Pool } = pg;
+
 const connectionString = import.meta.env.VITE_DB_CONNECTION_STRING;
 
 const pool = new Pool({ connectionString });
 
-export default db = {
+const db = {
 	query: async (text, params) => {
 		const client = await pool.connect();
 
@@ -16,3 +18,5 @@ export default db = {
 		}
 	}
 };
+
+export default db;
