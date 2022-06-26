@@ -8,9 +8,9 @@ This project was inspired by the final project for CS50x web development track. 
 - Single page portfolio manipulation (Buy, Sell, Quote)
 - Mobile layout
 - Password reset
+- Dark Mode / Light Mode
 
 ## TODO
 
-- Dark Mode / Light Mode
 - Guest mode for a temporary session without needing to register
 - User settings (Change username, password, add cash etc.)
