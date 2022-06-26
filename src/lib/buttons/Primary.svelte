@@ -8,7 +8,7 @@
 
 	let classes = `
 		px-3 py-1.5 font-semibold bg-emerald-300 border-2 border-emerald-300 
-		rounded-lg
+		rounded-lg text-black
 	`;
 	let bgColor = red ? 'bg-rose-300 ' : 'bg-emerald-300 ';
 	let hoverBgColor = red ? ' hover:bg-rose-400' : ' hover:bg-emerald-400';
