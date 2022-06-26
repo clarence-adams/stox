@@ -11,10 +11,16 @@
 </script>
 
 <script>
+	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { user } from '$lib/stores.js';
+	import setTheme from '$lib/setTheme.js';
 	import Button from '$lib/Button.svelte';
 	import Navbar from '$lib/dashboard/Navbar.svelte';
+
+	onMount(() => {
+		setTheme();
+	});
 
 	export let userData;
 	user.set(userData);
@@ -25,16 +31,20 @@
 	};
 </script>
 
-<main class="flex min-h-screen flex-col bg-gray-100 sm:flex-row">
+<main
+	class="flex min-h-screen flex-col bg-gray-100 dark:bg-gray-900 dark:text-gray-100 sm:flex-row"
+>
 	<!-- nav / controls -->
 	<div
-		class="fixed z-50 flex h-28 w-full flex-col border-r-2 border-gray-200 bg-white sm:block sm:h-full sm:w-52"
+		class="fixed z-50 flex h-28 w-full flex-col border-r-2 border-gray-200 bg-white dark:border-gray-900 dark:bg-gray-800 sm:block sm:h-full sm:w-52"
 	>
-		<div class="flex flex-grow items-center justify-between bg-emerald-300 px-4 py-2 sm:p-4">
-			<a href="/" class="mr-4 text-3xl font-bold">Stox</a>
+		<div
+			class="flex flex-grow items-center justify-between bg-emerald-300 px-4 py-2 dark:text-gray-900 sm:p-4"
+		>
+			<p href="/" class="mr-4 text-3xl font-bold">Stox</p>
 			<Button onClick={logout} red>Logout</Button>
 		</div>
-		<p class="flex-grow bg-emerald-200 py-2 px-4 text-3xl font-bold sm:p-4">
+		<p class="flex-grow bg-emerald-200 py-2 px-4 text-3xl font-bold dark:text-gray-900 sm:p-4">
 			{`$${parseInt($user.cash).toLocaleString()}`}
 		</p>
 		<Navbar />

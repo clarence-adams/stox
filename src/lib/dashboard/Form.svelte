@@ -22,7 +22,7 @@
 		bind:this={form}
 		class="
     flex w-[300px] flex-col gap-8 
-    rounded-lg bg-white p-8 shadow
+    rounded-lg bg-white p-8 shadow dark:bg-gray-800
   "
 	>
 		<slot />

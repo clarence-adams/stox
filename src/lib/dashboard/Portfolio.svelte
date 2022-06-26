@@ -25,7 +25,7 @@
 	{:else}
 		<Table {headers}>
 			{#each portfolio as position}
-				<tr class="border-gray-150 border-t-2">
+				<tr class="border-gray-150 border-t-2 dark:border-gray-700">
 					<td class="px-4 py-2">{position.symbol.toUpperCase()}</td>
 					<td class="px-4 py-2 text-right">{position.shares}</td>
 					<td class="px-4 py-2 text-right">${position.averageCost}</td>

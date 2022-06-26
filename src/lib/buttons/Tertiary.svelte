@@ -5,7 +5,7 @@
 	export let type;
 
 	let classes = `
-		font-semibold underline decoration-2 hover:decoration-emerald-300 
+		font-semibold underline hover:decoration-emerald-300 
 		underline-offset-2 decoration-1
 	`;
 </script>

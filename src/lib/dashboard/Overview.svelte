@@ -26,11 +26,11 @@
 		{:else}
 			<Table {headers}>
 				{#each $user.purchases as purchase}
-					<tr class="border-gray-150 border-t-2">
+					<tr class="border-gray-150 border-t-2 dark:border-gray-700">
 						<td class={padding}>{purchase.symbol.toUpperCase()}</td>
 						<td class="{padding} text-right">{purchase.shares}</td>
 						<td class="{padding} text-right">${purchase.price}</td>
-						<td class="{padding} text-right">${purchase.shares * purchase.price}</td>
+						<td class="{padding} text-right">${(purchase.shares * purchase.price).toFixed(2)}</td>
 						<td class="{padding} text-right">{purchase.datetime.substring(0, 10)}</td>
 					</tr>
 				{/each}
@@ -51,11 +51,11 @@
 		{:else}
 			<Table {headers}>
 				{#each $user.sales as sale}
-					<tr class="border-gray-150 border-t-2">
+					<tr class="border-gray-150 border-t-2 dark:border-gray-700">
 						<td class={padding}>{sale.symbol.toUpperCase()}</td>
 						<td class="{padding} text-right">{sale.shares}</td>
 						<td class="{padding} text-right">${sale.price}</td>
-						<td class="{padding} text-right">${sale.shares * sale.price}</td>
+						<td class="{padding} text-right">${(sale.shares * sale.price).toFixed(2)}</td>
 						<td class="{padding} text-right">{sale.datetime.substring(0, 10)}</td>
 					</tr>
 				{/each}
