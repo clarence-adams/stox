@@ -1,13 +1,13 @@
 <script context="module">
-	// export async function load({ fetch }) {
-	// 	// fetch user data from database and return up to date data
-	// 	const res = await fetch('/dashboard/api/get-user');
-	// 	return {
-	// 		props: {
-	// 			userData: res.ok && (await res.json())
-	// 		}
-	// 	};
-	// }
+	export async function load({ fetch }) {
+		// fetch user data from database and return up to date data
+		const res = await fetch('/dashboard/api/get-user');
+		return {
+			props: {
+				userData: res.ok && (await res.json())
+			}
+		};
+	}
 </script>
 
 <script>
