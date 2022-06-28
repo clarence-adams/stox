@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import getUsernameAvailability from '$lib/landing/getUsernameAvailability.js';
-	import FormWrapper from '$lib/FormWrapper.svelte';
+	import CardWrapper from '$lib/CardWrapper.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
 
@@ -14,8 +14,8 @@
 
 	let usernamePattern = '^[A-Za-z0-9]{8,16}$';
 	let passwordPattern = '^[A-Za-z0-9!@#$%^&*]{8,64}$';
-	let securityQuestionPattern = '^\\w{8,64}$';
-	let securityAnswerPattern = '^\\w{1,64}$';
+	let securityQuestionPattern = '^[\\w\\s?.,/-]{8,64}$';
+	let securityAnswerPattern = '^[\\w\\s?.,/-]{1,64}$';
 
 	let disabled = false;
 
@@ -69,7 +69,7 @@
 
 		if (errors.length > 0) return;
 
-		const res = await fetch('/api/register', {
+		const res = await fetch('/api/landing/register', {
 			method: 'POST',
 			body: formData
 		});
@@ -81,7 +81,7 @@
 	};
 </script>
 
-<FormWrapper>
+<CardWrapper>
 	<form bind:this={form} on:submit|preventDefault={formHandler} class="flex flex-col gap-8">
 		<h2 class="text-center text-3xl font-bold">Register</h2>
 		<fieldset>
@@ -154,4 +154,4 @@
 			<Button {disabled}>Create Account</Button>
 		</div>
 	</form>
-</FormWrapper>
+</CardWrapper>

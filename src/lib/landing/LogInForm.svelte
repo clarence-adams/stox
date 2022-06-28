@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { landingForm } from '$lib/stores.js';
-	import FormWrapper from '$lib/FormWrapper.svelte';
+	import CardWrapper from '$lib/CardWrapper.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
 
@@ -24,7 +24,7 @@
 
 		if (errors.length > 0) return;
 
-		const res = await fetch('/api/login', {
+		const res = await fetch('/api/landing/login', {
 			method: 'POST',
 			body: formData
 		});
@@ -44,7 +44,7 @@
 	};
 </script>
 
-<FormWrapper>
+<CardWrapper>
 	<form bind:this={form} on:submit|preventDefault={formHandler} class="flex flex-col gap-8">
 		<h2 class="text-center text-3xl font-bold">Log In</h2>
 		<fieldset>
@@ -75,4 +75,4 @@
 			>
 		</div>
 	</form>
-</FormWrapper>
+</CardWrapper>

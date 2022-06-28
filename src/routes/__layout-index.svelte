@@ -1,5 +1,4 @@
 <script>
-	import '../app.css';
 	import { onMount } from 'svelte';
 	import setTheme from '$lib/setTheme.js';
 	import { landingForm } from '$lib/stores.js';

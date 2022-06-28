@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { landingForm } from '$lib/stores.js';
-	import FormWrapper from '$lib/FormWrapper.svelte';
+	import CardWrapper from '$lib/CardWrapper.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
 
@@ -35,7 +35,7 @@
 	const authenticateSecurityAnswer = async () => {
 		if (body.securityAnswer === null) {
 			errors = [];
-			const url = `/api/authenticate-security-answer?username=${usernameValue}&answer=${securityAnswerValue}`;
+			const url = `/api/landing/authenticate-security-answer?username=${usernameValue}&answer=${securityAnswerValue}`;
 			const res = await fetch(url);
 			if (res.ok) {
 				const data = await res.json();
@@ -69,7 +69,7 @@
 		}
 
 		if (errors.length > 0) return;
-		const res = await fetch('/api/reset-password', {
+		const res = await fetch('/api/landing/reset-password', {
 			method: 'PATCH',
 			body: JSON.stringify(body)
 		});
@@ -88,7 +88,7 @@
 	};
 </script>
 
-<FormWrapper>
+<CardWrapper>
 	<form bind:this={form} on:submit|preventDefault={formHandler} class="flex flex-col gap-8">
 		<h2 class="text-center text-3xl font-bold">Password Reset</h2>
 		<fieldset>
@@ -148,4 +148,4 @@
 			>
 		</div>
 	</form>
-</FormWrapper>
+</CardWrapper>

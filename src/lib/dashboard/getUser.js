@@ -1,6 +1,6 @@
 export default async () => {
 	// fetch user data from database and return up to date data
-	const res = await fetch('/dashboard/api/get-user');
+	const res = await fetch('/api/dashboard/get-user');
 	let user;
 	if (res.ok) {
 		user = await res.json();

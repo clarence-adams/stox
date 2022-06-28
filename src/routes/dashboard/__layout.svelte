@@ -1,7 +1,7 @@
 <script context="module">
 	export async function load({ fetch }) {
 		// fetch user data from database and return up to date data
-		const res = await fetch('/dashboard/api/get-user');
+		const res = await fetch('/api/dashboard/get-user');
 		return {
 			props: {
 				userData: res.ok && (await res.json())
@@ -27,7 +27,7 @@
 
 	const logout = () => {
 		console.log('logged out');
-		fetch('/api/logout', { method: 'GET' }).then((res) => goto(res.url));
+		fetch('/api/dashboard/logout', { method: 'GET' }).then((res) => goto(res.url));
 	};
 </script>
 

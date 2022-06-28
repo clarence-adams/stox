@@ -1,5 +1,6 @@
 <script>
 	import ThemeButton from '$lib/ThemeButton.svelte';
+	import H2 from '$lib/dashboard/H2.svelte';
 	import Input from '$lib/Input.svelte';
 	import { fly } from 'svelte/transition';
 
@@ -13,7 +14,7 @@
 	out:fly|local={{ duration: flyDuration, y: flyY }}
 	class="rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-8"
 >
-	<h2 class="text-xl font-bold">Settings</h2>
+	<H2>Settings</H2>
 	<hr class="my-4" />
 	<ThemeButton />
 </section>
