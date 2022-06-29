@@ -17,5 +17,8 @@ export default {
 			// instead of creating a single one for the entire app
 			split: false
 		})
+		// prerender: {
+		// 	enabled: false
+		// }
 	}
 };
