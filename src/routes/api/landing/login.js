@@ -46,7 +46,7 @@ export const post = async ({ request }) => {
 	return {
 		status: 303,
 		headers: {
-			'Set-Cookie': `authToken=${authToken}; SameSite=Strict; Path=/; HttpOnly`,
+			'Set-Cookie': `authToken=${authToken}; SameSite=None; Path=/; HttpOnly; Secure`,
 			Location: '/dashboard'
 		}
 	};
