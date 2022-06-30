@@ -5,6 +5,8 @@ export default async () => {
 	if (res.ok) {
 		user = await res.json();
 		return user;
+	} else {
+		return { status: res.status };
 	}
 	return { name: 'user', cash: 0, portfolio: [] };
 };

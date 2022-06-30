@@ -18,15 +18,21 @@
 	import Button from '$lib/Button.svelte';
 	import Navbar from '$lib/dashboard/Navbar.svelte';
 
+	export let userData;
+
 	onMount(() => {
+		if (!userData) {
+			console.log(userData);
+			goto('/');
+		}
 		setTheme();
 	});
 
-	export let userData;
-	user.set(userData);
+	if (userData) {
+		user.set(userData);
+	}
 
 	const logout = () => {
-		console.log('logged out');
 		fetch('/api/dashboard/logout', { method: 'GET' }).then((res) => goto(res.url));
 	};
 </script>

@@ -1,9 +1,20 @@
 import * as cookie from 'cookie';
-import jwt from 'jsonwebtoken';
+import authenticate from '$lib/authenticate.js';
 import fetchQuote from '$lib/dashboard/fetchQuote.js';
 import db from '$lib/db.js';
 
 export const patch = async ({ request }) => {
+	// get user from the jwt cookie
+	const cookies = cookie.parse(request.headers.get('cookie') || '');
+	const authToken = cookies.authToken;
+	const user = authenticate(authToken);
+
+	if (user === null) {
+		return {
+			status: 401
+		};
+	}
+
 	const body = await request.formData();
 	const symbol = body.get('symbol').toLowerCase();
 	const shares = +body.get('shares');
@@ -24,17 +35,6 @@ export const patch = async ({ request }) => {
 		};
 	}
 	const orderTotal = quote * shares;
-
-	// get user from the jwt cookie
-	const cookies = cookie.parse(request.headers.get('cookie') || '');
-	const authToken = cookies.authToken;
-
-	let user;
-	try {
-		user = jwt.verify(authToken, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
-	} catch (err) {
-		return { status: 500 };
-	}
 
 	// query user info from database
 	let query = `
