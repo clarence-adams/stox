@@ -14,7 +14,7 @@
 			return (quote = 'Please input a symbol first.');
 		}
 
-		let res = await fetch(`/dashboard/api/quote?symbol=${symbol}`);
+		let res = await fetch(`/api/dashboard/quote?symbol=${symbol}`);
 		if (res.status === 200) {
 			res = await res.json();
 			quote = `$${res.quote.toLocaleString()}`;

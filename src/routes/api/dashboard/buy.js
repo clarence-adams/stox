@@ -1,9 +1,20 @@
 import * as cookie from 'cookie';
-import jwt from 'jsonwebtoken';
+import authenticate from '$lib/authenticate.js';
 import fetchQuote from '$lib/dashboard/fetchQuote.js';
 import db from '$lib/db.js';
 
 export const patch = async ({ request }) => {
+	// get user from the jwt cookie
+	const cookies = cookie.parse(request.headers.get('cookie') || '');
+	const authToken = cookies.authToken;
+	const user = authenticate(authToken);
+
+	if (user === null) {
+		return {
+			status: 401
+		};
+	}
+
 	const body = await request.formData();
 	const symbol = body.get('symbol').toLowerCase();
 	const shares = +body.get('shares');
@@ -25,24 +36,12 @@ export const patch = async ({ request }) => {
 	}
 	const orderTotal = quote * shares;
 
-	// get user from the jwt cookie
-	const cookies = cookie.parse(request.headers.get('cookie') || '');
-	const authToken = cookies.authToken;
-
-	let user;
-	try {
-		user = jwt.verify(authToken, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
-	} catch (err) {
-		return { status: 500 };
-	}
-
 	// query user info from database
 	let query = `
 		SELECT cash 
 		FROM users 
 		WHERE user_id = $1
 	`;
-
 	let rows;
 	try {
 		({ rows } = await db.query(query, [user.id]));
@@ -56,8 +55,29 @@ export const patch = async ({ request }) => {
 		return { status: 500 };
 	}
 
-	// converts user's cash into a number
+	// converts user's cash to a number
 	const cash = +rows[0].cash;
+
+	if (orderTotal > cash) {
+		return {
+			status: 400,
+			body: { transactionStatus: 'Not enough cash.' }
+		};
+	}
+
+	// update user's cash
+	const newCash = cash - orderTotal;
+	query = `
+			UPDATE users 
+			SET cash = $1 
+			WHERE user_id = $2
+		`;
+	try {
+		await db.query(query, [newCash, user.id]);
+	} catch (err) {
+		console.log(err);
+		return { status: 500 };
+	}
 
 	// query database to see if user already has a position in this stock
 	query = `
@@ -66,7 +86,6 @@ export const patch = async ({ request }) => {
 		WHERE user_id = $1 
 		AND symbol = $2
 	`;
-
 	try {
 		({ rows } = await db.query(query, [user.id, symbol]));
 	} catch (err) {
@@ -77,50 +96,41 @@ export const patch = async ({ request }) => {
 	const position = rows[0];
 
 	if (position === undefined) {
-		return {
-			status: 400,
-			body: { transactionStatus: 'You do not have a position in this stock!' }
-		};
-	}
-
-	// ensure user has enough shares to sell
-	position.shares = +position.shares;
-	if (position.shares < shares) {
-		return { status: 400, body: { transactionStatus: 'You do not own enough shares to sell!' } };
-	}
-
-	// update existing position
-	if (position.shares === shares) {
+		// insert new position into positions table
 		query = `
-			DELETE FROM positions 
-			WHERE user_id = $1 
-			AND symbol = $2
+			INSERT INTO positions 
+			VALUES ($1, $2, $3, $4)
 		`;
 		try {
-			await db.query(query, [user.id, symbol]);
+			await db.query(query, [user.id, symbol, quote, shares]);
 		} catch (err) {
 			console.log(err);
 			return { status: 500 };
 		}
 	} else {
-		const newShareCount = position.shares - shares;
+		// update existing position in positions table
+		position.shares = +position.shares;
+		position.average_cost = +position.average_cost;
+		const newShareCount = position.shares + shares;
+		const newAverageCost =
+			(position.shares * position.average_cost + shares * quote) / newShareCount;
 		query = `
 			UPDATE positions 
-			SET shares = $1 
-			WHERE user_id = $2 
-			AND symbol = $3
+			SET shares = $1, average_cost = $2 
+			WHERE user_id = $3 
+			AND symbol = $4
 		`;
 		try {
-			await db.query(query, [newShareCount, user.id, symbol]);
+			await db.query(query, [newShareCount, newAverageCost, user.id, symbol]);
 		} catch (err) {
 			console.log(err);
 			return { status: 500 };
 		}
 	}
 
-	// insert sale into sales table
+	// insert purchase into purchases table
 	query = `
-			INSERT INTO sales
+			INSERT INTO purchases 
 			VALUES ($1, $2, $3, $4, $5)
 		`;
 	try {
@@ -130,25 +140,10 @@ export const patch = async ({ request }) => {
 		return { status: 500 };
 	}
 
-	// update user's cash
-	const newCash = cash + orderTotal;
-	query = `
-		UPDATE users 
-		SET cash = $1 
-		WHERE user_id = $2
-	`;
-
-	try {
-		await db.query(query, [newCash, user.id]);
-	} catch (err) {
-		console.log(err);
-		return { status: 500 };
-	}
-
 	return {
 		status: 200,
 		body: {
-			transactionStatus: { shares: shares, symbol: symbol, orderTotal: orderTotal }
+			transactionStatus: { shares: shares, symbol: symbol, orderTotal: orderTotal.toLocaleString() }
 		}
 	};
 };

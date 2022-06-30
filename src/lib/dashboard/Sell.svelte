@@ -22,7 +22,7 @@
 				'Please input an amount of shares you would like to purchase first.');
 		}
 
-		let res = await fetch('/dashboard/api/sell', { method: 'PATCH', body: formData });
+		let res = await fetch('/api/dashboard/sell', { method: 'PATCH', body: formData });
 		if (res.ok) {
 			res = await res.json();
 			const shareOrShares = res.transactionStatus.shares > 1 ? 'shares' : 'share';
