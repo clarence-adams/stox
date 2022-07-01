@@ -7,9 +7,11 @@ export async function handle({ event, resolve }) {
 		event.url.pathname.startsWith('/dashboard') ||
 		event.url.pathname.startsWith('/api/dashboard')
 	) {
-		console.log(event.url);
 		const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 		const authToken = cookies.authToken;
+
+		console.log('cookies', cookies);
+		console.log('authToken', authToken);
 
 		if (authToken === undefined) {
 			return new Response('Redirect', {
