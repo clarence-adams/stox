@@ -7,17 +7,24 @@ export async function handle({ event, resolve }) {
 		event.url.pathname.startsWith('/dashboard') ||
 		event.url.pathname.startsWith('/api/dashboard')
 	) {
+		console.log(event.url);
 		const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 		const authToken = cookies.authToken;
 
 		if (authToken === undefined) {
-			return Response.redirect(`${event.url.origin}/`, 303);
+			return new Response('Redirect', {
+				status: 303,
+				headers: { Location: '/' }
+			});
 		}
 
 		try {
 			jwt.verify(authToken, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
 		} catch (err) {
-			return Response.redirect(`${event.url.origin}/`, 303);
+			return new Response('Redirect', {
+				status: 303,
+				headers: { Location: '/' }
+			});
 		}
 	}
 
