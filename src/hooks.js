@@ -1,5 +1,5 @@
-// import * as cookie from 'cookie';
-// import jwt from 'jsonwebtoken';
+import * as cookie from 'cookie';
+import jwt from 'jsonwebtoken';
 
 export async function handle({ event, resolve }) {
 	// redirect users with no valid token to the landing page
