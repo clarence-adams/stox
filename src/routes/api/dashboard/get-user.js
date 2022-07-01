@@ -1,4 +1,4 @@
-// import authenticate from '$lib/authenticate';
+import authenticate from '$lib/authenticate';
 import db from '$lib/db.js';
 import * as cookie from 'cookie';
 import jwt from 'jsonwebtoken';
@@ -7,23 +7,12 @@ export const get = async ({ request }) => {
 	// get user from the jwt cookie
 	const cookies = cookie.parse(request.headers.get('cookie') || '');
 	const authToken = cookies.authToken;
-	// const user = authenticate(authToken);
+	const user = authenticate(authToken);
 
-	// if (user === null) {
-	// 	return {
-	// 		status: 401
-	// 	};
-	// }
-
-	if (authToken === undefined) {
-		return null;
-	}
-
-	let user;
-	try {
-		user = jwt.verify(authToken, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
-	} catch (err) {
-		return null;
+	if (user === null) {
+		return {
+			status: 401
+		};
 	}
 
 	// query user info and portfolio from database

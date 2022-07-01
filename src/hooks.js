@@ -1,5 +1,5 @@
 import * as cookie from 'cookie';
-import jwt from 'jsonwebtoken';
+import authenticate from '$lib/authenticate.js';
 
 export async function handle({ event, resolve }) {
 	// redirect users with no valid token to the landing page
@@ -7,20 +7,20 @@ export async function handle({ event, resolve }) {
 		event.url.pathname.startsWith('/dashboard') ||
 		event.url.pathname.startsWith('/api/dashboard')
 	) {
-		const cookies = cookie.parse(event.request.headers.get('Cookie') || '');
+		const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 		const authToken = cookies.authToken;
 
-		try {
-			jwt.verify(authToken, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
-		} catch (err) {
+		const user = authenticate(authToken);
+
+		if (user === null) {
 			return new Response('Redirect', {
 				status: 303,
 				headers: { Location: '/' }
 			});
 		}
+		event.locals.user = user;
 	}
-
 	const response = await resolve(event);
-	// console.log(response);
+	console.log(response);
 	return response;
 }
