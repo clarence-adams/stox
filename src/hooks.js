@@ -7,7 +7,7 @@ export async function handle({ event, resolve }) {
 		event.url.pathname.startsWith('/dashboard') ||
 		event.url.pathname.startsWith('/api/dashboard')
 	) {
-		const cookies = cookie.parse(event.request.headers.get('cookie') || '');
+		const cookies = cookie.parse(event.request.headers.get('Cookie') || '');
 		const authToken = cookies.authToken;
 
 		console.log('cookies', cookies);
