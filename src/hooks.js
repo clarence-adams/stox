@@ -11,13 +11,13 @@ export async function handle({ event, resolve }) {
 		const authToken = cookies.authToken;
 
 		if (authToken === undefined) {
-			return Response.redirect('/', 303);
+			return Response.redirect(`${event.url.origin}/`, 303);
 		}
 
 		try {
 			jwt.verify(authToken, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
 		} catch (err) {
-			return Response.redirect('/', 303);
+			return Response.redirect(`${event.url.origin}/`, 303);
 		}
 	}
 
