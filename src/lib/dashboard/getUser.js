@@ -8,5 +8,4 @@ export default async () => {
 	} else {
 		return { status: res.status };
 	}
-	return { name: 'user', cash: 0, portfolio: [] };
 };

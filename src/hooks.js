@@ -11,19 +11,13 @@ export async function handle({ event, resolve }) {
 	// 	const authToken = cookies.authToken;
 
 	// 	if (authToken === undefined) {
-	// 		return new Response({
-	// 			status: 303,
-	// 			headers: { Location: '/' }
-	// 		});
+	// 		return Response.redirect(baseUrl + '/login', 303);
 	// 	}
 
 	// 	try {
 	// 		jwt.verify(authToken, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
 	// 	} catch (err) {
-	// 		return new Response('Redirect', {
-	// 			status: 303,
-	// 			headers: { Location: '/' }
-	// 		});
+	// 		return Response.redirect(baseUrl + '/login', 303);
 	// 	}
 	// }
 
