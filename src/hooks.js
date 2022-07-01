@@ -10,16 +10,6 @@ export async function handle({ event, resolve }) {
 		const cookies = cookie.parse(event.request.headers.get('Cookie') || '');
 		const authToken = cookies.authToken;
 
-		console.log('cookies', cookies);
-		console.log('authToken', authToken);
-
-		if (authToken === undefined) {
-			return new Response('Redirect', {
-				status: 303,
-				headers: { Location: '/' }
-			});
-		}
-
 		try {
 			jwt.verify(authToken, import.meta.env.VITE_ACCESS_TOKEN_SECRET);
 		} catch (err) {
