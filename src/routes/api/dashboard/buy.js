@@ -1,21 +1,15 @@
-import * as cookie from 'cookie';
-import authenticate from '$lib/authenticate.js';
 import fetchQuote from '$lib/dashboard/fetchQuote.js';
 import db from '$lib/db.js';
 
-export const patch = async ({ request }) => {
-	// get user from the jwt cookie
-	const cookies = cookie.parse(request.headers.get('cookie') || '');
-	const authToken = cookies.authToken;
-	const user = authenticate(authToken);
-
-	if (user === null) {
+export const patch = async (event) => {
+	const user = event.locals.user;
+	if (!user) {
 		return {
 			status: 401
 		};
 	}
 
-	const body = await request.formData();
+	const body = await event.request.formData();
 	const symbol = body.get('symbol').toLowerCase();
 	const shares = +body.get('shares');
 
