@@ -8,7 +8,7 @@ export const get = async ({ request }) => {
 	let query = `
 		SELECT username
 		FROM users
-		WHERE username = $1
+		WHERE username ILIKE $1
 	`;
 	let rows;
 
