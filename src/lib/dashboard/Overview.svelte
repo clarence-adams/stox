@@ -1,6 +1,6 @@
 <script>
 	import H2 from '$lib/dashboard/H2.svelte';
-	import { user } from '$lib/stores.js';
+	import { user } from '$lib/stores';
 	import { fly } from 'svelte/transition';
 	import Table from '$lib/dashboard/Table.svelte';
 	import TablePlaceholder from '$lib/dashboard/TablePlaceholder.svelte';

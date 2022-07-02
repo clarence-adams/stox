@@ -13,6 +13,20 @@
 <svelte:head>
 	<title>Home</title>
 	<meta name="description" content="Stox" />
+	<script>
+		// sets theme before body loads so that there is no theme flashing
+		// same function as setTheme in src/lib
+		if (document) {
+			if (
+				localStorage.theme === 'dark' ||
+				(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+			) {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+		}
+	</script>
 </svelte:head>
 
 <BackgroundSvg />

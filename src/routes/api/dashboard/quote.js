@@ -1,4 +1,4 @@
-import fetchQuote from '$lib/dashboard/fetchQuote.js';
+import fetchQuote from '$lib/dashboard/fetchQuote';
 
 export const get = async (event) => {
 	const user = event.locals.user;

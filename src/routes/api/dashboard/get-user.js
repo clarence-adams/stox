@@ -1,4 +1,4 @@
-import db from '$lib/db.js';
+import db from '$lib/db';
 
 export const get = async (event) => {
 	const user = event.locals.user;

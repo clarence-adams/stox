@@ -1,33 +1,22 @@
 <script>
-	import { onMount } from 'svelte';
 	import { browser } from '$app/env';
-	import setTheme from '$lib/setTheme.js';
-
-	let currentTheme;
-
-	onMount(() => {
-		if (browser) {
-			currentTheme = localStorage.theme;
-		}
-	});
+	import { theme } from '$lib/stores';
+	import setTheme from '$lib/setTheme';
 
 	const toggleTheme = () => {
 		if (browser) {
-			switch (localStorage.theme) {
+			switch ($theme) {
 				case 'dark':
-					localStorage.theme = 'light';
-					currentTheme = localStorage.theme;
+					theme.set('light');
 					break;
 				case 'light':
-					localStorage.theme = undefined;
-					currentTheme = undefined;
+					theme.set(undefined);
 					break;
 				default:
-					localStorage.theme = 'dark';
-					currentTheme = localStorage.theme;
+					theme.set('dark');
 			}
+			setTheme();
 		}
-		setTheme();
 	};
 </script>
 
@@ -35,7 +24,7 @@
 	on:click={toggleTheme}
 	class="flex items-center gap-2 rounded-lg border-2 border-gray-300 p-2 dark:border-gray-500"
 >
-	{#if currentTheme === 'dark'}
+	{#if $theme === 'dark'}
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="16"
@@ -60,7 +49,7 @@
 			/>
 		</svg>
 	{/if}
-	{#if currentTheme === 'light'}
+	{#if $theme === 'light'}
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="16"

@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { landingForm } from '$lib/stores.js';
+	import { landingForm } from '$lib/stores';
 	import CardWrapper from '$lib/CardWrapper.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';

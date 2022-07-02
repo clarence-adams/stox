@@ -1,6 +1,6 @@
-import { prerendering } from '$app/env';
+import { browser, prerendering } from '$app/env';
 import * as cookie from 'cookie';
-import authenticate from '$lib/authenticate.js';
+import authenticate from '$lib/authenticate';
 
 export const handle = async ({ event, resolve }) => {
 	// prevents SvelteKit from prerendering the following redirect during build

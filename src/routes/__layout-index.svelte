@@ -1,13 +1,7 @@
 <script>
-	import { onMount } from 'svelte';
-	import setTheme from '$lib/setTheme.js';
-	import { landingForm } from '$lib/stores.js';
+	import { landingForm } from '$lib/stores';
 	import ThemeButton from '$lib/ThemeButton.svelte';
 	import Button from '$lib/Button.svelte';
-
-	onMount(() => {
-		setTheme();
-	});
 
 	const logInButtonHandler = () => {
 		landingForm.set('login');
