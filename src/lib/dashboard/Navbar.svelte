@@ -1,10 +1,11 @@
 <script>
-	import { activeComponent } from '$lib/stores';
+	import { activeComponent, settingsOpen } from '$lib/stores';
 
 	const buttons = ['overview', 'quote', 'buy', 'sell'];
 
 	const clickHandler = (button) => {
 		activeComponent.set(button);
+		settingsOpen.set(false);
 	};
 </script>
 

@@ -13,4 +13,6 @@ export const theme = writable(currentTheme);
 // when store changes, save the theme to localStorage
 if (browser) theme.subscribe((value) => (localStorage.theme = value));
 
+export const settingsOpen = writable(false);
+
 export const user = writable({ name: 'user', cash: 0, portfolio: [], purchases: [], sales: [] });

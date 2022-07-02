@@ -41,7 +41,7 @@
 			<Button onClick={logout} red>Logout</Button>
 		</div>
 		<p class="flex-grow bg-emerald-200 py-2 px-4 text-3xl font-bold dark:text-gray-900 sm:p-4">
-			{`$${parseInt($user.cash).toLocaleString()}`}
+			{`$${parseFloat($user.cash).toLocaleString()}`}
 		</p>
 		<Navbar />
 	</div>

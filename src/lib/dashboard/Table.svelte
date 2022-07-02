@@ -2,7 +2,7 @@
 	export let headers = [];
 </script>
 
-<div class="w-full overflow-x-auto rounded-lg bg-white p-4 px-4 shadow dark:bg-gray-800">
+<div class="flex overflow-x-auto rounded-lg bg-white pl-4 shadow dark:bg-gray-800">
 	<table class="w-full">
 		<thead>
 			{#each headers as header}
@@ -13,4 +13,5 @@
 			<slot />
 		</tbody>
 	</table>
+	<div class="w-4 flex-shrink-0" />
 </div>
