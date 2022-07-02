@@ -1,15 +1,8 @@
-import authenticate from '$lib/authenticate';
 import db from '$lib/db.js';
-import * as cookie from 'cookie';
-import jwt from 'jsonwebtoken';
 
-export const get = async ({ request }) => {
-	// get user from the jwt cookie
-	const cookies = cookie.parse(request.headers.get('cookie') || '');
-	const authToken = cookies.authToken;
-	const user = authenticate(authToken);
-
-	if (user === null) {
+export const get = async (event) => {
+	const user = event.locals.user;
+	if (!user) {
 		return {
 			status: 401
 		};

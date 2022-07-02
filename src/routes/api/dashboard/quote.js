@@ -1,20 +1,14 @@
-import * as cookie from 'cookie';
-import authenticate from '$lib/authenticate.js';
 import fetchQuote from '$lib/dashboard/fetchQuote.js';
 
-export const get = async ({ request }) => {
-	// get user from the jwt cookie
-	const cookies = cookie.parse(request.headers.get('cookie') || '');
-	const authToken = cookies.authToken;
-	const user = authenticate(authToken);
-
-	if (user === null) {
+export const get = async (event) => {
+	const user = event.locals.user;
+	if (!user) {
 		return {
 			status: 401
 		};
 	}
 
-	const params = new URL(request.url).searchParams;
+	const params = new URL(event.request.url).searchParams;
 	const symbol = params.get('symbol').toLowerCase();
 	const quote = await fetchQuote(symbol);
 

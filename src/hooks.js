@@ -5,7 +5,9 @@ import authenticate from '$lib/authenticate.js';
 export const handle = async ({ event, resolve }) => {
 	// prevents SvelteKit from prerendering the following redirect during build
 	if (prerendering) return await resolve(event);
-	// redirect users with no valid token to the landing page
+
+	// redirect users with no valid token to the landing page if they try to
+	// access the dashboard page or any dashboard api
 	if (
 		event.url.pathname.startsWith('/dashboard') ||
 		event.url.pathname.startsWith('/api/dashboard')
@@ -14,7 +16,7 @@ export const handle = async ({ event, resolve }) => {
 		const authToken = cookies.authToken;
 		const user = authenticate(authToken);
 
-		if (user === null) {
+		if (!user) {
 			return new Response('Redirect', {
 				status: 303,
 				headers: { Location: '/', 'Set-Cookie': `test=${user}; SameSite=none; secure;` }

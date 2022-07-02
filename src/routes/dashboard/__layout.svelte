@@ -21,10 +21,6 @@
 	export let userData;
 
 	onMount(() => {
-		if (!userData) {
-			console.log(userData);
-			goto('/');
-		}
 		setTheme();
 	});
 
