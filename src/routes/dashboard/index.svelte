@@ -1,6 +1,6 @@
 <script>
-	import { activeComponent } from '$lib/stores.js';
-	import { user } from '$lib/stores.js';
+	import { activeComponent } from '$lib/stores';
+	import { user } from '$lib/stores';
 	import Portfolio from '$lib/dashboard/Portfolio.svelte';
 	import Overview from '$lib/dashboard/Overview.svelte';
 	import Quote from '$lib/dashboard/Quote.svelte';
@@ -23,6 +23,25 @@
 		settingsHover = false;
 	};
 </script>
+
+<svelte:head>
+	<title>Dashboard</title>
+	<meta name="description" content="Stox | Dashboard" />
+	<script>
+		// sets theme before body loads so that there is no theme flashing
+		// same function as setTheme in src/lib
+		if (document) {
+			if (
+				localStorage.theme === 'dark' ||
+				(!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+			) {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+		}
+	</script>
+</svelte:head>
 
 <div class="flex flex-col gap-8 sm:gap-16">
 	<!-- welcome message / settings button -->

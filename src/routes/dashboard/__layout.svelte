@@ -11,18 +11,12 @@
 </script>
 
 <script>
-	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { user } from '$lib/stores.js';
-	import setTheme from '$lib/setTheme.js';
+	import { user } from '$lib/stores';
 	import Button from '$lib/Button.svelte';
 	import Navbar from '$lib/dashboard/Navbar.svelte';
 
 	export let userData;
-
-	onMount(() => {
-		setTheme();
-	});
 
 	if (userData) {
 		user.set(userData);

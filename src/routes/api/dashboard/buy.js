@@ -1,5 +1,5 @@
-import fetchQuote from '$lib/dashboard/fetchQuote.js';
-import db from '$lib/db.js';
+import fetchQuote from '$lib/dashboard/fetchQuote';
+import db from '$lib/db';
 
 export const patch = async (event) => {
 	const user = event.locals.user;

@@ -1,10 +1,10 @@
 <script>
-	import { user } from '$lib/stores.js';
+	import { user } from '$lib/stores';
 	import Form from '$lib/dashboard/Form.svelte';
 	import SymbolInput from '$lib/dashboard/SymbolInput.svelte';
 	import SharesInput from '$lib/dashboard/SharesInput.svelte';
 	import Button from '$lib/Button.svelte';
-	import getUser from '$lib/dashboard/getUser.js';
+	import getUser from '$lib/dashboard/getUser';
 
 	let form;
 	let transactionStatus = '';
