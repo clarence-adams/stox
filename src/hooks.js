@@ -9,18 +9,18 @@ export async function handle({ event, resolve }) {
 	) {
 		const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 		const authToken = cookies.authToken;
-
 		const user = authenticate(authToken);
 
+		console.log(user);
 		if (user === null) {
 			return new Response('Redirect', {
 				status: 303,
-				headers: { Location: '/' }
+				headers: { Location: '/', 'Set-Cookie': `test=${user}; SameSite=none; secure;` }
 			});
 		}
 		event.locals.user = user;
 	}
+
 	const response = await resolve(event);
-	console.log(response);
 	return response;
 }
