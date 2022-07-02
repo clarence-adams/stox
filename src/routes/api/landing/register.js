@@ -17,9 +17,6 @@ export const post = async ({ request }) => {
 	const securityQuestion = body.get('security-question');
 	const securityAnswer = body.get('security-answer').toLowerCase();
 
-	// delete all users from users for testing
-	await db.query('DELETE FROM users', []);
-
 	// hash password and security answer
 	const bcryptRounds = 8;
 	const hashedPassword = await bcrypt.hash(password, bcryptRounds);
