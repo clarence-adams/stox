@@ -17,7 +17,9 @@ export const user = writable({ name: 'user', cash: 0, portfolio: [], purchases: 
 
 export const news = derived(user, async ($user, set) => {
 	// if user has no positions, don't try to fetch news
-	if ($user.portfolio.length < 1) {
+	if ($user.name === 'Guest') {
+		set('Guest');
+	} else if ($user.portfolio.length < 1) {
 		set(null);
 	} else {
 		let newsData;

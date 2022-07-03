@@ -1,6 +1,9 @@
 const apiToken = import.meta.env.VITE_MARKETAUX_API_TOKEN;
 
 export const get = async (event) => {
+	if (event.locals.user.name === 'Guest') {
+		return { status: 401 };
+	}
 	const params = new URL(event.request.url).searchParams;
 	const symbols = params.get('symbols');
 

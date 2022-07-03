@@ -61,23 +61,25 @@
 	<hr class="my-4" />
 	<div class="flex flex-col items-start gap-4">
 		<ThemeButton />
-		<form bind:this={usernameForm} on:submit|preventDefault={changeUsername} class="w[300px]">
-			<Input label="New Username" pattern={usernamePattern} id="username" name="username" />
-			<Button>Change Username</Button>
-			{#if errors.length > 0}
-				<p class="mt-4 border-2 border-rose-300 bg-rose-200 p-4 dark:text-gray-900">
-					{#each errors as error}
-						<span>{error}</span>
-					{/each}
-				</p>
-			{/if}
-			{#if messages.length > 0}
-				<p class="mt-4 border-2 border-emerald-300 bg-emerald-200 p-4 dark:text-gray-900">
-					{#each messages as message}
-						<span>{message}</span>
-					{/each}
-				</p>
-			{/if}
-		</form>
+		{#if $user.name !== 'Guest'}
+			<form bind:this={usernameForm} on:submit|preventDefault={changeUsername} class="w[300px]">
+				<Input label="New Username" pattern={usernamePattern} id="username" name="username" />
+				<Button>Change Username</Button>
+				{#if errors.length > 0}
+					<p class="mt-4 border-2 border-rose-300 bg-rose-200 p-4 dark:text-gray-900">
+						{#each errors as error}
+							<span>{error}</span>
+						{/each}
+					</p>
+				{/if}
+				{#if messages.length > 0}
+					<p class="mt-4 border-2 border-emerald-300 bg-emerald-200 p-4 dark:text-gray-900">
+						{#each messages as message}
+							<span>{message}</span>
+						{/each}
+					</p>
+				{/if}
+			</form>
+		{/if}
 	</div>
 </section>

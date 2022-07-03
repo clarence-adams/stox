@@ -48,9 +48,18 @@
 	<div
 		class="flex items-center gap-4 rounded-lg bg-white py-8 px-4 shadow dark:bg-gray-800 sm:px-8"
 	>
-		<h1 class="text-2xl font-bold sm:text-3xl">
-			Welcome, {$user.name}!
-		</h1>
+		<div>
+			<h1 class="text-2xl font-bold sm:text-3xl">
+				Welcome, {$user.name}!
+			</h1>
+			{#if $user.name === 'Guest'}
+				<p class="mt-2 text-sm">
+					You are in guest mode! Your data will be overwritten if another user logs into guest mode.
+					Your session could end at anytime. To prevent these issues, logout of guest mode and
+					create an account!
+				</p>
+			{/if}
+		</div>
 		<button
 			on:click={openSettings}
 			on:mouseenter={settingsMouseEnter}

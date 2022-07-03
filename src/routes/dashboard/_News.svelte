@@ -5,11 +5,15 @@
 
 <CardWrapper header="News" fixedWidth={false}>
 	{#if $news === undefined}
-		<p>Loading...</p>
+		<p class="text-lg">Loading...</p>
 	{:else if $news === null}
-		<p>No news to report!</p>
+		<p class="text-lg">No news to report!</p>
+	{:else if $news === 'Guest'}
+		<p class="text-lg">News is not available in guest mode</p>
 	{:else if $news === 'error'}
-		<p>API request limit has been reached for the day. Come back for more news tomorrow!</p>
+		<p class="text-lg">
+			API request limit has been reached for the day. Come back for more news tomorrow!
+		</p>
 	{:else}
 		<div class="flex w-full snap-x gap-8 overflow-x-auto">
 			{#each $news.news.data as news}
