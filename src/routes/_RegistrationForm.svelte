@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import getUsernameAvailability from '$lib/landing/getUsernameAvailability';
+	import getUsernameAvailability from '$lib/getUsernameAvailability';
 	import CardWrapper from '$lib/CardWrapper.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';

@@ -1,12 +1,13 @@
 <script>
 	import { activeComponent } from '$lib/stores';
 	import { user, settingsOpen } from '$lib/stores';
-	import Portfolio from '$lib/dashboard/Portfolio.svelte';
-	import Overview from '$lib/dashboard/Overview.svelte';
-	import Quote from '$lib/dashboard/Quote.svelte';
-	import Buy from '$lib/dashboard/Buy.svelte';
-	import Sell from '$lib/dashboard/Sell.svelte';
-	import Settings from '$lib/dashboard/Settings.svelte';
+	import Settings from './_Settings.svelte';
+	import Portfolio from './_Portfolio.svelte';
+	import News from './_News.svelte';
+	import Quote from './_Quote.svelte';
+	import Buy from './_Buy.svelte';
+	import Sell from './_Sell.svelte';
+	import History from './_History.svelte';
 
 	let settingsHover = false;
 
@@ -94,13 +95,15 @@
 			<Portfolio portfolio={$user.portfolio} />
 
 			<svelte:component
-				this={$activeComponent === 'overview'
-					? Overview
+				this={$activeComponent === 'news'
+					? News
 					: $activeComponent === 'quote'
 					? Quote
 					: $activeComponent === 'buy'
 					? Buy
-					: Sell}
+					: $activeComponent === 'sell'
+					? Sell
+					: History}
 			/>
 		</div>
 	{/if}

@@ -3,6 +3,9 @@
 	import H2 from '$lib/dashboard/H2.svelte';
 
 	export let header;
+	export let fixedWidth = true;
+
+	const width = fixedWidth ? 'w-[300px] sm:w-[350px]' : `w-full max-w-2xl`;
 
 	let flyDelay = 400;
 	let flyDuration = 200;
@@ -16,9 +19,7 @@
 	{#if header !== undefined}
 		<H2>{header}</H2>
 	{/if}
-	<div
-		class="w-[300px] rounded-xl bg-white p-8 shadow dark:bg-gray-800 dark:text-gray-100 sm:w-[350px]"
-	>
+	<div class="{width} rounded-xl bg-white p-8 shadow dark:bg-gray-800 dark:text-gray-100">
 		<slot />
 	</div>
 </div>

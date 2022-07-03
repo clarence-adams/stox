@@ -12,9 +12,9 @@
 
 <script>
 	import { goto } from '$app/navigation';
-	import { user } from '$lib/stores';
+	import { user, news } from '$lib/stores';
 	import Button from '$lib/Button.svelte';
-	import Navbar from '$lib/dashboard/Navbar.svelte';
+	import Navbar from './_Navbar.svelte';
 
 	export let userData;
 

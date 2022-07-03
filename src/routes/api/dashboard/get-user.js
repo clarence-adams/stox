@@ -43,6 +43,7 @@ export const get = async (event) => {
 			}
 		});
 	}
+	portfolio.sort((a, b) => b.shares - a.shares);
 
 	// query users purchases
 	query = `

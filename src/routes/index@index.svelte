@@ -4,10 +4,10 @@
 
 <script>
 	import { landingForm } from '$lib/stores';
-	import BackgroundSvg from '$lib/landing/BackgroundSvg.svelte';
-	import RegistrationForm from '$lib/landing/RegistrationForm.svelte';
-	import ForgotPasswordForm from '$lib/landing/ForgotPasswordForm.svelte';
-	import LogInForm from '$lib/landing/LogInForm.svelte';
+	import BackgroundSvg from './_BackgroundSvg.svelte';
+	import RegistrationForm from './_RegistrationForm.svelte';
+	import ForgotPasswordForm from './_ForgotPasswordForm.svelte';
+	import LogInForm from './_LogInForm.svelte';
 </script>
 
 <svelte:head>

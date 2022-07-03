@@ -1,7 +1,7 @@
 <script>
 	import { activeComponent, settingsOpen } from '$lib/stores';
 
-	const buttons = ['overview', 'quote', 'buy', 'sell'];
+	const buttons = ['news', 'quote', 'buy', 'sell', 'history'];
 
 	const clickHandler = (button) => {
 		activeComponent.set(button);
@@ -17,7 +17,7 @@
 			id={button}
 			on:click={() => clickHandler(button)}
 			class={`
-				text-md bg-white p-4 text-center text-lg font-bold hover:bg-gray-100 
+				text-md bg-white p-4 text-center text-md font-bold hover:bg-gray-100 
 				dark:hover:bg-gray-700 sm:text-left sm:text-2xl
 				${
 					$activeComponent === button

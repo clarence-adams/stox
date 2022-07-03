@@ -12,7 +12,7 @@ export const post = async ({ request }) => {
 	// query user info from database
 	const query = `
 		SELECT user_id, username, password 
-		FROM users WHERE username = $1
+		FROM users WHERE username ILIKE $1
 	`;
 	let rows;
 
