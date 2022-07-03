@@ -1,9 +1,8 @@
 import db from '$lib/db';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-export const post = async ({ request }) => {
-	const body = await request.formData();
+export const patch = async (event) => {
+	const body = await event.request.formData();
 
 	// verify all forms are filled out
 	for (const value of body.values()) {
@@ -13,30 +12,42 @@ export const post = async ({ request }) => {
 	}
 
 	const username = body.get('username');
-	const password = body.get('password');
-	const securityQuestion = body.get('security-question');
-	const securityAnswer = body.get('security-answer').toLowerCase();
 
-	// hash password and security answer
-	const bcryptRounds = 8;
-	const hashedPassword = await bcrypt.hash(password, bcryptRounds);
-	const hashedSecurityAnswer = await bcrypt.hash(securityAnswer, bcryptRounds);
+	// query username
+	let query = `
+		SELECT username
+		FROM users
+		WHERE username ILIKE $1
+	`;
+	let rows;
 
-	// execute registration query
-	const registrationQuery = `
-		INSERT INTO users (cash, username, password, security_question, security_answer) 
-		VALUES (10000, $1, $2, $3, $4)
+	try {
+		({ rows } = await db.query(query, [username]));
+	} catch (err) {
+		console.log(err);
+		return { status: 500 };
+	}
+
+	// if user is not found, return
+	if (rows[0] !== undefined) {
+		if (rows[0].username.toLowerCase() !== username.toLowerCase()) {
+			return { status: 400 };
+		} else if (rows[0].username === username) {
+			return { status: 418 };
+		}
+	}
+
+	// execute changeUsername query
+	const changeUsernameQuery = `
+    UPDATE users 
+    SET username = $1 WHERE 
+    user_id = $2;
 	`;
 
 	try {
-		await db.query(registrationQuery, [
-			username,
-			hashedPassword,
-			securityQuestion,
-			hashedSecurityAnswer
-		]);
+		await db.query(changeUsernameQuery, [username, event.locals.user.id]);
 	} catch (err) {
-		console.log('there has been an error');
+		console.log('there has been an error changing usernames');
 		return { status: 500 };
 	}
 
@@ -45,7 +56,6 @@ export const post = async ({ request }) => {
 		SELECT user_id, username 
 		FROM users WHERE username = $1
 	`;
-	let rows;
 
 	try {
 		({ rows } = await db.query(loginQuery, [username]));
@@ -71,11 +81,10 @@ export const post = async ({ request }) => {
 	);
 
 	return {
-		status: 303,
+		status: 200,
 		headers: {
 			'Set-Cookie': `authToken=${authToken}; SameSite=None; Path=/; HttpOnly; Secure`,
 			Location: '/dashboard'
-		},
-		body: { success: true }
+		}
 	};
 };

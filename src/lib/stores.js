@@ -20,19 +20,21 @@ export const news = derived(user, async ($user, set) => {
 	if ($user.portfolio.length < 1) {
 		set(null);
 	} else {
-		const portfolio = $user.portfolio
-			.slice(0, 3)
-			.map((e) => {
-				return e.symbol.toUpperCase();
-			})
-			.join(',');
-		const url = `/api/dashboard/get-news?symbols=${portfolio}`;
-		const newsRes = await fetch(url);
 		let newsData;
-		if (newsRes.ok) {
-			newsData = await newsRes.json();
-		} else {
-			newsData = 'error';
+		if (browser) {
+			const portfolio = $user.portfolio
+				.slice(0, 3)
+				.map((e) => {
+					return e.symbol.toUpperCase();
+				})
+				.join(',');
+			const url = `/api/dashboard/get-news?symbols=${portfolio}`;
+			const newsRes = await fetch(url);
+			if (newsRes.ok) {
+				newsData = await newsRes.json();
+			} else {
+				newsData = 'error';
+			}
 		}
 		set(newsData);
 	}

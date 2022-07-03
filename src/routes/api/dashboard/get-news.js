@@ -6,7 +6,7 @@ export const get = async (event) => {
 
 	var apiUrl = `https://api.marketaux.com/v1/news/all?symbols=${symbols}&filter_entities=true&language=en&api_token=${apiToken}`;
 	const res = await fetch(apiUrl);
-	let news;
+	let news = null;
 	if (res.ok) {
 		news = await res.json();
 	} else {
