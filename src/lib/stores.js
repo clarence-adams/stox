@@ -3,7 +3,7 @@ import { writable, derived } from 'svelte/store';
 
 export const landingForm = writable('registration');
 
-export const activeComponent = writable('overview');
+export const activeComponent = writable('news');
 
 let currentTheme;
 if (browser) {
