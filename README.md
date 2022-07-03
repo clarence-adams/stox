@@ -9,8 +9,8 @@ This project was inspired by the final project for CS50x web development track. 
 - Mobile layout
 - Password reset
 - Dark Mode / Light Mode
+- Guest mode for a temporary session without needing to register
 
 ## TODO
 
-- Guest mode for a temporary session without needing to register
 - User settings (Change username, password, add cash etc.)
