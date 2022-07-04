@@ -23,7 +23,7 @@
 </script>
 
 <header
-	class="h-16 w-full border-b-2 bg-white px-8 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100 sm:px-16"
+	class="h-16 w-full border-b-2 bg-white px-4 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100 sm:px-16"
 >
 	<nav class="flex h-full items-center justify-center sm:justify-between">
 		<a href="/" class="hidden text-3xl font-bold sm:block">Stox</a>
@@ -40,7 +40,7 @@
 	</nav>
 </header>
 
-<main class="bg-gray-100 p-8 dark:bg-gray-900 dark:text-gray-100 sm:px-16">
+<main class="bg-gray-100 px-4 py-8 dark:bg-gray-900 dark:text-gray-100 sm:px-16">
 	<slot />
 </main>
 

@@ -47,7 +47,7 @@
 	</div>
 	<!-- content -->
 	<div
-		class="relative mt-28 min-h-screen w-full px-4 pt-8 pb-20 sm:fixed sm:left-52 sm:top-0 sm:mt-0 sm:max-w-[calc(100%-theme(spacing.52))] sm:py-8 sm:px-8"
+		class="relative mt-28 min-h-screen w-full px-4 pt-8 pb-20 sm:left-52 sm:top-0 sm:mt-0 sm:max-w-[calc(100%-theme(spacing.52))] sm:py-8 sm:px-8"
 	>
 		<slot />
 	</div>
