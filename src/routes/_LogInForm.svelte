@@ -1,5 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { slide } from 'svelte/transition';
 	import { landingForm } from '$lib/stores';
 	import CardWrapper from '$lib/CardWrapper.svelte';
 	import Input from '$lib/Input.svelte';
@@ -59,7 +60,10 @@
 			/>
 		</fieldset>
 		{#if errors.length > 0}
-			<p class="border-2 border-rose-300 bg-rose-200 p-4 dark:text-gray-900">
+			<p
+				transition:slide|local={{ delay: 250, duration: 300 }}
+				class="border-2 border-rose-300 bg-rose-200 p-4 dark:text-gray-900"
+			>
 				{#each errors as error}
 					<span>{error}</span>
 				{/each}

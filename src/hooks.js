@@ -1,4 +1,4 @@
-import { browser, prerendering } from '$app/env';
+import { prerendering } from '$app/env';
 import * as cookie from 'cookie';
 import authenticate from '$lib/authenticate';
 
