@@ -5,6 +5,7 @@
 	import CardWrapper from '$lib/CardWrapper.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
+	import Errors from '$lib/Errors.svelte';
 
 	let form;
 	let usernameValue;
@@ -22,42 +23,43 @@
 	const securityAnswerPattern = '^[\\w\\s?.,/-]{1,64}$';
 	let errors = [];
 
-	let nextDisabled = true;
+	let nextDisabled = false;
 	let usernameError = false;
 	const usernameBlurHandler = async (event) => {
 		const available = await getUsernameAvailability(event.target.value);
 		if (!available) {
-			nextDisabled = true;
-			errors.push('Username already taken.');
+			errors = ['Username already taken.'];
 			usernameError = true;
 		} else {
-			nextDisabled = false;
 			errors = [];
 			usernameError = false;
 		}
 	};
 
 	let passwordConfirmationError = false;
-	const confirmPassword = (e) => {
-		if (passwordConfirmationValue === '') {
-			nextDisabled = false;
+	const confirmPassword = () => {
+		if (passwordValue === '' || passwordConfirmationValue === '') {
 			passwordConfirmationError = false;
 		} else if (passwordValue !== passwordConfirmationValue) {
-			nextDisabled = true;
 			passwordConfirmationError = true;
 		} else {
-			nextDisabled = false;
 			passwordConfirmationError = false;
 		}
 	};
 
+	// ensures username and password inputs are valid before transition
 	const nextHandler = () => {
-		if (
-			!usernameError &&
-			!passwordConfirmationError &&
-			usernameRegex.test(usernameValue) &&
-			passwordRegex.test(passwordValue)
-		) {
+		errors = [];
+		if (!usernameRegex.test(usernameValue) || usernameError || usernameValue === '') {
+			errors = ['Please enter valid a username.'];
+		}
+		if (!passwordRegex.test(passwordValue) || passwordValue === '') {
+			errors = [...errors, 'Please enter a valid password.'];
+		}
+		if (passwordConfirmationError || passwordConfirmationValue === '') {
+			errors = [...errors, 'Please confirm your password.'];
+		}
+		if (errors.length < 1) {
 			next = true;
 		}
 	};
@@ -77,13 +79,13 @@
 		// error handling
 		for (const value of formData.values()) {
 			if (value === '') {
-				errors.push('Please fill out all forms.');
+				errors = [...errors, 'Please fill out all forms.'];
 				break;
 			}
 		}
 
 		if (password !== passwordConfirmation) {
-			errors.push('Passwords must match.');
+			errors = [...errors, 'Passwords must match.'];
 		}
 
 		if (errors.length > 0) return;
@@ -95,7 +97,7 @@
 		if (res.redirected) {
 			goto(res.url);
 		} else {
-			errors.push('There has been an error, try again later.');
+			errors = ['There has been an error, try again later.'];
 		}
 	};
 </script>
@@ -103,6 +105,7 @@
 <CardWrapper>
 	<form bind:this={form} on:submit|preventDefault={formHandler} class="flex flex-col gap-8">
 		<h2 class="text-center text-3xl font-bold">Register</h2>
+
 		<fieldset>
 			{#if !next}
 				<div transition:slide|local={{ delay: 250, duration: 300 }}>
@@ -169,24 +172,35 @@
 				</div>
 			{/if}
 		</fieldset>
-		{#if errors.length > 0}
-			<p
-				transition:slide|local={{ delay: 250, duration: 300 }}
-				class="border-2 border-rose-300 bg-rose-200 p-4 dark:text-gray-900"
-			>
-				{#each errors as error}
-					<span>{error}</span>
-				{/each}
-			</p>
-		{/if}
+
+		<!-- Errors -->
+		<Errors {errors} noGap={true} />
+
 		{#if !next}
+			<!-- Next -->
 			<div>
-				<Button disabled={nextDisabled} onClick={nextHandler} type="button">Next</Button>
+				<Button disabled={nextDisabled} onClick={nextHandler} type="button">
+					Next
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						fill="currentColor"
+						class="inline"
+						viewBox="0 0 16 16"
+					>
+						<path
+							d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"
+						/>
+					</svg>
+				</Button>
 			</div>
 		{:else}
+			<!-- Register -->
 			<div>
-				<Button disabled={registerDisabled}
-					>Create Account <svg
+				<Button disabled={registerDisabled}>
+					Create Account
+					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="16"
 						height="16"
@@ -196,14 +210,14 @@
 					>
 						<path
 							fill-rule="evenodd"
-							d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+							d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"
 						/>
 						<path
 							fill-rule="evenodd"
-							d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+							d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
 						/>
-					</svg></Button
-				>
+					</svg>
+				</Button>
 			</div>
 		{/if}
 	</form>

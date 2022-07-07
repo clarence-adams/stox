@@ -4,6 +4,7 @@
 	import CardWrapper from '$lib/CardWrapper.svelte';
 	import Input from '$lib/Input.svelte';
 	import Button from '$lib/Button.svelte';
+	import Errors from '$lib/Errors.svelte';
 
 	let form;
 	let body = {
@@ -55,7 +56,7 @@
 		errors = [];
 
 		if (passwordValue !== passwordConfirmationValue) {
-			errors.push('Passwords must match.');
+			errors = ['Passwords must match.'];
 		}
 
 		body.password = passwordValue;
@@ -63,7 +64,7 @@
 		// error handling
 		for (const value of Object.entries(body)) {
 			if (value[1] === null || value[1] === '') {
-				errors.push('Please fill out all forms.');
+				errors = [...errors, 'Please fill out all forms.'];
 				break;
 			}
 		}
@@ -91,6 +92,7 @@
 <CardWrapper>
 	<form bind:this={form} on:submit|preventDefault={formHandler} class="flex flex-col gap-8">
 		<h2 class="text-center text-3xl font-bold">Password Reset</h2>
+
 		<fieldset>
 			<!-- username -->
 			{#if !securityQuestion}
@@ -129,13 +131,10 @@
 				/>
 			{/if}
 		</fieldset>
-		{#if errors.length > 0}
-			<p class="border-2 border-rose-300 bg-rose-200 p-4 dark:text-gray-900">
-				{#each errors as error}
-					<span>{error}</span>
-				{/each}
-			</p>
-		{/if}
+
+		<!-- Errors-->
+		<Errors {errors} noGap={true} />
+
 		<div class="flex flex-col items-start gap-4">
 			{#if securityAnswerCorrect}
 				<Button type="submit">Reset Password</Button>

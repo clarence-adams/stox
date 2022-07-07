@@ -12,28 +12,24 @@
 	export let error = false;
 	export let pattern;
 	export let subtext;
-
-	const originalType = type;
-	const mb = subtext ? 'mb-0' : 'mb-4';
-	const p = originalType === 'password' ? 'py-px pl-px pr-10' : 'p-px';
-
 	let regex;
 	if (pattern) {
 		regex = new RegExp(pattern);
 	}
 
-	let borderColor = 'border-gray-300 dark:border-gray-500';
+	const originalType = type;
+	const mb = subtext ? 'mb-0' : 'mb-4';
+	const p = originalType === 'password' ? 'py-px pl-px pr-10' : 'p-px';
+	const grayBorder = 'border-gray-300 dark:border-gray-500';
+	const greenBorder = 'border-emerald-300';
+	const redBorder = 'border-rose-400';
+
+	$: borderColor =
+		value === '' ? grayBorder : regex.test(value) && !error ? greenBorder : redBorder;
+
 	const handleInput = (event) => {
 		// allows value to be two way binding and type to be dynamic
 		value = type.match(/^(number|range)$/) ? +event.target.value : event.target.value;
-		if (regex) {
-			borderColor =
-				required && value === ''
-					? 'border-gray-300 dark:border-gray-500'
-					: regex.test(value) || error === true
-					? 'border-emerald-300'
-					: 'border-rose-400';
-		}
 	};
 
 	const toggleShowPassword = () => {
@@ -48,6 +44,7 @@
 		{disabled}
 		{value}
 		{name}
+		{required}
 		{pattern}
 		{...$$restProps}
 		on:input={handleInput}
