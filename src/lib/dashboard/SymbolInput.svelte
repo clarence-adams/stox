@@ -1,15 +1,14 @@
 <script>
 	import Input from '$lib/Input.svelte';
 
-	const symbolInputRegex = /^[a-zA-Z]*$/;
+	const symbolInputPattern = '^[a-zA-Z]{1,5}$';
+	const symbolInputRegex = new RegExp(symbolInputPattern);
 
 	let symbolInputValue;
 
 	// modifies input so user can only input letters
 	const symbolInputHandler = () => {
-		const regexTest = symbolInputRegex.test(symbolInputValue);
-
-		if (regexTest === true) {
+		if (symbolInputRegex.test(symbolInputValue)) {
 			symbolInputValue = symbolInputValue.toUpperCase();
 		} else {
 			symbolInputValue = symbolInputValue.slice(0, symbolInputValue.length - 1);
@@ -23,5 +22,6 @@
 	label="Symbol"
 	bind:value={symbolInputValue}
 	onInput={symbolInputHandler}
+	pattern={symbolInputPattern}
 	required
 />
