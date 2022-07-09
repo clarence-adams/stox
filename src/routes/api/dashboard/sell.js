@@ -83,57 +83,52 @@ export const patch = async (event) => {
 		return { status: 400, body: { transactionStatus: 'You do not own enough shares to sell!' } };
 	}
 
+	const queries = [];
 	// update existing position
 	if (position.shares === shares) {
-		query = `
+		queries.push({
+			query: `
 			DELETE FROM positions 
 			WHERE user_id = $1 
 			AND symbol = $2
-		`;
-		try {
-			await db.query(query, [user.id, symbol]);
-		} catch (err) {
-			console.log(err);
-			return { status: 500 };
-		}
+		`,
+			params: [user.id, symbol]
+		});
 	} else {
 		const newShareCount = position.shares - shares;
-		query = `
+		queries.push({
+			query: `
 			UPDATE positions 
 			SET shares = $1 
 			WHERE user_id = $2 
 			AND symbol = $3
-		`;
-		try {
-			await db.query(query, [newShareCount, user.id, symbol]);
-		} catch (err) {
-			console.log(err);
-			return { status: 500 };
-		}
+		`,
+			params: [newShareCount, user.id, symbol]
+		});
 	}
 
 	// insert sale into sales table
-	query = `
+	queries.push({
+		query: `
 			INSERT INTO sales
 			VALUES ($1, $2, $3, $4, $5)
-		`;
-	try {
-		await db.query(query, [user.id, symbol, shares, quote, new Date()]);
-	} catch (err) {
-		console.log(err);
-		return { status: 500 };
-	}
+		`,
+		params: [user.id, symbol, shares, quote, new Date()]
+	});
 
 	// update user's cash
 	const newCash = cash + orderTotal;
-	query = `
+	queries.push({
+		query: `
 		UPDATE users 
 		SET cash = $1 
 		WHERE user_id = $2
-	`;
+	`,
+		params: [newCash, user.id]
+	});
 
 	try {
-		await db.query(query, [newCash, user.id]);
+		await db.transaction(queries);
 	} catch (err) {
 		console.log(err);
 		return { status: 500 };

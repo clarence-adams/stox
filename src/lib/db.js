@@ -16,6 +16,28 @@ const db = {
 		} finally {
 			client.release();
 		}
+	},
+	// accepts an array of queries to execute
+	transaction: async (queries) => {
+		const client = await pool.connect();
+
+		try {
+			// start transaction
+			await client.query('BEGIN');
+
+			// loop through queries array and execute queries
+			queries.forEach(async (e) => {
+				await client.query(e.query, e.params);
+			});
+
+			// commit transaction
+			await client.query('COMMIT');
+		} catch (err) {
+			await client.query('ROLLBACK');
+			throw err;
+		} finally {
+			client.release();
+		}
 	}
 };
 

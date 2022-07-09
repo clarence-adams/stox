@@ -24,8 +24,17 @@
 	const greenBorder = 'border-emerald-300';
 	const redBorder = 'border-rose-400';
 
-	$: borderColor =
-		value === '' ? grayBorder : regex.test(value) && !error ? greenBorder : redBorder;
+	$: borderColor = (() => {
+		if (regex) {
+			return value === '' || value === null
+				? grayBorder
+				: regex.test(value) && !error
+				? greenBorder
+				: redBorder;
+		} else {
+			return value === '' ? grayBorder : !error ? greenBorder : redBorder;
+		}
+	})();
 
 	const handleInput = (event) => {
 		// allows value to be two way binding and type to be dynamic

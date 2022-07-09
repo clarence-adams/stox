@@ -59,19 +59,18 @@ export const patch = async (event) => {
 		};
 	}
 
+	const queries = [];
+
 	// update user's cash
 	const newCash = cash - orderTotal;
-	query = `
+	queries.push({
+		query: `
 			UPDATE users 
 			SET cash = $1 
 			WHERE user_id = $2
-		`;
-	try {
-		await db.query(query, [newCash, user.id]);
-	} catch (err) {
-		console.log(err);
-		return { status: 500 };
-	}
+		`,
+		params: [newCash, user.id]
+	});
 
 	// query database to see if user already has a position in this stock
 	query = `
@@ -86,21 +85,17 @@ export const patch = async (event) => {
 		console.log(err);
 		return { status: 500 };
 	}
-
 	const position = rows[0];
 
 	if (position === undefined) {
 		// insert new position into positions table
-		query = `
+		queries.push({
+			query: `
 			INSERT INTO positions 
 			VALUES ($1, $2, $3, $4)
-		`;
-		try {
-			await db.query(query, [user.id, symbol, quote, shares]);
-		} catch (err) {
-			console.log(err);
-			return { status: 500 };
-		}
+		`,
+			params: [user.id, symbol, quote, shares]
+		});
 	} else {
 		// update existing position in positions table
 		position.shares = +position.shares;
@@ -108,27 +103,28 @@ export const patch = async (event) => {
 		const newShareCount = position.shares + shares;
 		const newAverageCost =
 			(position.shares * position.average_cost + shares * quote) / newShareCount;
-		query = `
+		queries.push({
+			query: `
 			UPDATE positions 
 			SET shares = $1, average_cost = $2 
 			WHERE user_id = $3 
 			AND symbol = $4
-		`;
-		try {
-			await db.query(query, [newShareCount, newAverageCost, user.id, symbol]);
-		} catch (err) {
-			console.log(err);
-			return { status: 500 };
-		}
+		`,
+			params: [newShareCount, newAverageCost, user.id, symbol]
+		});
 	}
 
 	// insert purchase into purchases table
-	query = `
+	queries.push({
+		query: `
 			INSERT INTO purchases 
 			VALUES ($1, $2, $3, $4, $5)
-		`;
+		`,
+		params: [user.id, symbol, shares, quote, new Date()]
+	});
+
 	try {
-		await db.query(query, [user.id, symbol, shares, quote, new Date()]);
+		await db.transaction(queries);
 	} catch (err) {
 		console.log(err);
 		return { status: 500 };
